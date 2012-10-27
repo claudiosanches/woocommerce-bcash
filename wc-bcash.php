@@ -261,6 +261,7 @@ function wcbcash_gateway_load() {
                     //'parcela_maxima'
                     //'meio_pagamento'
                     //'meses_garantia'
+                    //'free'
 
                     // Address info.
                     'endereco'        => $order->billing_address_1,
@@ -269,8 +270,6 @@ function wcbcash_gateway_load() {
                     'cidade'          => $order->billing_city,
                     'estado'          => $order->billing_state,
                     'cep'             => $order->billing_postcode,
-
-                    //'free' // Campo de Livre Digitação. Pode ser utilizado para algum parâmetro adicional de identificação da venda.
 
                     // Tax.
                     'acrescimo'        => $order->get_total_tax(),
