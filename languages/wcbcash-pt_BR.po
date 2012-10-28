@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: WooCommerce B!Cash v1.0\n"
+"Project-Id-Version: WooCommerce B!Cash v1.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2012-10-28 02:02:38+0000\n"
+"PO-Revision-Date: 2012-10-28 14:24:36+0000\n"
 "Last-Translator: Claudio Sanches <contato@claudiosmweb.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -49,178 +49,173 @@ msgstr "claudiosanches"
 msgid "http://www.claudiosmweb.com/"
 msgstr "http://www.claudiosmweb.com/"
 
-#. translators: plugin header field 'Version'
-#: wc-bcash.php:0
-#@ wcbcash
-msgid "1.0"
-msgstr "1.0"
-
-#: wc-bcash.php:21
+#: wc-bcash.php:19
 #@ wcbcash
 msgid "WooCommerce B!Cash Gateway depends on the last version of <a href=\"http://wordpress.org/extend/plugins/woocommerce/\">WooCommerce</a> to work!"
 msgstr "WooCommerce B!Cash Gateway precisa da última versão do <a href=\"http://wordpress.org/extend/plugins/woocommerce/\">WooCommerce</a> para funcionar!"
 
-#: wc-bcash.php:32
-#@ wcbcash
-msgid "WooCommerce B!Cash Gateway depends of <a href=\"http://php.net/manual/en/book.curl.php\">Curl</a> to work!"
-msgstr "WooCommerce B!Cash Gateway precisa de <a href=\"http://php.net/manual/en/book.curl.php\">Curl</a> para funcionar!"
-
-#: wc-bcash.php:95
-#: wc-bcash.php:182
+#: wc-bcash.php:77
+#: wc-bcash.php:167
 #@ wcbcash
 msgid "B!Cash"
 msgstr "B!Cash"
 
-#: wc-bcash.php:145
+#: wc-bcash.php:130
 #@ wcbcash
 msgid "B!Cash standard"
 msgstr "B!Cash padrão"
 
-#: wc-bcash.php:146
+#: wc-bcash.php:131
 #@ wcbcash
 msgid "B!Cash standard works by sending the user to B!Cash to enter their payment information."
 msgstr "B!Cash padrão funciona enviando o usuário para o site do B!Cash, onde ele irá fazer o pagamento."
 
-#: wc-bcash.php:152
+#: wc-bcash.php:137
 #@ wcbcash
 msgid "Gateway Disabled"
 msgstr "Gateway desabilitado"
 
-#: wc-bcash.php:152
+#: wc-bcash.php:137
 #@ wcbcash
 msgid "B!Cash does not support your store currency."
 msgstr "B!Cash não suporta a moeda atual utilizada na sua loja."
 
-#: wc-bcash.php:173
+#: wc-bcash.php:158
 #@ wcbcash
 msgid "Enable/Disable"
 msgstr "Habilita/Desabilita"
 
-#: wc-bcash.php:175
+#: wc-bcash.php:160
 #@ wcbcash
 msgid "Enable B!Cash standard"
 msgstr "Habilitar B!Cash padrão"
 
-#: wc-bcash.php:179
+#: wc-bcash.php:164
 #@ wcbcash
 msgid "Title"
 msgstr "Título"
 
-#: wc-bcash.php:181
+#: wc-bcash.php:166
 #@ wcbcash
 msgid "This controls the title which the user sees during checkout."
 msgstr "Isto controla o título que o usuário vê durante o checkout."
 
-#: wc-bcash.php:185
+#: wc-bcash.php:170
 #@ wcbcash
 msgid "Description"
 msgstr "Descrição"
 
-#: wc-bcash.php:187
+#: wc-bcash.php:172
 #@ wcbcash
 msgid "This controls the description which the user sees during checkout."
 msgstr "Isso controla a descrição que o usuário vê durante o checkout."
 
-#: wc-bcash.php:188
-#: wc-bcash.php:364
+#: wc-bcash.php:173
+#: wc-bcash.php:349
 #@ wcbcash
 msgid "Pay via B!Cash"
 msgstr "Pagar com B!Cash"
 
-#: wc-bcash.php:191
+#: wc-bcash.php:176
 #@ wcbcash
 msgid "B!Cash Email"
 msgstr "Email cadastrado no B!Cash"
 
-#: wc-bcash.php:193
+#: wc-bcash.php:178
 #@ wcbcash
 msgid "Please enter your B!Cash email address; this is needed in order to take payment."
 msgstr "Por favor digite o seu endereço de email do B!Cash, que é necessário para receber o pagamento."
 
-#: wc-bcash.php:197
+#: wc-bcash.php:182
 #@ wcbcash
 msgid "B!Cash Token"
 msgstr "Token do B!Cash"
 
-#: wc-bcash.php:199
+#: wc-bcash.php:184
 #@ wcbcash
 msgid "Please enter your B!Cash token; is necessary to process the payment and notifications."
 msgstr "Digite seu token do B!Cash; é necessário para processar o pagamento e as notificações de status da compra."
 
-#: wc-bcash.php:203
+#: wc-bcash.php:188
 #@ wcbcash
 msgid "Invoice Prefix"
 msgstr "Prefixo de pedido"
 
-#: wc-bcash.php:205
+#: wc-bcash.php:190
 #@ wcbcash
 msgid "Please enter a prefix for your invoice numbers. If you use your B!Cash account for multiple stores ensure this prefix is unqiue as B!Cash will not allow orders with the same invoice number."
 msgstr "Por favor informe um prefixo para utilizar com os números de pedidos. Caso você utilize sua conta do B!Cash em mais de uma loja, procure utilizar um prefixo único para cada loja."
 
-#: wc-bcash.php:342
+#: wc-bcash.php:327
 #@ wcbcash
 msgid "Thank you for your order. We are now redirecting you to B!Cash to make payment."
 msgstr "Obrigado por fazer seu pedido. Agora estamos redirecionando você para o B!Cash para efetuar o pagamento."
 
-#: wc-bcash.php:364
+#: wc-bcash.php:349
 #@ wcbcash
 msgid "Cancel order &amp; restore cart"
 msgstr "Cancelar pedido e restaurar carrinho"
 
-#: wc-bcash.php:394
+#: wc-bcash.php:379
 #@ wcbcash
 msgid "Thank you for your order, please click the button below to pay with B!Cash."
 msgstr "Obrigado por seu pedido, por favor clique no botão abaixo para pagar com B!Cash."
 
-#: wc-bcash.php:429
+#: wc-bcash.php:447
 #@ wcbcash
 msgid "B!Cash Request Failure"
 msgstr "B!Cash falha do pedido"
 
-#: wc-bcash.php:459
+#: wc-bcash.php:477
 #@ wcbcash
 msgid "Payment under review by B!Cash."
 msgstr "Pagamento em análise pelo B!Cash."
 
-#: wc-bcash.php:468
+#: wc-bcash.php:486
 #@ wcbcash
 msgid "B!Cash Transaction ID"
 msgstr "B!Cash: ID da transação"
 
-#: wc-bcash.php:475
+#: wc-bcash.php:493
 #@ wcbcash
 msgid "Payer email"
 msgstr "E-mail do comprador"
 
-#: wc-bcash.php:482
+#: wc-bcash.php:500
 #@ wcbcash
 msgid "Payer name"
 msgstr "Nome do comprador"
 
-#: wc-bcash.php:489
+#: wc-bcash.php:507
 #@ wcbcash
 msgid "Payment type"
 msgstr "Tipo de pagamento"
 
-#: wc-bcash.php:500
+#: wc-bcash.php:518
 #@ wcbcash
 msgid "Payment canceled by B!Cash."
 msgstr "Pagamento cancelado pelo B!Cash."
 
-#: wc-bcash.php:519
+#: wc-bcash.php:537
 #, php-format
 #@ wcbcash
 msgid "<strong>Gateway Disabled</strong> You should inform your email address in B!Cash. %sClick here to configure!%s"
 msgstr "<strong>Método de pagamento desativado</strong> Você deve informar o seu endereço de e-mail no B!Cash. %sClique aqui para configurar!%s"
 
-#: wc-bcash.php:532
+#: wc-bcash.php:550
 #, php-format
 #@ wcbcash
 msgid "<strong>Gateway Disabled</strong> You should inform your token in B!Cash. %sClick here to configure!%s"
 msgstr "<strong>Método de pagamento desativado</strong> Você deve informar o seu token do B!Cash. %sClique aqui para configurar!%s"
 
-#: wc-bcash.php:495
+#: wc-bcash.php:513
 #@ wcbcash
 msgid "Payment completed."
 msgstr "Pagamento concluído."
+
+#. translators: plugin header field 'Version'
+#: wc-bcash.php:0
+#@ wcbcash
+msgid "1.1"
+msgstr "1.1"
 

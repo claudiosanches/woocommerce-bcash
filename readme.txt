@@ -3,7 +3,7 @@ Contributors: claudiosanches
 Tags: ecommerce, e-commerce, commerce, wordpress ecommerce, checkout, payment, payment gateway, bcash, b!cash
 Requires at least: 3.0
 Tested up to: 3.4.2
-Stable tag: 1.0
+Stable tag: 1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -47,6 +47,9 @@ You should have received a copy of the GNU General Public License along with Aut
 * Only one account on [B!Cash](http://www.bcash.com.br/ "B!Cash").
 
 == Changelog ==
+
+= 1.1 =
+* Removed cURL in favor to wp_remote_post().
 
 = 1.0 =
 * Initial Relese.

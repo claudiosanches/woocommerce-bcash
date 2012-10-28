@@ -5,13 +5,11 @@
  * Description: Gateway de pagamento B!Cash para WooCommerce.
  * Author: claudiosanches
  * Author URI: http://www.claudiosmweb.com/
- * Version: 1.0
+ * Version: 1.1
  * License: GPLv2 or later
  * Text Domain: wcbcash
  * Domain Path: /languages/
  */
-
-define( 'WOO_BCASH_PATH', plugin_dir_path( __FILE__ ) );
 
 /**
  * WooCommerce fallback notice.
@@ -19,17 +17,6 @@ define( 'WOO_BCASH_PATH', plugin_dir_path( __FILE__ ) );
 function wcbcash_woocommerce_fallback_notice(){
     $message = '<div class="error">';
         $message .= '<p>' . __( 'WooCommerce B!Cash Gateway depends on the last version of <a href="http://wordpress.org/extend/plugins/woocommerce/">WooCommerce</a> to work!' , 'wcbcash' ) . '</p>';
-    $message .= '</div>';
-
-    echo $message;
-}
-
-/**
- * WooCommerce curl missing notice.
- */
-function wcbcash_woocommerce_curl_missing_notice(){
-    $message = '<div class="error">';
-        $message .= '<p>' . __( 'WooCommerce B!Cash Gateway depends of <a href="http://php.net/manual/en/book.curl.php">Curl</a> to work!' , 'wcbcash' ) . '</p>';
     $message .= '</div>';
 
     echo $message;
@@ -44,12 +31,6 @@ function wcbcash_gateway_load() {
 
     if ( !class_exists( 'WC_Payment_Gateway' ) || !class_exists( 'WC_Order_Item_Meta' ) ) {
         add_action( 'admin_notices', 'wcbcash_woocommerce_fallback_notice' );
-
-        return;
-    }
-
-    if ( !function_exists( 'curl_exec' ) ) {
-        add_action( 'admin_notices', 'wcbcash_woocommerce_curl_missing_notice' );
 
         return;
     }
@@ -92,6 +73,7 @@ function wcbcash_gateway_load() {
             $this->icon          = plugins_url( 'images/bcash.png', __FILE__ );
             $this->has_fields    = false;
             $this->bcash_url     = 'https://www.bcash.com.br/checkout/pay/';
+            $this->bcash_ipn     = 'https://www.bcash.com.br/checkout/verify/';
             $this->method_title  = __( 'B!Cash', 'wcbcash' );
 
             // Load the form fields.
@@ -108,8 +90,8 @@ function wcbcash_gateway_load() {
             $this->invoice_prefix   = !empty( $this->settings['invoice_prefix'] ) ? $this->settings['invoice_prefix'] : 'WC-';
 
             // Actions.
-            add_action( 'init', array( &$this, 'check_bcash_npi_response' ) );
-            add_action( 'valid_bcash_npi_request', array( &$this, 'successful_request' ) );
+            add_action( 'init', array( &$this, 'check_bcash_ipn_response' ) );
+            add_action( 'valid_bcash_ipn_request', array( &$this, 'successful_request' ) );
             add_action( 'woocommerce_receipt_bcash', array( &$this, 'receipt_page' ) );
             add_action( 'woocommerce_update_options_payment_gateways', array( &$this, 'process_admin_options' ) );
 
@@ -129,7 +111,10 @@ function wcbcash_gateway_load() {
          * @return bool
          */
         public function is_valid_for_use() {
-            if ( !in_array( get_woocommerce_currency() , array( 'BRL' ) ) ) return false;
+            if ( !in_array( get_woocommerce_currency() , array( 'BRL' ) ) ) {
+                return false;
+            }
+
             return true;
         }
 
@@ -299,7 +284,7 @@ function wcbcash_gateway_load() {
 
                         $item_meta = new WC_Order_Item_Meta( $item['item_meta'] );
                         if ( $meta = $item_meta->display( true, true ) ) {
-                            $item_name .= ' ('.$meta.')';
+                            $item_name .= ' (' . $meta . ')';
                         }
 
                         $bcash_args['produto_codigo_' . $item_loop]    = $item_loop;
@@ -400,11 +385,48 @@ function wcbcash_gateway_load() {
         }
 
         /**
+         * Check B!Cash ipn validity.
+         *
+         * @return bool
+         */
+        function check_ipn_request_is_valid() {
+            global $woocommerce;
+
+            // Get recieved values from post data.
+            $received_values = (array) stripslashes_deep( $_POST );
+
+            $postdata  = 'transacao=' . $_POST['id_transacao'];
+            $postdata .= '&status=' . $_POST['status'];
+            $postdata .= '&cod_status=' . $_POST['cod_status'];
+            $postdata .= '&valor_original=' . $_POST['valor_original'];
+            $postdata .= '&valor_loja=' . $_POST['valor_loja'];
+            $postdata .= '&token=' . $this->token;
+
+            // Send back post vars to B!Cash.
+            $params = array(
+                'body'          => $postdata,
+                'sslverify'     => false,
+                'timeout'       => 30
+            );
+
+            // Post back to get a response.
+            $response = wp_remote_post( $this->bcash_ipn, $params );
+
+            // Check to see if the request was valid.
+            if ( !is_wp_error( $response ) && $response['response']['code'] >= 200 && $response['response']['code'] < 300 && ( strcmp( $response['body'], 'VERIFICADO' ) == 0 ) ) {
+
+                return true;
+            }
+
+            return false;
+        }
+
+        /**
          * Check B!Cash API Response.
          *
          * @return void
          */
-        public function check_bcash_npi_response() {
+        public function check_bcash_ipn_response() {
 
             if ( isset( $_POST['id_pedido'] ) ) {
 
@@ -414,15 +436,11 @@ function wcbcash_gateway_load() {
 
                     $posted = stripslashes_deep( $_POST );
 
-                    include_once WOO_BCASH_PATH . 'BCash/Npi.php';
-                    $npi = new BCash_Npi( $this->token );
-                    $result = $npi->valid();
-
-                    if ( $result == 'VERIFICADO' ) {
+                    if ( $this->check_ipn_request_is_valid() ) {
 
                         header( 'HTTP/1.1 200 OK' );
 
-                        do_action( 'valid_bcash_npi_request', $posted );
+                        do_action( 'valid_bcash_ipn_request', $posted );
 
                     } else {
 
