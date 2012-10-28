@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: WooCommerce B!Cash v1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2012-10-28 01:29:57+0000\n"
+"PO-Revision-Date: 2012-10-28 02:02:38+0000\n"
 "Last-Translator: Claudio Sanches <contato@claudiosmweb.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -222,5 +222,5 @@ msgstr "<strong>Método de pagamento desativado</strong> Você deve informar o s
 #: wc-bcash.php:495
 #@ wcbcash
 msgid "Payment completed."
-msgstr "Pagamento completo."
+msgstr "Pagamento concluído."
 
