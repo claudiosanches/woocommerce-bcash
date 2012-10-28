@@ -11,6 +11,8 @@
  * Domain Path: /languages/
  */
 
+define( 'WOO_BCASH_PATH', plugin_dir_path( __FILE__ ) );
+
 /**
  * WooCommerce fallback notice.
  */
@@ -106,8 +108,8 @@ function wcbcash_gateway_load() {
             $this->invoice_prefix   = !empty( $this->settings['invoice_prefix'] ) ? $this->settings['invoice_prefix'] : 'WC-';
 
             // Actions.
-            //add_action( 'init', array( &$this, 'check_bcash_npi_response' ) );
-            //add_action( 'valid_bcash_npi_request', array( &$this, 'successful_request' ) );
+            add_action( 'init', array( &$this, 'check_bcash_npi_response' ) );
+            add_action( 'valid_bcash_npi_request', array( &$this, 'successful_request' ) );
             add_action( 'woocommerce_receipt_bcash', array( &$this, 'receipt_page' ) );
             add_action( 'woocommerce_update_options_payment_gateways', array( &$this, 'process_admin_options' ) );
 
@@ -194,7 +196,7 @@ function wcbcash_gateway_load() {
                 'token' => array(
                     'title' => __( 'B!Cash Token', 'wcbcash' ),
                     'type' => 'text',
-                    'description' => sprintf( __( 'Please enter your B!Cash token; is necessary to process the payment and notifications. Is possible generate a new token %shere%s', 'wcbcash' ), '<a href="https://pagseguro.uol.com.br/integracao/token-de-seguranca.jhtml">', '</a>' ),
+                    'description' => __( 'Please enter your B!Cash token; is necessary to process the payment and notifications.', 'wcbcash' ),
                     'default' => ''
                 ),
                 'invoice_prefix' => array(
@@ -220,16 +222,6 @@ function wcbcash_gateway_load() {
 
             // Fixed phone number.
             $order->billing_phone = str_replace( array( '(', '-', ' ', ')' ), '', $order->billing_phone );
-            $phone_args = array(
-                'senderAreaCode' => substr( $order->billing_phone, 0, 2 ),
-                'senderPhone' => substr( $order->billing_phone, 2 ),
-            );
-
-            // Fixed postal code.
-            //$order->billing_postcode = str_replace( array( '-', ' ' ), '', $order->billing_postcode );
-
-            // Fixed Address.
-            //$order->billing_address_1 = explode( ',', $order->billing_address_1 );
 
             // Fixed B!Cash Country.
             if ( $order->billing_country == 'BR' ) {
@@ -237,115 +229,87 @@ function wcbcash_gateway_load() {
             }
 
             // B!Cash Args.
-            $bcash_args = array_merge(
-                array(
-                    'email_loja'      => $this->email,
-                    'tipo_integracao' => 'PAD',
+            $bcash_args = array(
+                'email_loja'      => $this->email,
+                'tipo_integracao' => 'PAD',
 
-                    // Sender info.
-                    'nome'            => $order->billing_first_name . ' ' . $order->billing_last_name,
-                    'email'           => $order->billing_email,
+                // Sender info.
+                'nome'            => $order->billing_first_name . ' ' . $order->billing_last_name,
+                'email'           => $order->billing_email,
+                'telefone'        => $order->billing_phone,
+                //'rg'
+                //'data_emissao_rg'
+                //'orgao_emissor_rg'
+                //'estado_emissor_rg'
+                //'cpf'
+                //'sexo'
+                //'data_nascimento'
+                //'celular'
+                //'cliente_razao_social'
+                //'cliente_cnpj'
 
-                    // Optional fields.
-                    //'rg'
-                    //'data_emissao_rg'
-                    //'orgao_emissor_rg'
-                    //'estado_emissor_rg'
-                    //'cpf'
-                    //'sexo'
-                    //'data_nascimento'
-                    //'telefone'
-                    //'celular'
-                    //'cliente_razao_social'
-                    //'cliente_cnpj'
-                    //'parcela_maxima'
-                    //'meio_pagamento'
-                    //'meses_garantia'
-                    //'free'
-
-                    // Address info.
-                    'endereco'        => $order->billing_address_1,
-                    'complemento'     => $order->billing_address_2,
-                    //'bairro'
-                    'cidade'          => $order->billing_city,
-                    'estado'          => $order->billing_state,
-                    'cep'             => $order->billing_postcode,
-
-                    // Tax.
-                    'acrescimo'        => $order->get_total_tax(),
-
-                    // Payment Info.
-                    'id_pedido'        => $this->invoice_prefix . $order_id,
-
-                    // Shipping info.
-                    'frete'            => number_format( $order->get_shipping(), 2, '.', '' ),
-                    'tipo_frete'       => $order->shipping_method_title,
-
-                    // Return.
-                    'url_retorno'      => $this->get_return_url( $order ),
-                    'redirect'         => 'true',
-                    'redirect_time'    => '0',
-
-                    // Notification url.
-                    'url_aviso'        => $this->get_return_url( $order ),
-
-                    //'hash'
-
-                ),
-                $phone_args
-            );
-
-            // If prices include tax or have order discounts, send the whole order as a single item.
-            if ( get_option('woocommerce_prices_include_tax') == 'yes' || $order->get_order_discount() > 0 ) :
-
-                // Discount.
-                $bcash_args['desconto'] = $order->get_order_discount();
-
-                // Don't pass items - B!Cash borks tax due to prices including tax.
-                // B!Cash has no option for tax inclusive pricing sadly. Pass 1 item for the order items overall.
-                $item_names = array();
-
-                if ( sizeof( $order->get_items() ) > 0 ) : foreach ( $order->get_items() as $item ) :
-                    if ( $item['qty'] ) $item_names[] = $item['name'] . ' x ' . $item['qty'];
-                endforeach; endif;
-
-                $bcash_args['produto_codigo_1']    = 1;
-                $bcash_args['produto_descricao_1'] = substr( sprintf( __( 'Order %s' , 'wcbcash' ), $order->get_order_number() ) . " - " . implode(', ', $item_names), 0, 110 );
-                $bcash_args['produto_qtde_1']      = 1;
-                $bcash_args['produto_valor_1']     = number_format( $order->get_total() - $order->get_shipping() - $order->get_shipping_tax() + $order->get_order_discount(), 2, '.', '' );
-
-            else :
+                // Address info.
+                'endereco'        => $order->billing_address_1,
+                'complemento'     => $order->billing_address_2,
+                //'bairro'
+                'cidade'          => $order->billing_city,
+                'estado'          => $order->billing_state,
+                'cep'             => $order->billing_postcode,
 
                 // Tax.
-                $bcash_args['acrescimo'] = $order->get_total_tax();
+                'acrescimo'        => $order->get_total_tax(),
 
-                // Cart Contents.
-                $item_loop = 0;
-                if ( sizeof( $order->get_items() ) >0 ) :
-                    foreach ( $order->get_items() as $item ) :
-                        if ( $item['qty'] ) :
+                // Discount/Coupon.
+                'desconto'         => $order->get_order_discount(),
 
-                            $item_loop++;
+                // Payment Info.
+                'id_pedido'        => $this->invoice_prefix . $order_id,
 
-                            $product = $order->get_product_from_item( $item );
+                // Shipping info.
+                'frete'            => number_format( $order->get_shipping(), 2, '.', '' ),
+                'tipo_frete'       => $order->shipping_method_title,
 
-                            $item_name  = $item['name'];
+                // Return.
+                'url_retorno'      => $this->get_return_url( $order ),
+                'redirect'         => 'true',
+                'redirect_time'    => '0',
 
-                            $item_meta = new WC_Order_Item_Meta( $item['item_meta'] );
-                            if ( $meta = $item_meta->display( true, true ) ) :
-                                $item_name .= ' ('.$meta.')';
-                            endif;
+                // Notification url.
+                'url_aviso'        => $this->get_return_url( $order ),
 
-                            $bcash_args['produto_codigo_' . $item_loop]    = $item_loop;
-                            $bcash_args['produto_descricao_' . $item_loop] = $item_name;
-                            $bcash_args['produto_qtde_' . $item_loop]      = $item['qty'];
-                            $bcash_args['produto_valor_' . $item_loop]     = $order->get_item_total( $item, false );
+                // Others fields.
+                //'parcela_maxima'
+                //'meio_pagamento'
+                //'meses_garantia'
+                //'free'
+                //'hash'
+            );
 
-                        endif;
-                    endforeach;
-                endif;
+            // Cart Contents.
+            $item_loop = 0;
+            if ( sizeof( $order->get_items() ) > 0 ) {
+                foreach ( $order->get_items() as $item ) {
+                    if ( $item['qty'] ) {
 
-            endif;
+                        $item_loop++;
+
+                        $product = $order->get_product_from_item( $item );
+
+                        $item_name  = $item['name'];
+
+                        $item_meta = new WC_Order_Item_Meta( $item['item_meta'] );
+                        if ( $meta = $item_meta->display( true, true ) ) {
+                            $item_name .= ' ('.$meta.')';
+                        }
+
+                        $bcash_args['produto_codigo_' . $item_loop]    = $item_loop;
+                        $bcash_args['produto_descricao_' . $item_loop] = $item_name;
+                        $bcash_args['produto_qtde_' . $item_loop]      = $item['qty'];
+                        $bcash_args['produto_valor_' . $item_loop]     = $order->get_item_total( $item, false );
+
+                    }
+                }
+            }
 
             $bcash_args = apply_filters( 'woocommerce_bcash_args', $bcash_args );
 
@@ -442,7 +406,7 @@ function wcbcash_gateway_load() {
          */
         public function check_bcash_npi_response() {
 
-            if ( isset( $_POST['Referencia'] ) ) {
+            if ( isset( $_POST['id_pedido'] ) ) {
 
                 if ( !empty( $this->token ) ) {
 
@@ -450,8 +414,8 @@ function wcbcash_gateway_load() {
 
                     $posted = stripslashes_deep( $_POST );
 
-                    include_once WOO_bcash_PATH . 'PagSeguro/Npi.php';
-                    $npi = new bcash_Npi( $this->token );
+                    include_once WOO_BCASH_PATH . 'BCash/Npi.php';
+                    $npi = new BCash_Npi( $this->token );
                     $result = $npi->valid();
 
                     if ( $result == 'VERIFICADO' ) {
@@ -480,8 +444,8 @@ function wcbcash_gateway_load() {
         public function successful_request( $posted ) {
             global $woocommerce;
 
-            if ( !empty( $posted['Referencia'] ) ) {
-                $order_key = $posted['Referencia'];
+            if ( !empty( $posted['id_pedido'] ) ) {
+                $order_key = $posted['id_pedido'];
                 $order_id = (int) str_replace( $this->invoice_prefix, '', $order_key );
 
                 $order = new WC_Order( $order_id );
@@ -490,38 +454,40 @@ function wcbcash_gateway_load() {
                 // If true processes the payment.
                 if ( $order->id === $order_id ) {
 
-                    $order_status = sanitize_title( $posted['StatusTransacao'] );
+                    switch ( $posted['cod_status'] ) {
+                        case '0':
+                            $order->update_status( 'on-hold', __( 'Payment under review by B!Cash.', 'wcbcash' ) );
 
-                    switch ( $order_status ) {
-                        case 'completo':
+                            break;
+                        case '1':
 
                             // Order details.
-                            if ( !empty( $posted['TransacaoID'] ) ) {
+                            if ( !empty( $posted['id_transacao'] ) ) {
                                 update_post_meta(
                                     $order_id,
                                     __( 'B!Cash Transaction ID', 'wcbcash' ),
-                                    $posted['TransacaoID']
+                                    $posted['id_transacao']
                                 );
                             }
-                            if ( !empty( $posted['CliEmail'] ) ) {
+                            if ( !empty( $posted['cliente_email'] ) ) {
                                 update_post_meta(
                                     $order_id,
                                     __( 'Payer email', 'wcbcash' ),
-                                    $posted['CliEmail']
+                                    $posted['cliente_email']
                                 );
                             }
-                            if ( !empty( $posted['CliNome'] ) ) {
+                            if ( !empty( $posted['cliente_nome'] ) ) {
                                 update_post_meta(
                                     $order_id,
                                     __( 'Payer name', 'wcbcash' ),
-                                    $posted['CliNome']
+                                    $posted['cliente_nome']
                                 );
                             }
-                            if ( !empty( $posted['TipoPagamento'] ) ) {
+                            if ( !empty( $posted['tipo_pagamento'] ) ) {
                                 update_post_meta(
                                     $order_id,
                                     __( 'Payment type', 'wcbcash' ),
-                                    $posted['TipoPagamento']
+                                    $posted['tipo_pagamento']
                                 );
                             }
 
@@ -530,22 +496,10 @@ function wcbcash_gateway_load() {
                             $order->payment_complete();
 
                             break;
-                            case 'aguardando-pagto':
-                                $order->update_status( 'pending', __( 'Awaiting payment.', 'wcbcash' ) );
+                        case '2':
+                            $order->update_status( 'cancelled', __( 'Payment canceled by B!Cash.', 'wcbcash' ) );
 
-                                break;
-                            case 'aprovado':
-                                $order->update_status( 'on-hold', __( 'Payment approved, awaiting compensation.', 'wcbcash' ) );
-
-                                break;
-                            case 'em-analise':
-                                $order->update_status( 'on-hold', __( 'Payment approved, under review by B!Cash.', 'wcbcash' ) );
-
-                                break;
-                            case 'cancelado':
-                                $order->update_status( 'cancelled', __( 'Payment canceled by B!Cash.', 'wcbcash' ) );
-
-                                break;
+                            break;
 
                         default:
                             // No action xD.
