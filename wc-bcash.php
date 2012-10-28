@@ -492,7 +492,7 @@ function wcbcash_gateway_load() {
                             }
 
                             // Payment completed.
-                            $order->add_order_note( __( 'Payment completed', 'wcbcash' ) );
+                            $order->add_order_note( __( 'Payment completed.', 'wcbcash' ) );
                             $order->payment_complete();
 
                             break;
