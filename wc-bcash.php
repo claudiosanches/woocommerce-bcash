@@ -68,12 +68,12 @@ function wcbcash_gateway_load() {
          */
         public function __construct() {
 
-            $this->id            = 'bcash';
-            $this->icon          = plugins_url( 'images/bcash.png', __FILE__ );
-            $this->has_fields    = false;
-            $this->payment_url   = 'https://www.bcash.com.br/checkout/pay/';
-            $this->ipn_url       = 'https://www.bcash.com.br/checkout/verify/';
-            $this->method_title  = __( 'Bcash', 'wcbcash' );
+            $this->id             = 'bcash';
+            $this->icon           = plugins_url( 'images/bcash.png', __FILE__ );
+            $this->has_fields     = false;
+            $this->payment_url    = 'https://www.bcash.com.br/checkout/pay/';
+            $this->ipn_url        = 'https://www.bcash.com.br/checkout/verify/';
+            $this->method_title   = __( 'Bcash', 'wcbcash' );
 
             // Load the form fields.
             $this->init_form_fields();
@@ -82,11 +82,11 @@ function wcbcash_gateway_load() {
             $this->init_settings();
 
             // Define user set variables.
-            $this->title            = $this->settings['title'];
-            $this->description      = $this->settings['description'];
-            $this->email            = $this->settings['email'];
-            $this->token            = $this->settings['token'];
-            $this->invoice_prefix   = !empty( $this->settings['invoice_prefix'] ) ? $this->settings['invoice_prefix'] : 'WC-';
+            $this->title          = $this->settings['title'];
+            $this->description    = $this->settings['description'];
+            $this->email          = $this->settings['email'];
+            $this->token          = $this->settings['token'];
+            $this->invoice_prefix = !empty( $this->settings['invoice_prefix'] ) ? $this->settings['invoice_prefix'] : 'WC-';
 
             // Actions.
             add_action( 'init', array( &$this, 'check_ipn_response' ) );
@@ -201,8 +201,6 @@ function wcbcash_gateway_load() {
          */
         public function get_form_args( $order ) {
 
-            $order_id = $order->id;
-
             // Fixed phone number.
             $order->billing_phone = str_replace( array( '(', '-', ' ', ')' ), '', $order->billing_phone );
 
@@ -240,7 +238,7 @@ function wcbcash_gateway_load() {
                 'desconto'         => $order->get_order_discount(),
 
                 // Payment Info.
-                'id_pedido'        => $this->invoice_prefix . $order_id,
+                'id_pedido'        => $this->invoice_prefix . $order->id,
 
                 // Shipping info.
                 'frete'            => number_format( $order->get_shipping(), 2, '.', '' ),
