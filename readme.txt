@@ -1,9 +1,9 @@
 === WooCommerce Bcash ===
 Contributors: claudiosanches
-Tags: ecommerce, e-commerce, commerce, wordpress ecommerce, checkout, payment, payment gateway, bcash, b!cash
+Tags: ecommerce, e-commerce, commerce, wordpress ecommerce, checkout, payment, payment gateway, bcash
 Requires at least: 3.0
 Tested up to: 3.4.2
-Stable tag: 1.2
+Stable tag: 1.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -135,6 +135,10 @@ Entre em contato [clicando aqui](http://claudiosmweb.com/plugins/bcash-para-wooc
 
 == Changelog ==
 
+= 1.2.1 =
+* Corrigido standards de código.
+* Corrigida a URL de retorno automático de dados.
+
 = 1.2 =
 * Correção da tradução.
 * Contrução do readme.txt.
@@ -146,6 +150,9 @@ Entre em contato [clicando aqui](http://claudiosmweb.com/plugins/bcash-para-wooc
 * Versão incial do plugin.
 
 == Upgrade Notice ==
+
+= 1.2.1 =
+* General fixes
 
 = 1.2 =
 * Fixes in translation.

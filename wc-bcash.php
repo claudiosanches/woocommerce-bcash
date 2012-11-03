@@ -5,7 +5,7 @@
  * Description: Gateway de pagamento Bcash para WooCommerce.
  * Author: claudiosanches
  * Author URI: http://www.claudiosmweb.com/
- * Version: 1.2
+ * Version: 1.2.1
  * License: GPLv2 or later
  * Text Domain: wcbcash
  * Domain Path: /languages/
@@ -14,7 +14,7 @@
 /**
  * WooCommerce fallback notice.
  */
-function wcbcash_woocommerce_fallback_notice(){
+function wcbcash_woocommerce_fallback_notice() {
     $message = '<div class="error">';
         $message .= '<p>' . __( 'WooCommerce Bcash Gateway depends on the last version of <a href="http://wordpress.org/extend/plugins/woocommerce/">WooCommerce</a> to work!' , 'wcbcash' ) . '</p>';
     $message .= '</div>';
@@ -41,7 +41,7 @@ function wcbcash_gateway_load() {
     load_plugin_textdomain( 'wcbcash', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 
     /**
-     * Add the gateway to Bcash.
+     * Add the gateway.
      *
      * @access public
      * @param array $methods
@@ -67,13 +67,12 @@ function wcbcash_gateway_load() {
          * @return void
          */
         public function __construct() {
-            global $woocommerce;
 
             $this->id            = 'bcash';
             $this->icon          = plugins_url( 'images/bcash.png', __FILE__ );
             $this->has_fields    = false;
-            $this->bcash_url     = 'https://www.bcash.com.br/checkout/pay/';
-            $this->bcash_ipn     = 'https://www.bcash.com.br/checkout/verify/';
+            $this->payment_url   = 'https://www.bcash.com.br/checkout/pay/';
+            $this->ipn_url       = 'https://www.bcash.com.br/checkout/verify/';
             $this->method_title  = __( 'Bcash', 'wcbcash' );
 
             // Load the form fields.
@@ -90,7 +89,7 @@ function wcbcash_gateway_load() {
             $this->invoice_prefix   = !empty( $this->settings['invoice_prefix'] ) ? $this->settings['invoice_prefix'] : 'WC-';
 
             // Actions.
-            add_action( 'init', array( &$this, 'check_bcash_ipn_response' ) );
+            add_action( 'init', array( &$this, 'check_ipn_response' ) );
             add_action( 'valid_bcash_ipn_request', array( &$this, 'successful_request' ) );
             add_action( 'woocommerce_receipt_bcash', array( &$this, 'receipt_page' ) );
             add_action( 'woocommerce_update_options_payment_gateways', array( &$this, 'process_admin_options' ) );
@@ -195,21 +194,19 @@ function wcbcash_gateway_load() {
         }
 
         /**
-         * Get Bcash Args.
+         * Generate the args to form.
          *
-         * @param mixed $order
+         * @param  array $order Order data.
          * @return array
          */
-        public function get_bcash_args( $order ) {
-            global $woocommerce;
+        public function get_form_args( $order ) {
 
             $order_id = $order->id;
 
             // Fixed phone number.
             $order->billing_phone = str_replace( array( '(', '-', ' ', ')' ), '', $order->billing_phone );
 
-            // Bcash Args.
-            $bcash_args = array(
+            $args = array(
                 'email_loja'      => $this->email,
                 'tipo_integracao' => 'PAD',
 
@@ -255,7 +252,7 @@ function wcbcash_gateway_load() {
                 'redirect_time'    => '0',
 
                 // Notification url.
-                'url_aviso'        => $this->get_return_url( $order ),
+                'url_aviso'        => home_url(),
 
                 // Others fields.
                 //'parcela_maxima'
@@ -273,8 +270,6 @@ function wcbcash_gateway_load() {
 
                         $item_loop++;
 
-                        $product = $order->get_product_from_item( $item );
-
                         $item_name  = $item['name'];
 
                         $item_meta = new WC_Order_Item_Meta( $item['item_meta'] );
@@ -282,44 +277,42 @@ function wcbcash_gateway_load() {
                             $item_name .= ' (' . $meta . ')';
                         }
 
-                        $bcash_args['produto_codigo_' . $item_loop]    = $item_loop;
-                        $bcash_args['produto_descricao_' . $item_loop] = $item_name;
-                        $bcash_args['produto_qtde_' . $item_loop]      = $item['qty'];
-                        $bcash_args['produto_valor_' . $item_loop]     = $order->get_item_total( $item, false );
+                        $args['produto_codigo_' . $item_loop]    = $item_loop;
+                        $args['produto_descricao_' . $item_loop] = $item_name;
+                        $args['produto_qtde_' . $item_loop]      = $item['qty'];
+                        $args['produto_valor_' . $item_loop]     = $order->get_item_total( $item, false );
 
                     }
                 }
             }
 
-            $bcash_args = apply_filters( 'woocommerce_bcash_args', $bcash_args );
+            $args = apply_filters( 'woocommerce_bcash_args', $args );
 
-            return $bcash_args;
+            return $args;
         }
 
         /**
-         * Generate the Bcash button link.
+         * Generate the form.
          *
          * @param mixed $order_id
          * @return string
          */
-        public function generate_bcash_form( $order_id ) {
+        public function generate_form( $order_id ) {
             global $woocommerce;
 
             $order = new WC_Order( $order_id );
 
-            $bcash_adr = $this->bcash_url;
+            $args = $this->get_form_args( $order );
 
-            $bcash_args = $this->get_bcash_args( $order );
+            $args_array = array();
 
-            $bcash_args_array = array();
-
-            foreach ( $bcash_args as $key => $value ) {
-                $bcash_args_array[] = '<input type="hidden" name="' . esc_attr( $key ) . '" value="' . esc_attr( $value ) . '" />';
+            foreach ( $args as $key => $value ) {
+                $args_array[] = '<input type="hidden" name="' . esc_attr( $key ) . '" value="' . esc_attr( $value ) . '" />';
             }
 
             $woocommerce->add_inline_js( '
                 jQuery("body").block({
-                        message: "<img src=\"' . esc_url( $woocommerce->plugin_url() . '/assets/images/ajax-loader.gif' ) . '\" alt=\"Redirecting&hellip;\" style=\"float:left; margin-right: 10px;\" />'.__( 'Thank you for your order. We are now redirecting you to Bcash to make payment.', 'wcbcash' ).'",
+                        message: "<img src=\"' . esc_url( $woocommerce->plugin_url() . '/assets/images/ajax-loader.gif' ) . '\" alt=\"Redirecting&hellip;\" style=\"float:left; margin-right: 10px;\" />' . __( 'Thank you for your order. We are now redirecting you to Bcash to make payment.', 'wcbcash' ).'",
                         overlayCSS:
                         {
                             background: "#fff",
@@ -336,12 +329,12 @@ function wcbcash_gateway_load() {
                             zIndex:          "9999"
                         }
                     });
-                jQuery("#submit_bcash_payment_form").click();
+                jQuery("#submit-payment-form").click();
             ' );
 
-            return '<form action="' . esc_url( $bcash_adr ) . '" method="post" id="bcash_payment_form" target="_top">
-                    ' . implode( '', $bcash_args_array ) . '
-                    <input type="submit" class="button alt" id="submit_bcash_payment_form" value="' . __( 'Pay via Bcash', 'wcbcash' ).'" /> <a class="button cancel" href="' . esc_url( $order->get_cancel_order_url() ) . '">' . __( 'Cancel order &amp; restore cart', 'wcbcash' ) . '</a>
+            return '<form action="' . esc_url( $this->payment_url ) . '" method="post" id="payment-form" target="_top">
+                    ' . implode( '', $args_array ) . '
+                    <input type="submit" class="button alt" id="submit-payment-form" value="' . __( 'Pay via Bcash', 'wcbcash' ) . '" /> <a class="button cancel" href="' . esc_url( $order->get_cancel_order_url() ) . '">' . __( 'Cancel order &amp; restore cart', 'wcbcash' ) . '</a>
                 </form>';
 
         }
@@ -371,33 +364,32 @@ function wcbcash_gateway_load() {
         public function receipt_page( $order ) {
             global $woocommerce;
 
-            echo '<p>' . __( 'Thank you for your order, please click the button below to pay with Bcash.', 'wcbcash' ).'</p>';
+            echo '<p>' . __( 'Thank you for your order, please click the button below to pay with Bcash.', 'wcbcash' ) . '</p>';
 
-            echo $this->generate_bcash_form( $order );
+            echo $this->generate_form( $order );
 
             // Remove cart.
             $woocommerce->cart->empty_cart();
         }
 
         /**
-         * Check Bcash ipn validity.
+         * Check ipn validity.
          *
          * @return bool
          */
-        function check_ipn_request_is_valid() {
-            global $woocommerce;
+        public function check_ipn_request_is_valid() {
 
             // Get recieved values from post data.
             $received_values = (array) stripslashes_deep( $_POST );
 
-            $postdata  = 'transacao=' . $_POST['id_transacao'];
-            $postdata .= '&status=' . $_POST['status'];
-            $postdata .= '&cod_status=' . $_POST['cod_status'];
-            $postdata .= '&valor_original=' . $_POST['valor_original'];
+            $postdata  = 'transacao=' . $received_values['id_transacao'];
+            $postdata .= '&status=' . $received_values['status'];
+            $postdata .= '&cod_status=' . $received_values['cod_status'];
+            $postdata .= '&valor_original=' . $received_values['valor_original'];
             $postdata .= '&valor_loja=' . $_POST['valor_loja'];
             $postdata .= '&token=' . $this->token;
 
-            // Send back post vars to Bcash.
+            // Send back post vars.
             $params = array(
                 'body'          => $postdata,
                 'sslverify'     => false,
@@ -405,7 +397,7 @@ function wcbcash_gateway_load() {
             );
 
             // Post back to get a response.
-            $response = wp_remote_post( $this->bcash_ipn, $params );
+            $response = wp_remote_post( $this->ipn_url, $params );
 
             // Check to see if the request was valid.
             if ( !is_wp_error( $response ) && $response['response']['code'] >= 200 && $response['response']['code'] < 300 && ( strcmp( $response['body'], 'VERIFICADO' ) == 0 ) ) {
@@ -417,11 +409,11 @@ function wcbcash_gateway_load() {
         }
 
         /**
-         * Check Bcash API Response.
+         * Check API Response.
          *
          * @return void
          */
-        public function check_bcash_ipn_response() {
+        public function check_ipn_response() {
 
             if ( isset( $_POST['id_pedido'] ) ) {
 
@@ -437,15 +429,9 @@ function wcbcash_gateway_load() {
 
                         do_action( 'valid_bcash_ipn_request', $posted );
 
-                    } else {
-
-                        wp_die( __( 'Bcash Request Failure', 'wcbcash' ) );
-
                     }
                 }
-
             }
-
         }
 
         /**
@@ -455,7 +441,6 @@ function wcbcash_gateway_load() {
          * @return void
          */
         public function successful_request( $posted ) {
-            global $woocommerce;
 
             if ( !empty( $posted['id_pedido'] ) ) {
                 $order_key = $posted['id_pedido'];
@@ -523,7 +508,7 @@ function wcbcash_gateway_load() {
         }
 
         /**
-         * Adds error message when not configured the Bcash email.
+         * Adds error message when not configured the email.
          *
          * @return string Error Mensage.
          */
@@ -536,7 +521,7 @@ function wcbcash_gateway_load() {
         }
 
         /**
-         * Adds error message when not configured the Bcash token.
+         * Adds error message when not configured the token.
          *
          * @return string Error Mensage.
          */
