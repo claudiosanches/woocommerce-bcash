@@ -365,9 +365,6 @@ function wcbcash_gateway_load() {
             echo '<p>' . __( 'Thank you for your order, please click the button below to pay with Bcash.', 'wcbcash' ) . '</p>';
 
             echo $this->generate_form( $order );
-
-            // Remove cart.
-            $woocommerce->cart->empty_cart();
         }
 
         /**

@@ -21,9 +21,9 @@ Please notice that WooCommerce must be installed and active.
 
 Adicione o Bcash como método de pagamento em sua loja WooCommerce.
 
-[Bcash](https://www.bcash.com.br/) é um metodo de pagamento brasileiro desenvolvido pela Buscapé Company.
+[Bcash](https://www.bcash.com.br/) é um método de pagamento brasileiro desenvolvido pela Buscapé Company.
 
-O plugin WooCommerce Bcash foi desenvolvido sem nenhum isentivo do Bcash ou Buscapé Company. Nenhum dos desenvolvedores deste plugin possuem vinculos com estas duas empresas.
+O plugin WooCommerce Bcash foi desenvolvido sem nenhum incentivo do Bcash ou Buscapé Company. Nenhum dos desenvolvedores deste plugin possuem vínculos com estas duas empresas.
 
 Este plugin foi feito baseado na [documentação oficial do Bcash](https://www.bcash.com.br/integracao-bcash.html).
 
@@ -65,7 +65,7 @@ No Bcash você precisa apenas validar sua conta e gerar um **token** em "Ferrame
 
 Com o plugin instalado acesse o admin do WordPress e entre em "WooCommerce" > "Configurações" > "Portais de pagamento"  > "Bcash".
 
-Habilite o Bcash, adicione o seu e-mail e o token (utilizado para valitar o retorno automático de dados).
+Habilite o Bcash, adicione o seu e-mail e o token (utilizado para validar o retorno automático de dados).
 
 Pronto, sua loja já pode receber pagamentos pelo Bcash.
 
@@ -141,7 +141,7 @@ Entre em contato [clicando aqui](http://claudiosmweb.com/plugins/bcash-para-wooc
 
 = 1.2 =
 * Correção da tradução.
-* Contrução do readme.txt.
+* Construção do readme.txt.
 
 = 1.1 =
 * Removida a classe do retorno automático que usava cURL em favor da função wp_remote_post().
