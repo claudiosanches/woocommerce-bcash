@@ -3,7 +3,7 @@ Contributors: claudiosanches
 Tags: ecommerce, e-commerce, commerce, wordpress ecommerce, checkout, payment, payment gateway, bcash
 Requires at least: 3.0
 Tested up to: 3.4.2
-Stable tag: 1.2.1
+Stable tag: 1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -42,6 +42,7 @@ Você pode esclarecer suas dúvidas usando:
 == Installation ==
 
 = Plugin Install: =
+
 * Upload plugin files to your plugins folder, or install using WordPress' built-in Add New Plugin installer
 * Activate the plugin
 * Navigate to WooCommerce -> Settings -> Payment Gateways, choose Bcash and fill in your Bcash Email and Token
@@ -81,9 +82,11 @@ You should have received a copy of the GNU General Public License along with Aut
 == Frequently Asked Questions ==
 
 = What is the plugin license? =
+
 * This plugin is released under a GPL license.
 
 = What is needed to use this plugin? =
+
 * WooCommerce installed and active
 * Only one account on [Bcash](http://www.bcash.com.br/ "Bcash").
 
@@ -135,32 +138,48 @@ Entre em contato [clicando aqui](http://claudiosmweb.com/plugins/bcash-para-wooc
 
 == Changelog ==
 
+= 1.3 - 30/11/2012 =
+
+* Adicionada opção para logs de erro.
+
 = 1.2.1 =
+
 * Corrigido standards de código.
 * Corrigida a URL de retorno automático de dados.
 
 = 1.2 =
+
 * Correção da tradução.
 * Construção do readme.txt.
 
 = 1.1 =
+
 * Removida a classe do retorno automático que usava cURL em favor da função wp_remote_post().
 
 = 1.0 =
+
 * Versão incial do plugin.
 
 == Upgrade Notice ==
 
+= 1.3 =
+
+* Added error logs.
+
 = 1.2.1 =
+
 * General fixes
 
 = 1.2 =
+
 * Fixes in translation.
 
 = 1.1 =
+
 * Removed cURL in favor to wp_remote_post().
 
 = 1.0 =
+
 * Enjoy it.
 
 == Screenshots ==
