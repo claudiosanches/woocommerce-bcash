@@ -95,7 +95,6 @@ function wcbcash_gateway_load() {
             add_action( 'valid_bcash_ipn_request', array( &$this, 'successful_request' ) );
             add_action( 'woocommerce_receipt_bcash', array( &$this, 'receipt_page' ) );
             add_action( 'woocommerce_update_options_payment_gateways', array( &$this, 'process_admin_options' ) );
-            add_filter( 'woocommerce_available_payment_gateways', array( &$this, 'hides_when_is_outside_brazil' ) );
 
             // Valid for use.
             $this->enabled = ( 'yes' == $this->settings['enabled'] ) && !empty( $this->email ) && !empty( $this->token ) && $this->is_valid_for_use();
@@ -105,6 +104,9 @@ function wcbcash_gateway_load() {
 
             // Checks if token is not empty.
             $this->token == '' ? add_action( 'admin_notices', array( &$this, 'token_missing_message' ) ) : '';
+
+            // Filters.
+            add_filter( 'woocommerce_available_payment_gateways', array( &$this, 'hides_when_is_outside_brazil' ) );
 
             // Active logs.
             if ( $this->debug == 'yes' ) {
@@ -296,7 +298,7 @@ function wcbcash_gateway_load() {
                         }
 
                         $args['produto_codigo_' . $item_loop]    = $item_loop;
-                        $args['produto_descricao_' . $item_loop] = $item_name;
+                        $args['produto_descricao_' . $item_loop] = sanitize_text_field( $item_name );
                         $args['produto_qtde_' . $item_loop]      = $item['qty'];
                         $args['produto_valor_' . $item_loop]     = $order->get_item_total( $item, false );
 
@@ -436,7 +438,7 @@ function wcbcash_gateway_load() {
                 return true;
             } else {
                 if ( $this->debug == 'yes' ) {
-                    $this->log->add( 'bcash', 'Received invalid IPN response from Bcash.' );
+                    $this->log->add( 'bcash', 'Received invalid IPN response from Bcash' );
                 }
             }
 
