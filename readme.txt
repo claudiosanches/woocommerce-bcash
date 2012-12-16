@@ -1,8 +1,9 @@
 === WooCommerce Bcash ===
 Contributors: claudiosanches
+Donate link: http://claudiosmweb.com/doacoes/
 Tags: ecommerce, e-commerce, commerce, wordpress ecommerce, checkout, payment, payment gateway, bcash
 Requires at least: 3.0
-Tested up to: 3.4.2
+Tested up to: 3.5
 Stable tag: 1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -11,13 +12,13 @@ Adds Bcash gateway to the WooCommerce plugin
 
 == Description ==
 
-### Add Bcash gateway to WooCommerce
+### Add Bcash gateway to WooCommerce ###
 
 This plugin adds Bcash gateway to WooCommerce.
 
 Please notice that WooCommerce must be installed and active.
 
-### Descrição em Português:
+### Descrição em Português: ###
 
 Adicione o Bcash como método de pagamento em sua loja WooCommerce.
 
@@ -41,13 +42,11 @@ Você pode esclarecer suas dúvidas usando:
 
 == Installation ==
 
-= Plugin Install: =
+* Upload plugin files to your plugins folder, or install using WordPress built-in Add New Plugin installer;
+* Activate the plugin;
+* Navigate to WooCommerce -> Settings -> Payment Gateways, choose Bcash and fill in your Bcash Email and Token.
 
-* Upload plugin files to your plugins folder, or install using WordPress' built-in Add New Plugin installer
-* Activate the plugin
-* Navigate to WooCommerce -> Settings -> Payment Gateways, choose Bcash and fill in your Bcash Email and Token
-
-### Instalação e configuração em Português:
+### Instalação e configuração em Português: ###
 
 = Instalação do plugin: =
 
@@ -70,15 +69,6 @@ Habilite o Bcash, adicione o seu e-mail e o token (utilizado para validar o reto
 
 Pronto, sua loja já pode receber pagamentos pelo Bcash.
 
-== License ==
-
-This file is part of WooCommerce Bcash.
-WooCommerce Bcash is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published
-by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-WooCommerce Bcash is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-You should have received a copy of the GNU General Public License along with Author Bio Box. If not, see <http://www.gnu.org/licenses/>.
-
 == Frequently Asked Questions ==
 
 = What is the plugin license? =
@@ -90,7 +80,7 @@ You should have received a copy of the GNU General Public License along with Aut
 * WooCommerce installed and active
 * Only one account on [Bcash](http://www.bcash.com.br/ "Bcash").
 
-### FAQ em Português:
+### FAQ em Português: ###
 
 = Qual é a licença do plugin? =
 
@@ -135,6 +125,11 @@ A opção de pagamento pelo Bcash funciona apenas com o Brasil.
 = Mais dúvidas relacionadas ao funcionamento do plugin? =
 
 Entre em contato [clicando aqui](http://claudiosmweb.com/plugins/bcash-para-woocommerce/).
+
+== Screenshots ==
+
+1. Settings page.
+2. Checkout page.
 
 == Changelog ==
 
@@ -182,7 +177,11 @@ Entre em contato [clicando aqui](http://claudiosmweb.com/plugins/bcash-para-wooc
 
 * Enjoy it.
 
-== Screenshots ==
+== License ==
 
-1. screenshot-1.png
-2. screenshot-2.png
+This file is part of WooCommerce Bcash.
+WooCommerce Bcash is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published
+by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+WooCommerce Bcash is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Author Bio Box. If not, see <http://www.gnu.org/licenses/>.
