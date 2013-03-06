@@ -5,7 +5,7 @@
  * Description: Gateway de pagamento Bcash para WooCommerce.
  * Author: claudiosanches
  * Author URI: http://www.claudiosmweb.com/
- * Version: 1.3.2
+ * Version: 1.3.3
  * License: GPLv2 or later
  * Text Domain: wcbcash
  * Domain Path: /languages/
@@ -94,10 +94,10 @@ function wcbcash_gateway_load() {
             add_action( 'init', array( &$this, 'check_ipn_response' ) );
             add_action( 'valid_bcash_ipn_request', array( &$this, 'successful_request' ) );
             add_action( 'woocommerce_receipt_bcash', array( &$this, 'receipt_page' ) );
-            if ( version_compare( WOOCOMMERCE_VERSION, '2.0.0', '<' ) ) {
-                add_action( 'woocommerce_update_options_payment_gateways', array( &$this, 'process_admin_options' ) );
-            } else {
+            if ( version_compare( WOOCOMMERCE_VERSION, '2.0.0', '>=' ) ) {
                 add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( &$this, 'process_admin_options' ) );
+            } else {
+                add_action( 'woocommerce_update_options_payment_gateways', array( &$this, 'process_admin_options' ) );
             }
 
             // Valid for use.
