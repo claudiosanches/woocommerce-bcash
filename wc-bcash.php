@@ -92,7 +92,7 @@ function wcbcash_gateway_load() {
             $this->debug          = $this->settings['debug'];
 
             // Actions.
-            add_action( 'init', array( &$this, 'check_ipn_response' ) );
+            add_action( 'woocommerce_api_wc_bcash_gateway', array( &$this, 'check_ipn_response' ) );
             add_action( 'valid_bcash_ipn_request', array( &$this, 'successful_request' ) );
             add_action( 'woocommerce_receipt_bcash', array( &$this, 'receipt_page' ) );
             if ( version_compare( WOOCOMMERCE_VERSION, '2.0.0', '>=' ) ) {
@@ -403,7 +403,7 @@ function wcbcash_gateway_load() {
          */
         public function check_ipn_request_is_valid() {
 
-            if ( 'yes' == $this->debug) {
+            if ( 'yes' == $this->debug ) {
                 $this->log->add( 'bcash', 'Checking IPN request...' );
             }
 
@@ -455,22 +455,18 @@ function wcbcash_gateway_load() {
          */
         public function check_ipn_response() {
 
-            if ( isset( $_POST['id_pedido'] ) ) {
+            @ob_clean();
 
-                if ( ! empty( $this->token ) ) {
+            if ( ! empty( $_POST ) && ! empty( $this->token ) && $this->check_ipn_request_is_valid() ) {
 
-                    @ob_clean();
+                header( 'HTTP/1.1 200 OK' );
 
-                    $posted = stripslashes_deep( $_POST );
+                do_action( 'valid_bcash_ipn_request', stripslashes_deep( $_POST ) );
 
-                    if ( $this->check_ipn_request_is_valid() ) {
+            } else {
 
-                        header( 'HTTP/1.1 200 OK' );
+                wp_die( __( 'Bcash Request Failure', 'wcbcash' ) );
 
-                        do_action( 'valid_bcash_ipn_request', $posted );
-
-                    }
-                }
             }
         }
 
@@ -597,3 +593,20 @@ function wcbcash_gateway_load() {
 
     } // class WC_BCash_Gateway.
 } // function wcbcash_gateway_load.
+
+/**
+ * Adds support to legacy IPN.
+ *
+ * @return void
+ */
+function wcbcash_legacy_ipn() {
+    if ( isset( $_POST['id_pedido'] ) && ! isset( $_GET['wc-api'] ) ) {
+        global $woocommerce;
+
+        $woocommerce->payment_gateways();
+
+        do_action( 'woocommerce_api_wc_bcash_gateway' );
+    }
+}
+
+add_action( 'init', 'wcbcash_legacy_ipn' );
