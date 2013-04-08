@@ -4,7 +4,7 @@
  * Plugin URI: http://claudiosmweb.com/plugins/bcash-para-woocommerce/
  * Description: Gateway de pagamento Bcash para WooCommerce.
  * Author: claudiosanches
- * Author URI: http://www.claudiosmweb.com/
+ * Author URI: http://claudiosmweb.com/
  * Version: 1.3.3
  * License: GPLv2 or later
  * Text Domain: wcbcash
@@ -15,11 +15,11 @@
  * WooCommerce fallback notice.
  */
 function wcbcash_woocommerce_fallback_notice() {
-    $message = '<div class="error">';
-        $message .= '<p>' . __( 'WooCommerce Bcash Gateway depends on the last version of <a href="http://wordpress.org/extend/plugins/woocommerce/">WooCommerce</a> to work!' , 'wcbcash' ) . '</p>';
-    $message .= '</div>';
+    $html = '<div class="error">';
+        $html .= '<p>' . __( 'WooCommerce Bcash Gateway depends on the last version of <a href="http://wordpress.org/extend/plugins/woocommerce/">WooCommerce</a> to work!', 'wcbcash' ) . '</p>';
+    $html .= '</div>';
 
-    echo $message;
+    echo $html;
 }
 
 /**
@@ -51,6 +51,7 @@ function wcbcash_gateway_load() {
 
     function wcbcash_add_gateway( $methods ) {
         $methods[] = 'WC_BCash_Gateway';
+
         return $methods;
     }
 
@@ -87,7 +88,7 @@ function wcbcash_gateway_load() {
             $this->description    = $this->settings['description'];
             $this->email          = $this->settings['email'];
             $this->token          = $this->settings['token'];
-            $this->invoice_prefix = !empty( $this->settings['invoice_prefix'] ) ? $this->settings['invoice_prefix'] : 'WC-';
+            $this->invoice_prefix = ! empty( $this->settings['invoice_prefix'] ) ? $this->settings['invoice_prefix'] : 'WC-';
             $this->debug          = $this->settings['debug'];
 
             // Actions.
@@ -101,19 +102,23 @@ function wcbcash_gateway_load() {
             }
 
             // Valid for use.
-            $this->enabled = ( 'yes' == $this->settings['enabled'] ) && !empty( $this->email ) && !empty( $this->token ) && $this->is_valid_for_use();
+            $this->enabled = ( 'yes' == $this->settings['enabled'] ) && ! empty( $this->email ) && ! empty( $this->token ) && $this->is_valid_for_use();
 
             // Checks if email is not empty.
-            $this->email == '' ? add_action( 'admin_notices', array( &$this, 'mail_missing_message' ) ) : '';
+            if ( empty( $this->email ) ) {
+                add_action( 'admin_notices', array( &$this, 'mail_missing_message' ) );
+            }
 
             // Checks if token is not empty.
-            $this->token == '' ? add_action( 'admin_notices', array( &$this, 'token_missing_message' ) ) : '';
+            if ( empty( $this->token ) ) {
+                add_action( 'admin_notices', array( &$this, 'token_missing_message' ) );
+            }
 
             // Filters.
             add_filter( 'woocommerce_available_payment_gateways', array( &$this, 'hides_when_is_outside_brazil' ) );
 
             // Active logs.
-            if ( $this->debug == 'yes' ) {
+            if ( 'yes' == $this->debug ) {
                 $this->log = $woocommerce->logger();
             }
         }
@@ -124,7 +129,7 @@ function wcbcash_gateway_load() {
          * @return bool
          */
         public function is_valid_for_use() {
-            if ( !in_array( get_woocommerce_currency() , array( 'BRL' ) ) ) {
+            if ( ! in_array( get_woocommerce_currency(), array( 'BRL' ) ) ) {
                 return false;
             }
 
@@ -132,31 +137,25 @@ function wcbcash_gateway_load() {
         }
 
         /**
-         * Admin Panel Options
-         * - Options for bits like 'title' and availability on a country-by-country basis.
-         *
-         * @since 1.0.0
+         * Admin Panel Options.
          */
         public function admin_options() {
 
-            ?>
-            <h3><?php _e( 'Bcash standard', 'wcbcash' ); ?></h3>
-            <p><?php _e( 'Bcash standard works by sending the user to Bcash to enter their payment information.', 'wcbcash' ); ?></p>
-            <table class="form-table">
-            <?php
-                if ( !$this->is_valid_for_use() ) {
+            echo '<h3>' . __( 'Bcash standard', 'wcbcash' ) . '</h3>';
+            echo '<p>' . __( 'Bcash standard works by sending the user to Bcash to enter their payment information.', 'wcbcash' ) . '</p>';
 
-                    // Valid currency.
-                    echo '<div class="inline error"><p><strong>' . __( 'Gateway Disabled', 'wcbcash' ) . '</strong>: ' . __( 'Bcash does not support your store currency.', 'wcbcash' ) . '</p></div>';
+            if ( ! $this->is_valid_for_use() ) {
 
-                } else {
+                // Valid currency.
+                echo '<div class="inline error"><p><strong>' . __( 'Gateway Disabled', 'wcbcash' ) . '</strong>: ' . __( 'Bcash does not support your store currency.', 'wcbcash' ) . '</p></div>';
 
-                    // Generate the HTML For the settings form.
-                    $this->generate_settings_html();
-                }
-            ?>
-            </table><!--/.form-table-->
-            <?php
+            } else {
+
+                // Generate the HTML For the settings form.
+                echo '<table class="form-table">';
+                $this->generate_settings_html();
+                echo '</table>';
+            }
         }
 
         /**
@@ -328,7 +327,7 @@ function wcbcash_gateway_load() {
 
             $args = $this->get_form_args( $order );
 
-            if ( $this->debug == 'yes' ) {
+            if ( 'yes' == $this->debug ) {
                 $this->log->add( 'bcash', 'Payment arguments for order #' . $order_id . ': ' . print_r( $args, true ) );
             }
 
@@ -404,7 +403,7 @@ function wcbcash_gateway_load() {
          */
         public function check_ipn_request_is_valid() {
 
-            if ( $this->debug == 'yes') {
+            if ( 'yes' == $this->debug) {
                 $this->log->add( 'bcash', 'Checking IPN request...' );
             }
 
@@ -428,20 +427,20 @@ function wcbcash_gateway_load() {
             // Post back to get a response.
             $response = wp_remote_post( $this->ipn_url, $params );
 
-            if ( $this->debug == 'yes' ) {
+            if ( 'yes' == $this->debug ) {
                 $this->log->add( 'bcash', 'IPN Response: ' . print_r( $response, true ) );
             }
 
             // Check to see if the request was valid.
-            if ( !is_wp_error( $response ) && $response['response']['code'] >= 200 && $response['response']['code'] < 300 && ( strcmp( $response['body'], 'VERIFICADO' ) == 0 ) ) {
+            if ( ! is_wp_error( $response ) && $response['response']['code'] >= 200 && $response['response']['code'] < 300 && ( strcmp( $response['body'], 'VERIFICADO' ) == 0 ) ) {
 
-                if ( $this->debug == 'yes' ) {
+                if ( 'yes' == $this->debug ) {
                     $this->log->add( 'bcash', 'Received valid IPN response from Bcash' );
                 }
 
                 return true;
             } else {
-                if ( $this->debug == 'yes' ) {
+                if ( 'yes' == $this->debug ) {
                     $this->log->add( 'bcash', 'Received invalid IPN response from Bcash' );
                 }
             }
@@ -458,7 +457,7 @@ function wcbcash_gateway_load() {
 
             if ( isset( $_POST['id_pedido'] ) ) {
 
-                if ( !empty( $this->token ) ) {
+                if ( ! empty( $this->token ) ) {
 
                     @ob_clean();
 
@@ -483,7 +482,7 @@ function wcbcash_gateway_load() {
          */
         public function successful_request( $posted ) {
 
-            if ( !empty( $posted['id_pedido'] ) ) {
+            if ( ! empty( $posted['id_pedido'] ) ) {
                 $order_key = $posted['id_pedido'];
                 $order_id = (int) str_replace( $this->invoice_prefix, '', $order_key );
 
@@ -493,7 +492,7 @@ function wcbcash_gateway_load() {
                 // If true processes the payment.
                 if ( $order->id === $order_id ) {
 
-                    if ( $this->debug == 'yes' ) {
+                    if ( 'yes' == $this->debug ) {
                         $this->log->add( 'bcash', 'Payment status from order #' . $order->id . ': ' . $posted['status'] );
                     }
 
@@ -505,28 +504,28 @@ function wcbcash_gateway_load() {
                         case '1':
 
                             // Order details.
-                            if ( !empty( $posted['id_transacao'] ) ) {
+                            if ( ! empty( $posted['id_transacao'] ) ) {
                                 update_post_meta(
                                     $order_id,
                                     __( 'Bcash Transaction ID', 'wcbcash' ),
                                     $posted['id_transacao']
                                 );
                             }
-                            if ( !empty( $posted['cliente_email'] ) ) {
+                            if ( ! empty( $posted['cliente_email'] ) ) {
                                 update_post_meta(
                                     $order_id,
                                     __( 'Payer email', 'wcbcash' ),
                                     $posted['cliente_email']
                                 );
                             }
-                            if ( !empty( $posted['cliente_nome'] ) ) {
+                            if ( ! empty( $posted['cliente_nome'] ) ) {
                                 update_post_meta(
                                     $order_id,
                                     __( 'Payer name', 'wcbcash' ),
                                     $posted['cliente_nome']
                                 );
                             }
-                            if ( !empty( $posted['tipo_pagamento'] ) ) {
+                            if ( ! empty( $posted['tipo_pagamento'] ) ) {
                                 update_post_meta(
                                     $order_id,
                                     __( 'Payment type', 'wcbcash' ),
@@ -558,11 +557,11 @@ function wcbcash_gateway_load() {
          * @return string Error Mensage.
          */
         public function mail_missing_message() {
-            $message = '<div class="error">';
-                $message .= '<p>' . sprintf( __( '<strong>Gateway Disabled</strong> You should inform your email address in Bcash. %sClick here to configure!%s' , 'wcbcash' ), '<a href="' . get_admin_url() . 'admin.php?page=woocommerce_settings&amp;tab=payment_gateways">', '</a>' ) . '</p>';
-            $message .= '</div>';
+            $html = '<div class="error">';
+                $html .= '<p>' . sprintf( __( '<strong>Gateway Disabled</strong> You should inform your email address in Bcash. %sClick here to configure!%s', 'wcbcash' ), '<a href="' . get_admin_url() . 'admin.php?page=woocommerce_settings&amp;tab=payment_gateways">', '</a>' ) . '</p>';
+            $html .= '</div>';
 
-            echo $message;
+            echo $html;
         }
 
         /**
@@ -571,11 +570,11 @@ function wcbcash_gateway_load() {
          * @return string Error Mensage.
          */
         public function token_missing_message() {
-            $message = '<div class="error">';
-                $message .= '<p>' .sprintf( __( '<strong>Gateway Disabled</strong> You should inform your token in Bcash. %sClick here to configure!%s' , 'wcbcash' ), '<a href="' . get_admin_url() . 'admin.php?page=woocommerce_settings&amp;tab=payment_gateways">', '</a>' ) . '</p>';
-            $message .= '</div>';
+            $html = '<div class="error">';
+                $html .= '<p>' .sprintf( __( '<strong>Gateway Disabled</strong> You should inform your token in Bcash. %sClick here to configure!%s', 'wcbcash' ), '<a href="' . get_admin_url() . 'admin.php?page=woocommerce_settings&amp;tab=payment_gateways">', '</a>' ) . '</p>';
+            $html .= '</div>';
 
-            echo $message;
+            echo $html;
         }
 
         /**
