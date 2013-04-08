@@ -4,7 +4,7 @@ Donate link: http://claudiosmweb.com/doacoes/
 Tags: ecommerce, e-commerce, commerce, wordpress ecommerce, checkout, payment, payment gateway, bcash
 Requires at least: 3.0
 Tested up to: 3.5.1
-Stable tag: 1.3.3
+Stable tag: 1.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -132,6 +132,10 @@ Entre em contato [clicando aqui](http://claudiosmweb.com/plugins/bcash-para-wooc
 2. Checkout page.
 
 == Changelog ==
+
+= 1.4 - 08/04/2013 =
+
+* Correção do retorno automático de dados na versão 2.0.0 ou superior do WooCommerce.
 
 = 1.3.3 - 06/03/2013 =
 
