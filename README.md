@@ -18,6 +18,10 @@ This plugin adds Bcash gateway to WooCommerce.
 
 Please notice that WooCommerce must be installed and active.
 
+### Contribute ###
+
+You can contribute to the source code in our [GitHub](https://github.com/claudiosmweb/woocommerce-bcash) page.
+
 ### Descrição em Português: ###
 
 Adicione o Bcash como método de pagamento em sua loja WooCommerce.
@@ -39,6 +43,10 @@ Você pode esclarecer suas dúvidas usando:
 * A nossa sessão de [FAQ](http://wordpress.org/extend/plugins/woocommerce-bcash/faq/).
 * Criando um tópico no [fórum de ajuda do WordPress](http://wordpress.org/support/plugin/woocommerce-bcash) (apenas em inglês).
 * Ou entre em contato com os desenvolvedores do plugin em nossa [página](http://claudiosmweb.com/plugins/bcash-para-woocommerce/).
+
+### Coloborar ###
+
+Você pode contribuir com código-fonte em nossa página no [GitHub](https://github.com/claudiosmweb/woocommerce-bcash).
 
 ## Installation ##
 
