@@ -15,11 +15,7 @@
  * WooCommerce fallback notice.
  */
 function wcbcash_woocommerce_fallback_notice() {
-    $html = '<div class="error">';
-        $html .= '<p>' . __( 'WooCommerce Bcash Gateway depends on the last version of <a href="http://wordpress.org/extend/plugins/woocommerce/">WooCommerce</a> to work!', 'wcbcash' ) . '</p>';
-    $html .= '</div>';
-
-    echo $html;
+    echo '<div class="error"><p>' . sprintf( __( 'WooCommerce Bcash Gateway depends on the last version of %s to work!', 'wcbcash' ), '<a href="http://wordpress.org/extend/plugins/woocommerce/">WooCommerce</a>' ) . '</p></div>';
 }
 
 /**
@@ -553,11 +549,7 @@ function wcbcash_gateway_load() {
          * @return string Error Mensage.
          */
         public function mail_missing_message() {
-            $html = '<div class="error">';
-                $html .= '<p>' . sprintf( __( '<strong>Gateway Disabled</strong> You should inform your email address in Bcash. %sClick here to configure!%s', 'wcbcash' ), '<a href="' . get_admin_url() . 'admin.php?page=woocommerce_settings&amp;tab=payment_gateways">', '</a>' ) . '</p>';
-            $html .= '</div>';
-
-            echo $html;
+            echo '<div class="error"><p>' . sprintf( __( '<strong>Gateway Disabled</strong> You should inform your email address in Bcash. %sClick here to configure!%s', 'wcbcash' ), '<a href="' . get_admin_url() . 'admin.php?page=woocommerce_settings&amp;tab=payment_gateways">', '</a>' ) . '</p></div>';
         }
 
         /**
@@ -566,11 +558,7 @@ function wcbcash_gateway_load() {
          * @return string Error Mensage.
          */
         public function token_missing_message() {
-            $html = '<div class="error">';
-                $html .= '<p>' .sprintf( __( '<strong>Gateway Disabled</strong> You should inform your token in Bcash. %sClick here to configure!%s', 'wcbcash' ), '<a href="' . get_admin_url() . 'admin.php?page=woocommerce_settings&amp;tab=payment_gateways">', '</a>' ) . '</p>';
-            $html .= '</div>';
-
-            echo $html;
+            echo '<div class="error"><p>' .sprintf( __( '<strong>Gateway Disabled</strong> You should inform your token in Bcash. %sClick here to configure!%s', 'wcbcash' ), '<a href="' . get_admin_url() . 'admin.php?page=woocommerce_settings&amp;tab=payment_gateways">', '</a>' ) . '</p></div>';
         }
 
         /**
