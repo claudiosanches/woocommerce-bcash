@@ -549,7 +549,7 @@ function wcbcash_gateway_load() {
          * @return string Error Mensage.
          */
         public function mail_missing_message() {
-            echo '<div class="error"><p>' . sprintf( __( '<strong>Gateway Disabled</strong> You should inform your email address in Bcash. %sClick here to configure!%s', 'wcbcash' ), '<a href="' . get_admin_url() . 'admin.php?page=woocommerce_settings&amp;tab=payment_gateways">', '</a>' ) . '</p></div>';
+            echo '<div class="error"><p>' . sprintf( __( '<strong>Bcash Disabled</strong> You should inform your email address. %sClick here to configure!%s', 'wcbcash' ), '<a href="' . get_admin_url( 'admin.php?page=woocommerce_settings&tab=payment_gateways&section=WC_BCash_Gateway' ) . '">', '</a>' ) . '</p></div>';
         }
 
         /**
@@ -558,7 +558,7 @@ function wcbcash_gateway_load() {
          * @return string Error Mensage.
          */
         public function token_missing_message() {
-            echo '<div class="error"><p>' .sprintf( __( '<strong>Gateway Disabled</strong> You should inform your token in Bcash. %sClick here to configure!%s', 'wcbcash' ), '<a href="' . get_admin_url() . 'admin.php?page=woocommerce_settings&amp;tab=payment_gateways">', '</a>' ) . '</p></div>';
+            echo '<div class="error"><p>' . sprintf( __( '<strong>Bcash Disabled</strong> You should inform your token. %sClick here to configure!%s', 'wcbcash' ), '<a href="' . get_admin_url( 'admin.php?page=woocommerce_settings&tab=payment_gateways&section=WC_BCash_Gateway' ) . '">', '</a>' ) . '</p></div>';
         }
 
         /**
