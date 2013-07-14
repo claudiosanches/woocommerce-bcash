@@ -54,7 +54,7 @@ function wcbcash_gateway_load() {
     // Include the WC_BCash_Gateway class.
     require_once plugin_dir_path( __FILE__ ) . 'class-wc-bcash-gateway.php';
 
-} // function wcbcash_gateway_load.
+}
 
 /**
  * Adds support to legacy IPN.
@@ -72,6 +72,24 @@ function wcbcash_legacy_ipn() {
 }
 
 add_action( 'init', 'wcbcash_legacy_ipn' );
+
+/**
+ * Hides the Bcash with payment method with the customer lives outside Brazil
+ *
+ * @param  array $available_gateways Default Available Gateways.
+ *
+ * @return array                     New Available Gateways.
+ */
+function wcbcash_hides_when_is_outside_brazil( $available_gateways ) {
+
+    // Remove standard shipping option.
+    if ( isset( $_REQUEST['country'] ) && $_REQUEST['country'] != 'BR' )
+        unset( $available_gateways['bcash'] );
+
+    return $available_gateways;
+}
+
+add_filter( 'woocommerce_available_payment_gateways', 'wcbcash_hides_when_is_outside_brazil' );
 
 /**
  * Adds custom settings url in plugins page.

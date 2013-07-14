@@ -55,9 +55,6 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
         if ( empty( $this->token ) )
             add_action( 'admin_notices', array( &$this, 'token_missing_message' ) );
 
-        // Filters.
-        add_filter( 'woocommerce_available_payment_gateways', array( &$this, 'hides_when_is_outside_brazil' ) );
-
         // Active logs.
         if ( 'yes' == $this->debug )
             $this->log = $woocommerce->logger();
@@ -492,22 +489,6 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
      */
     public function token_missing_message() {
         echo '<div class="error"><p>' . sprintf( __( '<strong>Bcash Disabled</strong> You should inform your token. %sClick here to configure!%s', 'wcbcash' ), '<a href="' . get_admin_url( 'admin.php?page=woocommerce_settings&tab=payment_gateways&section=WC_BCash_Gateway' ) . '">', '</a>' ) . '</p></div>';
-    }
-
-    /**
-     * Hides the Bcash with payment method with the customer lives outside Brazil
-     *
-     * @param  array $available_gateways Default Available Gateways.
-     *
-     * @return array                     New Available Gateways.
-     */
-    function hides_when_is_outside_brazil( $available_gateways ) {
-
-        // Remove standard shipping option.
-        if ( isset( $_REQUEST['country'] ) && $_REQUEST['country'] != 'BR' )
-            unset( $available_gateways['bcash'] );
-
-        return $available_gateways;
     }
 
 }
