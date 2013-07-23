@@ -112,6 +112,7 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
                 'title' => __( 'Title', 'wcbcash' ),
                 'type' => 'text',
                 'description' => __( 'This controls the title which the user sees during checkout.', 'wcbcash' ),
+                'desc_tip' => true,
                 'default' => __( 'Bcash', 'wcbcash' )
             ),
             'description' => array(
@@ -124,18 +125,21 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
                 'title' => __( 'Bcash Email', 'wcbcash' ),
                 'type' => 'text',
                 'description' => __( 'Please enter your Bcash email address; this is needed in order to take payment.', 'wcbcash' ),
+                'desc_tip' => true,
                 'default' => ''
             ),
             'token' => array(
                 'title' => __( 'Bcash Token', 'wcbcash' ),
                 'type' => 'text',
                 'description' => __( 'Please enter your Bcash token; is necessary to process the payment and notifications.', 'wcbcash' ),
+                'desc_tip' => true,
                 'default' => ''
             ),
             'invoice_prefix' => array(
                 'title' => __( 'Invoice Prefix', 'wcbcash' ),
                 'type' => 'text',
                 'description' => __( 'Please enter a prefix for your invoice numbers. If you use your Bcash account for multiple stores ensure this prefix is unqiue as Bcash will not allow orders with the same invoice number.', 'wcbcash' ),
+                'desc_tip' => true,
                 'default' => 'WC-'
             ),
             'testing' => array(
@@ -148,7 +152,7 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
                 'type' => 'checkbox',
                 'label' => __( 'Enable logging', 'wcbcash' ),
                 'default' => 'no',
-                'description' => __( 'Log Bcash events, such as API requests, inside <code>woocommerce/logs/bcash.txt</code>', 'wcbcash' ),
+                'description' => sprintf( __( 'Log Bcash events, such as API requests, inside %s', 'wcbcash' ), '<code>woocommerce/logs/moip' . sanitize_file_name( wp_hash( 'bcash' ) ) . '.txt</code>' ),
             )
         );
 
