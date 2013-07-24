@@ -17,9 +17,11 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
         $this->id             = 'bcash';
         $this->icon           = apply_filters( 'woocommerce_bcash_icon', plugins_url( 'images/bcash.png', __FILE__ ) );
         $this->has_fields     = false;
+        $this->method_title   = __( 'Bcash', 'wcbcash' );
+
+        // API Urls.
         $this->payment_url    = 'https://www.bcash.com.br/checkout/pay/';
         $this->ipn_url        = 'https://www.bcash.com.br/checkout/verify/';
-        $this->method_title   = __( 'Bcash', 'wcbcash' );
 
         // Load the form fields.
         $this->init_form_fields();
@@ -249,7 +251,7 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
             }
         }
 
-        $args = apply_filters( 'woocommerce_bcash_args', $args );
+        $args = apply_filters( 'woocommerce_bcash_args', $args, $order );
 
         return $args;
     }
