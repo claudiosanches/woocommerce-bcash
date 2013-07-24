@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: WooCommerce Bcash
- * Plugin URI: http://claudiosmweb.com/plugins/bcash-para-woocommerce/
+ * Plugin URI: https://github.com/claudiosmweb/woocommerce-bcash
  * Description: Gateway de pagamento Bcash para WooCommerce.
  * Author: claudiosanches
  * Author URI: http://claudiosmweb.com/
- * Version: 1.4
+ * Version: 1.5.0
  * License: GPLv2 or later
  * Text Domain: wcbcash
  * Domain Path: /languages/
@@ -21,8 +21,6 @@ function wcbcash_woocommerce_fallback_notice() {
 /**
  * Load functions.
  */
-add_action( 'plugins_loaded', 'wcbcash_gateway_load', 0 );
-
 function wcbcash_gateway_load() {
 
     if ( ! class_exists( 'WC_Payment_Gateway' ) ) {
@@ -53,8 +51,9 @@ function wcbcash_gateway_load() {
 
     // Include the WC_BCash_Gateway class.
     require_once plugin_dir_path( __FILE__ ) . 'class-wc-bcash-gateway.php';
-
 }
+
+add_action( 'plugins_loaded', 'wcbcash_gateway_load', 0 );
 
 /**
  * Adds support to legacy IPN.
