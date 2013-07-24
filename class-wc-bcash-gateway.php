@@ -218,7 +218,7 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
             'redirect_time'    => '0',
 
             // Notification url.
-            'url_aviso'        => home_url(),
+            'url_aviso'        => home_url( '/?wc-api=WC_BCash_Gateway' ),
 
             // Others fields.
             //'parcela_maxima'
