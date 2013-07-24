@@ -269,7 +269,7 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
         $args = $this->get_form_args( $order );
 
         if ( 'yes' == $this->debug )
-            $this->log->add( 'bcash', 'Payment arguments for order #' . $order_id . ': ' . print_r( $args, true ) );
+            $this->log->add( 'bcash', 'Payment arguments for order ' . $order->get_order_number() . ': ' . print_r( $args, true ) );
 
         $args_array = array();
 
@@ -450,7 +450,7 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
             if ( $order->id === $order_id ) {
 
                 if ( 'yes' == $this->debug )
-                    $this->log->add( 'bcash', 'Payment status from order #' . $order->id . ': ' . $posted['status'] );
+                    $this->log->add( 'bcash', 'Payment status from order ' . $order->get_order_number() . ': ' . $posted['status'] );
 
                 switch ( $posted['cod_status'] ) {
                     case '0':
