@@ -82,13 +82,10 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
         echo '<h3>' . __( 'Bcash standard', 'wcbcash' ) . '</h3>';
         echo '<p>' . __( 'Bcash standard works by sending the user to Bcash to enter their payment information.', 'wcbcash' ) . '</p>';
 
+        // Checks if is valid for use.
         if ( ! $this->is_valid_for_use() ) {
-
-            // Valid currency.
-            echo '<div class="inline error"><p><strong>' . __( 'Gateway Disabled', 'wcbcash' ) . '</strong>: ' . __( 'Bcash does not support your store currency.', 'wcbcash' ) . '</p></div>';
-
+            echo '<div class="inline error"><p><strong>' . __( 'Bcash Disabled', 'wcbcash' ) . '</strong>: ' . __( 'Works only with Brazilian Real.', 'wcbcash' ) . '</p></div>';
         } else {
-
             // Generate the HTML For the settings form.
             echo '<table class="form-table">';
             $this->generate_settings_html();
@@ -515,7 +512,7 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
      * @return string Error Mensage.
      */
     public function mail_missing_message() {
-        echo '<div class="error"><p>' . sprintf( __( '<strong>Bcash Disabled</strong> You should inform your email address. %sClick here to configure!%s', 'wcbcash' ), '<a href="' . admin_url( 'admin.php?page=woocommerce_settings&tab=payment_gateways&section=WC_BCash_Gateway' ) . '">', '</a>' ) . '</p></div>';
+        echo '<div class="error"><p><strong>' . __( 'Bcash Disabled', 'wcbcash' ) . '</strong>: ' . sprintf( __( 'You should inform your email address. %s', 'wcbcash' ), '<a href="' . admin_url( 'admin.php?page=woocommerce_settings&tab=payment_gateways&section=WC_BCash_Gateway' ) . '">' . __( 'Click here to configure!', 'wcbcash' ) . '</a>' ) . '</p></div>';
     }
 
     /**
@@ -524,7 +521,7 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
      * @return string Error Mensage.
      */
     public function token_missing_message() {
-        echo '<div class="error"><p>' . sprintf( __( '<strong>Bcash Disabled</strong> You should inform your token. %sClick here to configure!%s', 'wcbcash' ), '<a href="' . admin_url( 'admin.php?page=woocommerce_settings&tab=payment_gateways&section=WC_BCash_Gateway' ) . '">', '</a>' ) . '</p></div>';
+        echo '<div class="error"><p><strong>' . __( 'Bcash Disabled', 'wcbcash' ) . '</strong>: ' . sprintf( __( 'You should inform your token. %s', 'wcbcash' ), '<a href="' . admin_url( 'admin.php?page=woocommerce_settings&tab=payment_gateways&section=WC_BCash_Gateway' ) . '">' . __( 'Click here to configure!', 'wcbcash' ) . '</a>' ) . '</p></div>';
     }
 
 }
