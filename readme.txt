@@ -4,7 +4,7 @@ Donate link: http://claudiosmweb.com/doacoes/
 Tags: ecommerce, e-commerce, commerce, woocommerce, checkout, payment, bcash
 Requires at least: 3.0
 Tested up to: 3.6
-Stable tag: 1.5.0
+Stable tag: 1.6.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -153,6 +153,11 @@ Entre em contato [clicando aqui](http://claudiosmweb.com/plugins/bcash-para-wooc
 
 == Changelog ==
 
+= 1.6.0 - 26/07/2013 =
+
+* Melhoria nas mensagens de status do pedido.
+* Melhoria no código do plugin.
+
 = 1.5.0 - 24/07/2013 =
 
 * Adicionado link de `Configurações` na página de plugins.
@@ -200,12 +205,10 @@ Entre em contato [clicando aqui](http://claudiosmweb.com/plugins/bcash-para-wooc
 
 == Upgrade Notice ==
 
-= 1.5.0 =
+= 1.6.0 =
 
-* Adicionado link de `Configurações` na página de plugins.
-* Melhorias no código.
-* Adicionado suporte para WooCommerce 2.1.
-* Adicionado objeto do pedido no filtro `woocommerce_bcash_args`.
+* Melhoria nas mensagens de status do pedido.
+* Melhoria no código do plugin.
 
 == License ==
 
