@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: WooCommerce Bcash v1.5.0\n"
+"Project-Id-Version: WooCommerce Bcash v1.6.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2013-07-24 21:05:54+0000\n"
+"PO-Revision-Date: 2013-07-26 19:37:27+0000\n"
 "Last-Translator: Claudio Sanches <contato@claudiosmweb.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -26,65 +26,55 @@ msgstr ""
 msgid "claudiosanches"
 msgstr "claudiosanches"
 
-#: class-wc-bcash-gateway.php:88
-#@ wcbcash
-msgid "Gateway Disabled"
-msgstr "Gateway desabilitado"
-
-#: class-wc-bcash-gateway.php:108
+#: class-wc-bcash-gateway.php:105
 #@ wcbcash
 msgid "Enable/Disable"
 msgstr "Habilita/Desabilita"
 
-#: class-wc-bcash-gateway.php:114
+#: class-wc-bcash-gateway.php:111
 #@ wcbcash
 msgid "Title"
 msgstr "Título"
 
-#: class-wc-bcash-gateway.php:116
+#: class-wc-bcash-gateway.php:113
 #@ wcbcash
 msgid "This controls the title which the user sees during checkout."
 msgstr "Isto controla o título que o usuário vê durante o checkout."
 
-#: class-wc-bcash-gateway.php:121
+#: class-wc-bcash-gateway.php:118
 #@ wcbcash
 msgid "Description"
 msgstr "Descrição"
 
-#: class-wc-bcash-gateway.php:123
+#: class-wc-bcash-gateway.php:120
 #@ wcbcash
 msgid "This controls the description which the user sees during checkout."
 msgstr "Isso controla a descrição que o usuário vê durante o checkout."
 
-#: class-wc-bcash-gateway.php:141
+#: class-wc-bcash-gateway.php:138
 #@ wcbcash
 msgid "Invoice Prefix"
 msgstr "Prefixo de pedido"
 
-#: class-wc-bcash-gateway.php:330
+#: class-wc-bcash-gateway.php:327
 #@ wcbcash
 msgid "Cancel order &amp; restore cart"
 msgstr "Cancelar pedido e restaurar carrinho"
 
-#: class-wc-bcash-gateway.php:475
+#: class-wc-bcash-gateway.php:472
 #@ wcbcash
 msgid "Payer email"
 msgstr "E-mail do comprador"
 
-#: class-wc-bcash-gateway.php:482
+#: class-wc-bcash-gateway.php:479
 #@ wcbcash
 msgid "Payer name"
 msgstr "Nome do comprador"
 
-#: class-wc-bcash-gateway.php:489
+#: class-wc-bcash-gateway.php:486
 #@ wcbcash
 msgid "Payment type"
 msgstr "Tipo de pagamento"
-
-#: class-wc-bcash-gateway.php:495
-#@ wcbcash
-msgid "Payment completed."
-msgstr "Pagamento concluído."
 
 #. translators: plugin header field 'Name'
 #: wc-bcash.php:0
@@ -99,7 +89,7 @@ msgid "Gateway de pagamento Bcash para WooCommerce."
 msgstr "Gateway de pagamento Bcash para WooCommerce."
 
 #: class-wc-bcash-gateway.php:20
-#: class-wc-bcash-gateway.php:118
+#: class-wc-bcash-gateway.php:115
 #@ wcbcash
 msgid "Bcash"
 msgstr "Bcash"
@@ -114,84 +104,69 @@ msgstr "Bcash padrão"
 msgid "Bcash standard works by sending the user to Bcash to enter their payment information."
 msgstr "Bcash padrão funciona enviando o usuário para o site do Bcash, onde ele irá fazer o pagamento."
 
-#: class-wc-bcash-gateway.php:88
-#@ wcbcash
-msgid "Bcash does not support your store currency."
-msgstr "Bcash não suporta a moeda atual utilizada na sua loja."
-
-#: class-wc-bcash-gateway.php:110
+#: class-wc-bcash-gateway.php:107
 #@ wcbcash
 msgid "Enable Bcash standard"
 msgstr "Habilitar Bcash padrão"
 
-#: class-wc-bcash-gateway.php:124
-#: class-wc-bcash-gateway.php:330
+#: class-wc-bcash-gateway.php:121
+#: class-wc-bcash-gateway.php:327
 #@ wcbcash
 msgid "Pay via Bcash"
 msgstr "Pagar com Bcash"
 
-#: class-wc-bcash-gateway.php:127
+#: class-wc-bcash-gateway.php:124
 #@ wcbcash
 msgid "Bcash Email"
 msgstr "Email cadastrado no Bcash"
 
-#: class-wc-bcash-gateway.php:129
+#: class-wc-bcash-gateway.php:126
 #@ wcbcash
 msgid "Please enter your Bcash email address; this is needed in order to take payment."
 msgstr "Por favor digite o seu endereço de email do Bcash, que é necessário para receber o pagamento."
 
-#: class-wc-bcash-gateway.php:134
+#: class-wc-bcash-gateway.php:131
 #@ wcbcash
 msgid "Bcash Token"
 msgstr "Token do Bcash"
 
-#: class-wc-bcash-gateway.php:136
+#: class-wc-bcash-gateway.php:133
 #@ wcbcash
 msgid "Please enter your Bcash token; is necessary to process the payment and notifications."
 msgstr "Digite seu token do Bcash; é necessário para processar o pagamento e as notificações de status da compra."
 
-#: class-wc-bcash-gateway.php:143
+#: class-wc-bcash-gateway.php:140
 #@ wcbcash
 msgid "Please enter a prefix for your invoice numbers. If you use your Bcash account for multiple stores ensure this prefix is unqiue as Bcash will not allow orders with the same invoice number."
 msgstr "Por favor informe um prefixo para utilizar com os números de pedidos. Caso você utilize sua conta do Bcash em mais de uma loja, procure utilizar um prefixo único para cada loja."
 
-#: class-wc-bcash-gateway.php:284
-#: class-wc-bcash-gateway.php:307
-#@ wcpagseguro
+#: class-wc-bcash-gateway.php:281
+#: class-wc-bcash-gateway.php:304
+#@ wcbcash
 msgid "Thank you for your order. We are now redirecting you to Bcash to make payment."
 msgstr "Obrigado por fazer seu pedido. Agora estamos redirecionando você para o Bcash para efetuar o pagamento."
 
-#: class-wc-bcash-gateway.php:366
+#: class-wc-bcash-gateway.php:363
 #@ wcbcash
 msgid "Thank you for your order, please click the button below to pay with Bcash."
 msgstr "Obrigado por seu pedido, por favor clique no botão abaixo para pagar com Bcash."
 
-#: class-wc-bcash-gateway.php:459
-#@ wcbcash
-msgid "Payment under review by Bcash."
-msgstr "Pagamento em análise pelo Bcash."
-
-#: class-wc-bcash-gateway.php:468
+#: class-wc-bcash-gateway.php:465
 #@ wcbcash
 msgid "Bcash Transaction ID"
 msgstr "Bcash: ID da transação"
 
-#: class-wc-bcash-gateway.php:500
-#@ wcbcash
-msgid "Payment canceled by Bcash."
-msgstr "Pagamento cancelado pelo Bcash."
-
-#: class-wc-bcash-gateway.php:148
+#: class-wc-bcash-gateway.php:145
 #@ wcbcash
 msgid "Gateway Testing"
 msgstr "Teste de Gateway"
 
-#: class-wc-bcash-gateway.php:153
+#: class-wc-bcash-gateway.php:150
 #@ wcbcash
 msgid "Debug Log"
 msgstr "Log de depuração"
 
-#: class-wc-bcash-gateway.php:155
+#: class-wc-bcash-gateway.php:152
 #@ wcbcash
 msgid "Enable logging"
 msgstr "Habilitar log"
@@ -202,28 +177,16 @@ msgstr "Habilitar log"
 msgid "http://claudiosmweb.com/"
 msgstr "http://claudiosmweb.com/"
 
-#: class-wc-bcash-gateway.php:431
+#: class-wc-bcash-gateway.php:428
 #@ wcbcash
 msgid "Bcash Request Failure"
 msgstr "Bcash falha no pedido"
 
-#: class-wc-bcash-gateway.php:157
+#: class-wc-bcash-gateway.php:154
 #, php-format
 #@ wcbcash
 msgid "Log Bcash events, such as API requests, inside %s"
 msgstr "Registrar eventos do Bcash, tais como pedidos de API, dentro de %s"
-
-#: class-wc-bcash-gateway.php:518
-#, php-format
-#@ wcbcash
-msgid "<strong>Bcash Disabled</strong> You should inform your email address. %sClick here to configure!%s"
-msgstr "<strong>Bcash Desativado</strong> Você deve informar o seu endereço de e-mail. %sClique aqui para configurar!%s"
-
-#: class-wc-bcash-gateway.php:527
-#, php-format
-#@ wcbcash
-msgid "<strong>Bcash Disabled</strong> You should inform your token. %sClick here to configure!%s"
-msgstr "<strong>Bcash Desativado</strong> Você deve informar o seu token. %sClique aqui para configurar!%s"
 
 #. translators: plugin header field 'PluginURI'
 #: wc-bcash.php:0
@@ -231,20 +194,65 @@ msgstr "<strong>Bcash Desativado</strong> Você deve informar o seu token. %sCli
 msgid "https://github.com/claudiosmweb/woocommerce-bcash"
 msgstr "https://github.com/claudiosmweb/woocommerce-bcash"
 
-#. translators: plugin header field 'Version'
-#: wc-bcash.php:0
-#@ wcbcash
-msgid "1.5.0"
-msgstr "1.5.0"
-
 #: wc-bcash.php:18
 #, php-format
 #@ wcbcash
 msgid "WooCommerce Bcash Gateway depends on the last version of %s to work!"
 msgstr "WooCommerce Bcash Gateway depende da última versão do %s para funcionar!"
 
-#: wc-bcash.php:107
+#: wc-bcash.php:106
 #@ wcbcash
 msgid "Settings"
 msgstr "Configurações"
+
+#: class-wc-bcash-gateway.php:87
+#: class-wc-bcash-gateway.php:515
+#: class-wc-bcash-gateway.php:524
+#@ wcbcash
+msgid "Bcash Disabled"
+msgstr "Bcash Desabilitado"
+
+#: class-wc-bcash-gateway.php:87
+#@ wcbcash
+msgid "Works only with Brazilian Real."
+msgstr "Funciona apenas com Real Brasileiro."
+
+#: class-wc-bcash-gateway.php:456
+#@ wcbcash
+msgid "Bcash: Payment under review."
+msgstr "Bcash: Pagamento em análise."
+
+#: class-wc-bcash-gateway.php:492
+#@ wcbcash
+msgid "Bcash: Payment completed."
+msgstr "Bcash: Pagamento concluído."
+
+#: class-wc-bcash-gateway.php:497
+#@ wcbcash
+msgid "Bcash: Payment canceled."
+msgstr "Bcash: Pagamento cancelado."
+
+#: class-wc-bcash-gateway.php:515
+#, php-format
+#@ wcbcash
+msgid "You should inform your email address. %s"
+msgstr "Você deve informar o seu endereço de e-mail. %s"
+
+#: class-wc-bcash-gateway.php:515
+#: class-wc-bcash-gateway.php:524
+#@ wcbcash
+msgid "Click here to configure!"
+msgstr "Clique aqui para configurar!"
+
+#: class-wc-bcash-gateway.php:524
+#, php-format
+#@ wcbcash
+msgid "You should inform your token. %s"
+msgstr "Você deve informar o seu token. %s"
+
+#. translators: plugin header field 'Version'
+#: wc-bcash.php:0
+#@ wcbcash
+msgid "1.6.0"
+msgstr "1.6.0"
 

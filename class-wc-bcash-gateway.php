@@ -278,7 +278,7 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
         if ( version_compare( WOOCOMMERCE_VERSION, '2.1', '>=' ) ) {
             $woocommerce->get_helper( 'inline-javascript' )->add_inline_js( '
                 jQuery.blockUI({
-                        message: "' . esc_js( __( 'Thank you for your order. We are now redirecting you to Bcash to make payment.', 'wcpagseguro' ) ) . '",
+                        message: "' . esc_js( __( 'Thank you for your order. We are now redirecting you to Bcash to make payment.', 'wcbcash' ) ) . '",
                         baseZ: 99999,
                         overlayCSS:
                         {
@@ -301,7 +301,7 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
         } else {
             $woocommerce->add_inline_js( '
                 jQuery("body").block({
-                        message: "<img src=\"' . esc_url( $woocommerce->plugin_url() . '/assets/images/ajax-loader.gif' ) . '\" alt=\"Redirecting&hellip;\" style=\"float:left; margin-right: 10px;\" />' . __( 'Thank you for your order. We are now redirecting you to Bcash to make payment.', 'wcpagseguro' ) . '",
+                        message: "<img src=\"' . esc_url( $woocommerce->plugin_url() . '/assets/images/ajax-loader.gif' ) . '\" alt=\"Redirecting&hellip;\" style=\"float:left; margin-right: 10px;\" />' . __( 'Thank you for your order. We are now redirecting you to Bcash to make payment.', 'wcbcash' ) . '",
                         overlayCSS:
                         {
                             background: "#fff",
