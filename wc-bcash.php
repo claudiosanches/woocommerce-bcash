@@ -35,11 +35,11 @@ function wcbcash_gateway_load() {
     load_plugin_textdomain( 'wcbcash', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 
     /**
-     * Add the gateway.
+     * Add the gateway to WooCommerce.
      *
-     * @access public
-     * @param array $methods
-     * @return array
+     * @param  array $methods WooCommerce payment methods.
+     *
+     * @return array          Payment methods with Bcash.
      */
     add_filter( 'woocommerce_payment_gateways', 'wcbcash_add_gateway' );
 

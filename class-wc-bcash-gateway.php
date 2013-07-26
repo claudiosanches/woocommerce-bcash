@@ -19,7 +19,7 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
         $this->has_fields     = false;
         $this->method_title   = __( 'Bcash', 'wcbcash' );
 
-        // API Urls.
+        // API URLs.
         $this->payment_url    = 'https://www.bcash.com.br/checkout/pay/';
         $this->ipn_url        = 'https://www.bcash.com.br/checkout/verify/';
 
@@ -147,14 +147,14 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
             'testing' => array(
                 'title' => __( 'Gateway Testing', 'wcbcash' ),
                 'type' => 'title',
-                'description' => '',
+                'description' => ''
             ),
             'debug' => array(
                 'title' => __( 'Debug Log', 'wcbcash' ),
                 'type' => 'checkbox',
                 'label' => __( 'Enable logging', 'wcbcash' ),
                 'default' => 'no',
-                'description' => sprintf( __( 'Log Bcash events, such as API requests, inside %s', 'wcbcash' ), '<code>woocommerce/logs/' . sanitize_file_name( wp_hash( 'bcash' ) ) . '.txt</code>' ),
+                'description' => sprintf( __( 'Log Bcash events, such as API requests, inside %s', 'wcbcash' ), '<code>woocommerce/logs/' . sanitize_file_name( wp_hash( 'bcash' ) ) . '.txt</code>' )
             )
         );
 
@@ -369,7 +369,7 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
     }
 
     /**
-     * Check ipn.
+     * Check IPN.
      *
      * @return bool
      */
