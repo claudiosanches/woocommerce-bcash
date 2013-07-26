@@ -453,7 +453,7 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 
                 switch ( $posted['cod_status'] ) {
                     case '0':
-                        $order->update_status( 'on-hold', __( 'Payment under review by Bcash.', 'wcbcash' ) );
+                        $order->update_status( 'on-hold', __( 'Bcash: Payment under review.', 'wcbcash' ) );
 
                         break;
                     case '1':
@@ -489,12 +489,12 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
                         }
 
                         // Payment completed.
-                        $order->add_order_note( __( 'Payment completed.', 'wcbcash' ) );
+                        $order->add_order_note( __( 'Bcash: Payment completed.', 'wcbcash' ) );
                         $order->payment_complete();
 
                         break;
                     case '2':
-                        $order->update_status( 'cancelled', __( 'Payment canceled by Bcash.', 'wcbcash' ) );
+                        $order->update_status( 'cancelled', __( 'Bcash: Payment canceled.', 'wcbcash' ) );
 
                         break;
 
