@@ -154,7 +154,7 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
                 'type' => 'checkbox',
                 'label' => __( 'Enable logging', 'wcbcash' ),
                 'default' => 'no',
-                'description' => sprintf( __( 'Log Bcash events, such as API requests, inside %s', 'wcbcash' ), '<code>woocommerce/logs/' . sanitize_file_name( wp_hash( 'bcash' ) ) . '.txt</code>' )
+                'description' => sprintf( __( 'Log Bcash events, such as API requests, inside %s', 'wcbcash' ), '<code>woocommerce/logs/bcash-' . sanitize_file_name( wp_hash( 'bcash' ) ) . '.txt</code>' )
             )
         );
 
