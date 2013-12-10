@@ -67,13 +67,13 @@ Você pode contribuir com código-fonte em nossa página no [GitHub](https://git
 
 = Configurações no Bcash: =
 
-No Bcash você precisa apenas validar sua conta e gerar um **token** em "Ferramentas" > "Códigos de Integração".
+No Bcash você precisa apenas validar sua conta e gerar um **Chave acesso** em "Ferramentas" > "Códigos de Integração".
 
 = Configurações do Plugin: =
 
 Com o plugin instalado acesse o admin do WordPress e entre em "WooCommerce" > "Configurações" > "Portais de pagamento"  > "Bcash".
 
-Habilite o Bcash, adicione o seu e-mail e o token (utilizado para validar o retorno automático de dados).
+Habilite o Bcash, adicione o seu e-mail e a Chave acesso (utilizado para validar o retorno automático de dados).
 
 = Configurações no WooCommerce =
 
@@ -94,7 +94,8 @@ Pronto, sua loja já pode receber pagamentos pelo Bcash.
 = What is needed to use this plugin? =
 
 * WooCommerce installed and active
-* Only one account on [Bcash](http://www.bcash.com.br/ "Bcash").
+* Have a account on [Bcash](http://www.bcash.com.br/).
+* Generates a **Access key** in Bcash.
 
 ### FAQ em Português: ###
 
@@ -105,8 +106,8 @@ Este plugin esta licenciado como GPL.
 = O que eu preciso para utilizar este plugin? =
 
 * Ter instalado o plugin WooCommerce.
-* Possuir uma conta no Bcash.
-* Gerar um token de segurança no Bcash.
+* Possuir uma conta no [Bcash](http://www.bcash.com.br/).
+* Gerar uma **Chave acesso** no Bcash.
 
 = Como funciona o Bcash? =
 

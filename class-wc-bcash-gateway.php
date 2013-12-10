@@ -128,9 +128,9 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
                 'default' => ''
             ),
             'token' => array(
-                'title' => __( 'Bcash Token', 'wcbcash' ),
+                'title' => __( 'Bcash Access Key', 'wcbcash' ),
                 'type' => 'text',
-                'description' => __( 'Please enter your Bcash token; is necessary to process the payment and notifications.', 'wcbcash' ),
+                'description' => __( 'Please enter your Bcash Access Key; is necessary to process the payment and notifications.', 'wcbcash' ),
                 'desc_tip' => true,
                 'default' => ''
             ),
@@ -519,7 +519,7 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
      * @return string Error Mensage.
      */
     public function token_missing_message() {
-        echo '<div class="error"><p><strong>' . __( 'Bcash Disabled', 'wcbcash' ) . '</strong>: ' . sprintf( __( 'You should inform your token. %s', 'wcbcash' ), '<a href="' . admin_url( 'admin.php?page=woocommerce_settings&tab=payment_gateways&section=WC_BCash_Gateway' ) . '">' . __( 'Click here to configure!', 'wcbcash' ) . '</a>' ) . '</p></div>';
+        echo '<div class="error"><p><strong>' . __( 'Bcash Disabled', 'wcbcash' ) . '</strong>: ' . sprintf( __( 'You should inform your access key. %s', 'wcbcash' ), '<a href="' . admin_url( 'admin.php?page=woocommerce_settings&tab=payment_gateways&section=WC_BCash_Gateway' ) . '">' . __( 'Click here to configure!', 'wcbcash' ) . '</a>' ) . '</p></div>';
     }
 
 }
