@@ -38,28 +38,28 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 		$this->debug          = $this->settings['debug'];
 
 		// Actions.
-		add_action( 'woocommerce_api_wc_bcash_gateway', array( &$this, 'check_ipn_response' ) );
-		add_action( 'valid_bcash_ipn_request', array( &$this, 'successful_request' ) );
-		add_action( 'woocommerce_receipt_bcash', array( &$this, 'receipt_page' ) );
-		if ( version_compare( WOOCOMMERCE_VERSION, '2.0.0', '>=' ) )
-			add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( &$this, 'process_admin_options' ) );
-		else
-			add_action( 'woocommerce_update_options_payment_gateways', array( &$this, 'process_admin_options' ) );
+		add_action( 'woocommerce_api_wc_bcash_gateway', array( $this, 'check_ipn_response' ) );
+		add_action( 'valid_bcash_ipn_request', array( $this, 'successful_request' ) );
+		add_action( 'woocommerce_receipt_bcash', array( $this, 'receipt_page' ) );
+		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
 
 		// Valid for use.
 		$this->enabled = ( 'yes' == $this->settings['enabled'] ) && ! empty( $this->email ) && ! empty( $this->token ) && $this->is_valid_for_use();
 
 		// Checks if email is not empty.
-		if ( empty( $this->email ) )
+		if ( empty( $this->email ) ) {
 			add_action( 'admin_notices', array( &$this, 'mail_missing_message' ) );
+		}
 
 		// Checks if token is not empty.
-		if ( empty( $this->token ) )
+		if ( empty( $this->token ) ) {
 			add_action( 'admin_notices', array( &$this, 'token_missing_message' ) );
+		}
 
 		// Active logs.
-		if ( 'yes' == $this->debug )
+		if ( 'yes' == $this->debug ) {
 			$this->log = $woocommerce->logger();
+		}
 	}
 
 	/**
@@ -68,8 +68,9 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 	 * @return bool
 	 */
 	public function is_valid_for_use() {
-		if ( ! in_array( get_woocommerce_currency(), array( 'BRL' ) ) )
+		if ( ! in_array( get_woocommerce_currency(), array( 'BRL' ) ) ) {
 			return false;
+		}
 
 		return true;
 	}
@@ -236,8 +237,9 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 					$item_name  = $item['name'];
 
 					$item_meta = new WC_Order_Item_Meta( $item['item_meta'] );
-					if ( $meta = $item_meta->display( true, true ) )
+					if ( $meta = $item_meta->display( true, true ) ) {
 						$item_name .= ' (' . $meta . ')';
+					}
 
 					$args['produto_codigo_' . $item_loop]    = $item_loop;
 					$args['produto_descricao_' . $item_loop] = sanitize_text_field( $item_name );
@@ -267,13 +269,15 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 
 		$args = $this->get_form_args( $order );
 
-		if ( 'yes' == $this->debug )
+		if ( 'yes' == $this->debug ) {
 			$this->log->add( 'bcash', 'Payment arguments for order ' . $order->get_order_number() . ': ' . print_r( $args, true ) );
+		}
 
 		$args_array = array();
 
-		foreach ( $args as $key => $value )
+		foreach ( $args as $key => $value ) {
 			$args_array[] = '<input type="hidden" name="' . esc_attr( $key ) . '" value="' . esc_attr( $value ) . '" />';
+		}
 
 		if ( version_compare( WOOCOMMERCE_VERSION, '2.1', '>=' ) ) {
 			$woocommerce->get_helper( 'inline-javascript' )->add_inline_js( '
@@ -370,8 +374,9 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 	 */
 	public function check_ipn_request_is_valid() {
 
-		if ( 'yes' == $this->debug )
+		if ( 'yes' == $this->debug ) {
 			$this->log->add( 'bcash', 'Checking IPN request...' );
+		}
 
 		// Get recieved values from post data.
 		$received_values = (array) stripslashes_deep( $_POST );
@@ -393,19 +398,22 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 		// Post back to get a response.
 		$response = wp_remote_post( $this->ipn_url, $params );
 
-		if ( 'yes' == $this->debug )
+		if ( 'yes' == $this->debug ) {
 			$this->log->add( 'bcash', 'IPN Response: ' . print_r( $response, true ) );
+		}
 
 		// Check to see if the request was valid.
 		if ( ! is_wp_error( $response ) && $response['response']['code'] >= 200 && $response['response']['code'] < 300 && ( strcmp( $response['body'], 'VERIFICADO' ) == 0 ) ) {
 
-			if ( 'yes' == $this->debug )
+			if ( 'yes' == $this->debug ) {
 				$this->log->add( 'bcash', 'Received valid IPN response from Bcash' );
+			}
 
 			return true;
 		} else {
-			if ( 'yes' == $this->debug )
+			if ( 'yes' == $this->debug ) {
 				$this->log->add( 'bcash', 'Received invalid IPN response from Bcash' );
+			}
 		}
 
 		return false;
@@ -446,8 +454,9 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 			// If true processes the payment.
 			if ( $order->id === $order_id ) {
 
-				if ( 'yes' == $this->debug )
+				if ( 'yes' == $this->debug ) {
 					$this->log->add( 'bcash', 'Payment status from order ' . $order->get_order_number() . ': ' . $posted['status'] );
+				}
 
 				switch ( $posted['cod_status'] ) {
 					case '0':
