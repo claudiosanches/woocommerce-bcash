@@ -50,7 +50,7 @@ function wcbcash_gateway_load() {
 	}
 
 	// Include the WC_BCash_Gateway class.
-	require_once plugin_dir_path( __FILE__ ) . 'class-wc-bcash-gateway.php';
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-wc-bcash-gateway.php';
 }
 
 add_action( 'plugins_loaded', 'wcbcash_gateway_load', 0 );
