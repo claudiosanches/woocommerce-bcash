@@ -12,10 +12,10 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 	 * @return void
 	 */
 	public function __construct() {
-		global $woocommerce;
 
+		// Standards
 		$this->id             = 'bcash';
-		$this->icon           = apply_filters( 'woocommerce_bcash_icon', plugins_url( 'images/bcash.png', __FILE__ ) );
+		$this->icon           = apply_filters( 'woocommerce_bcash_icon', plugins_url( 'images/bcash.png', plugin_dir_path( __FILE__ ) ) );
 		$this->has_fields     = false;
 		$this->method_title   = __( 'Bcash', 'woocommerce-bcash' );
 
@@ -23,19 +23,17 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 		$this->payment_url    = 'https://www.bcash.com.br/checkout/pay/';
 		$this->ipn_url        = 'https://www.bcash.com.br/checkout/verify/';
 
-		// Load the form fields.
-		$this->init_form_fields();
-
 		// Load the settings.
+		$this->init_form_fields();
 		$this->init_settings();
 
 		// Define user set variables.
-		$this->title          = $this->settings['title'];
-		$this->description    = $this->settings['description'];
-		$this->email          = $this->settings['email'];
-		$this->token          = $this->settings['token'];
-		$this->invoice_prefix = ! empty( $this->settings['invoice_prefix'] ) ? $this->settings['invoice_prefix'] : 'WC-';
-		$this->debug          = $this->settings['debug'];
+		$this->title          = $this->get_option( 'title' );
+		$this->description    = $this->get_option( 'description' );
+		$this->email          = $this->get_option( 'email' );
+		$this->token          = $this->get_option( 'token' );
+		$this->invoice_prefix = $this->get_option( 'invoice_prefix', 'WC-' );
+		$this->debug          = $this->get_option( 'debug' );
 
 		// Actions.
 		add_action( 'woocommerce_api_wc_bcash_gateway', array( $this, 'check_ipn_response' ) );
@@ -43,55 +41,94 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 		add_action( 'woocommerce_receipt_bcash', array( $this, 'receipt_page' ) );
 		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
 
-		// Valid for use.
-		$this->enabled = ( 'yes' == $this->settings['enabled'] ) && ! empty( $this->email ) && ! empty( $this->token ) && $this->is_valid_for_use();
-
-		// Checks if email is not empty.
-		if ( empty( $this->email ) ) {
-			add_action( 'admin_notices', array( &$this, 'mail_missing_message' ) );
-		}
-
-		// Checks if token is not empty.
-		if ( empty( $this->token ) ) {
-			add_action( 'admin_notices', array( &$this, 'token_missing_message' ) );
-		}
-
 		// Active logs.
 		if ( 'yes' == $this->debug ) {
-			$this->log = $woocommerce->logger();
+			if ( class_exists( 'WC_Logger' ) ) {
+				$this->log = new WC_Logger();
+			} else {
+				$this->log = $this->woocommerce_instance()->logger();
+			}
+		}
+
+		// Display admin notices.
+		$this->admin_notices();
+	}
+
+	/**
+	 * Backwards compatibility with version prior to 2.1.
+	 *
+	 * @return object Returns the main instance of WooCommerce class.
+	 */
+	protected function woocommerce_instance() {
+		if ( function_exists( 'WC' ) ) {
+			return WC();
+		} else {
+			global $woocommerce;
+			return $woocommerce;
 		}
 	}
 
 	/**
-	 * Check if this gateway is enabled and available in the user's country.
+	 * Displays notifications when the admin has something wrong with the configuration.
+	 *
+	 * @return void
+	 */
+	protected function admin_notices() {
+		if ( is_admin() ) {
+			// Checks if email is not empty.
+			if ( empty( $this->email ) ) {
+				add_action( 'admin_notices', array( $this, 'mail_missing_message' ) );
+			}
+
+			// Checks if token is not empty.
+			if ( empty( $this->token ) ) {
+				add_action( 'admin_notices', array( $this, 'token_missing_message' ) );
+			}
+
+			// Checks that the currency is supported
+			if ( ! $this->using_supported_currency() ) {
+				add_action( 'admin_notices', array( $this, 'currency_not_supported_message' ) );
+			}
+		}
+	}
+
+	/**
+	 * Returns a bool that indicates if currency is amongst the supported ones.
 	 *
 	 * @return bool
 	 */
-	public function is_valid_for_use() {
-		if ( ! in_array( get_woocommerce_currency(), array( 'BRL' ) ) ) {
-			return false;
-		}
+	protected function using_supported_currency() {
+		return ( 'BRL' == get_woocommerce_currency() );
+	}
 
-		return true;
+	/**
+	 * Returns a value indicating the the Gateway is available or not. It's called
+	 * automatically by WooCommerce before allowing customers to use the gateway
+	 * for payment.
+	 *
+	 * @return bool
+	 */
+	public function is_available() {
+		// Test if is valid for use.
+		$available = ( 'yes' == $this->get_option( 'enabled' ) ) &&
+					! empty( $this->email ) &&
+					! empty( $this->token ) &&
+					$this->using_supported_currency();
+
+		return $available;
 	}
 
 	/**
 	 * Admin Panel Options.
 	 */
 	public function admin_options() {
-
 		echo '<h3>' . __( 'Bcash standard', 'woocommerce-bcash' ) . '</h3>';
 		echo '<p>' . __( 'Bcash standard works by sending the user to Bcash to enter their payment information.', 'woocommerce-bcash' ) . '</p>';
 
-		// Checks if is valid for use.
-		if ( ! $this->is_valid_for_use() ) {
-			echo '<div class="inline error"><p><strong>' . __( 'Bcash Disabled', 'woocommerce-bcash' ) . '</strong>: ' . __( 'Works only with Brazilian Real.', 'woocommerce-bcash' ) . '</p></div>';
-		} else {
-			// Generate the HTML For the settings form.
-			echo '<table class="form-table">';
-			$this->generate_settings_html();
-			echo '</table>';
-		}
+		// Generate the HTML For the settings form.
+		echo '<table class="form-table">';
+		$this->generate_settings_html();
+		echo '</table>';
 	}
 
 	/**
@@ -100,7 +137,6 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 	 * @return void
 	 */
 	public function init_form_fields() {
-
 		$this->form_fields = array(
 			'enabled' => array(
 				'title' => __( 'Enable/Disable', 'woocommerce-bcash' ),
@@ -166,6 +202,12 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 	 * @return array         Form arguments.
 	 */
 	public function get_form_args( $order ) {
+		if ( version_compare( WOOCOMMERCE_VERSION, '2.1', '>=' ) ) {
+			$shipping_total = $order->get_total_shipping();
+		} else {
+			$shipping_total = $order->get_shipping();
+		}
+
 
 		// Fixed phone number.
 		$order->billing_phone = str_replace( array( '(', '-', ' ', ')' ), '', $order->billing_phone );
@@ -207,7 +249,7 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 			'id_pedido'        => $this->invoice_prefix . $order->id,
 
 			// Shipping info.
-			'frete'            => number_format( $order->get_shipping(), 2, '.', '' ),
+			'frete'            => number_format( $shipping_total, 2, '.', '' ),
 			'tipo_frete'       => $order->shipping_method_title,
 
 			// Return.
@@ -231,20 +273,18 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 		if ( sizeof( $order->get_items() ) > 0 ) {
 			foreach ( $order->get_items() as $item ) {
 				if ( $item['qty'] ) {
-
 					$item_loop++;
-
 					$item_name  = $item['name'];
-
 					$item_meta = new WC_Order_Item_Meta( $item['item_meta'] );
+
 					if ( $meta = $item_meta->display( true, true ) ) {
 						$item_name .= ' (' . $meta . ')';
 					}
 
-					$args['produto_codigo_' . $item_loop]    = $item_loop;
-					$args['produto_descricao_' . $item_loop] = sanitize_text_field( $item_name );
-					$args['produto_qtde_' . $item_loop]      = $item['qty'];
-					$args['produto_valor_' . $item_loop]     = $order->get_item_total( $item, false );
+					$args['produto_codigo_' . $item_loop ]    = $item_loop;
+					$args['produto_descricao_' . $item_loop ] = sanitize_text_field( $item_name );
+					$args['produto_qtde_' . $item_loop ]      = $item['qty'];
+					$args['produto_valor_' . $item_loop ]     = $order->get_item_total( $item, false );
 
 				}
 			}
@@ -263,24 +303,20 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 	 * @return string           Payment form.
 	 */
 	public function generate_form( $order_id ) {
-		global $woocommerce;
-
-		$order = new WC_Order( $order_id );
-
-		$args = $this->get_form_args( $order );
+		$order      = new WC_Order( $order_id );
+		$args       = $this->get_form_args( $order );
+		$form_args  = array();
 
 		if ( 'yes' == $this->debug ) {
 			$this->log->add( 'bcash', 'Payment arguments for order ' . $order->get_order_number() . ': ' . print_r( $args, true ) );
 		}
 
-		$args_array = array();
-
 		foreach ( $args as $key => $value ) {
-			$args_array[] = '<input type="hidden" name="' . esc_attr( $key ) . '" value="' . esc_attr( $value ) . '" />';
+			$form_args[] = '<input type="hidden" name="' . esc_attr( $key ) . '" value="' . esc_attr( $value ) . '" />';
 		}
 
 		if ( version_compare( WOOCOMMERCE_VERSION, '2.1', '>=' ) ) {
-			$woocommerce->get_helper( 'inline-javascript' )->add_inline_js( '
+			wc_enqueue_js( '
 				jQuery.blockUI({
 					message: "' . esc_js( __( 'Thank you for your order. We are now redirecting you to Bcash to make payment.', 'woocommerce-bcash' ) ) . '",
 					baseZ: 99999,
@@ -289,20 +325,20 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 						opacity: 0.6
 					},
 					css: {
-						padding:         "20px",
-						zIndex:          "9999999",
-						textAlign:       "center",
-						color:           "#555",
-						border:          "3px solid #aaa",
-						backgroundColor: "#fff",
-						cursor:          "wait",
-						lineHeight:      "24px"
+						padding:        "20px",
+						zindex:         "9999999",
+						textAlign:      "center",
+						color:          "#555",
+						border:         "3px solid #aaa",
+						backgroundColor:"#fff",
+						cursor:         "wait",
+						lineHeight:		"24px",
 					}
 				});
 				jQuery("#submit-payment-form").click();
 			' );
 		} else {
-			$woocommerce->add_inline_js( '
+			$this->woocommerce_instance()->add_inline_js( '
 				jQuery("body").block({
 					message: "' . esc_js( __( 'Thank you for your order. We are now redirecting you to Bcash to make payment.', 'woocommerce-bcash' ) ) . '",
 					overlayCSS: {
@@ -325,10 +361,9 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 		}
 
 		return '<form action="' . esc_url( $this->payment_url ) . '" method="post" id="payment-form" target="_top">
-				' . implode( '', $args_array ) . '
+				' . implode( '', $form_args ) . '
 				<input type="submit" class="button alt" id="submit-payment-form" value="' . __( 'Pay via Bcash', 'woocommerce-bcash' ) . '" /> <a class="button cancel" href="' . esc_url( $order->get_cancel_order_url() ) . '">' . __( 'Cancel order &amp; restore cart', 'woocommerce-bcash' ) . '</a>
 			</form>';
-
 	}
 
 	/**
@@ -360,10 +395,7 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 	 * @return void
 	 */
 	public function receipt_page( $order ) {
-		global $woocommerce;
-
 		echo '<p>' . __( 'Thank you for your order, please click the button below to pay with Bcash.', 'woocommerce-bcash' ) . '</p>';
-
 		echo $this->generate_form( $order );
 	}
 
@@ -373,7 +405,6 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 	 * @return bool
 	 */
 	public function check_ipn_request_is_valid() {
-
 		if ( 'yes' == $this->debug ) {
 			$this->log->add( 'bcash', 'Checking IPN request...' );
 		}
@@ -392,7 +423,7 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 		$params = array(
 			'body'          => $postdata,
 			'sslverify'     => false,
-			'timeout'       => 30
+			'timeout'       => 60
 		);
 
 		// Post back to get a response.
@@ -443,7 +474,6 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 	 * @return void
 	 */
 	public function successful_request( $posted ) {
-
 		if ( ! empty( $posted['id_pedido'] ) ) {
 			$order_key = $posted['id_pedido'];
 			$order_id = (int) str_replace( $this->invoice_prefix, '', $order_key );
@@ -514,12 +544,25 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 	}
 
 	/**
+	 * Gets the admin url.
+	 *
+	 * @return string
+	 */
+	protected function admin_url() {
+		if ( version_compare( WOOCOMMERCE_VERSION, '2.1', '>=' ) ) {
+			return admin_url( 'admin.php?page=wc-settings&tab=checkout&section=wc_bcash_gateway' );
+		}
+
+		return admin_url( 'admin.php?page=woocommerce_settings&tab=payment_gateways&section=WC_BCash_Gateway' );
+	}
+
+	/**
 	 * Adds error message when not configured the email.
 	 *
 	 * @return string Error Mensage.
 	 */
 	public function mail_missing_message() {
-		echo '<div class="error"><p><strong>' . __( 'Bcash Disabled', 'woocommerce-bcash' ) . '</strong>: ' . sprintf( __( 'You should inform your email address. %s', 'woocommerce-bcash' ), '<a href="' . admin_url( 'admin.php?page=woocommerce_settings&tab=payment_gateways&section=WC_BCash_Gateway' ) . '">' . __( 'Click here to configure!', 'woocommerce-bcash' ) . '</a>' ) . '</p></div>';
+		echo '<div class="error"><p><strong>' . __( 'Bcash Disabled', 'woocommerce-bcash' ) . '</strong>: ' . sprintf( __( 'You should inform your email address. %s', 'woocommerce-bcash' ), '<a href="' . $this->admin_url() . '">' . __( 'Click here to configure!', 'woocommerce-bcash' ) . '</a>' ) . '</p></div>';
 	}
 
 	/**
@@ -528,7 +571,16 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 	 * @return string Error Mensage.
 	 */
 	public function token_missing_message() {
-		echo '<div class="error"><p><strong>' . __( 'Bcash Disabled', 'woocommerce-bcash' ) . '</strong>: ' . sprintf( __( 'You should inform your access key. %s', 'woocommerce-bcash' ), '<a href="' . admin_url( 'admin.php?page=woocommerce_settings&tab=payment_gateways&section=WC_BCash_Gateway' ) . '">' . __( 'Click here to configure!', 'woocommerce-bcash' ) . '</a>' ) . '</p></div>';
+		echo '<div class="error"><p><strong>' . __( 'Bcash Disabled', 'woocommerce-bcash' ) . '</strong>: ' . sprintf( __( 'You should inform your access key. %s', 'woocommerce-bcash' ), '<a href="' . $this->admin_url() . '">' . __( 'Click here to configure!', 'woocommerce-bcash' ) . '</a>' ) . '</p></div>';
+	}
+
+	/**
+	 * Adds error message when an unsupported currency is used.
+	 *
+	 * @return string
+	 */
+	public function currency_not_supported_message() {
+		echo '<div class="error"><p><strong>' . __( 'Bcash Disabled', 'woocommerce-bcash' ) . '</strong>: ' . sprintf( __( 'Currency <code>%s</code> is not supported. Works only with <code>BRL</code> (Brazilian Real).', 'woocommerce-bcash' ), get_woocommerce_currency() ) . '</p></div>';
 	}
 
 }

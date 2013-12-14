@@ -65,7 +65,7 @@ add_action( 'plugins_loaded', 'wcbcash_gateway_load', 0 );
 function wcbcash_hides_when_is_outside_brazil( $available_gateways ) {
 
 	// Remove standard shipping option.
-	if ( isset( $_REQUEST['country'] ) && $_REQUEST['country'] != 'BR' ) {
+	if ( isset( $_REQUEST['country'] ) && 'BR' != $_REQUEST['country'] ) {
 		unset( $available_gateways['bcash'] );
 	}
 
