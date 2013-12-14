@@ -7,7 +7,7 @@
  * Author URI: http://claudiosmweb.com/
  * Version: 1.6.0
  * License: GPLv2 or later
- * Text Domain: wcbcash
+ * Text Domain: woocommerce-bcash
  * Domain Path: /languages/
  */
 
@@ -15,7 +15,7 @@
  * WooCommerce fallback notice.
  */
 function wcbcash_woocommerce_fallback_notice() {
-	echo '<div class="error"><p>' . sprintf( __( 'WooCommerce Bcash Gateway depends on the last version of %s to work!', 'wcbcash' ), '<a href="http://wordpress.org/extend/plugins/woocommerce/">WooCommerce</a>' ) . '</p></div>';
+	echo '<div class="error"><p>' . sprintf( __( 'WooCommerce Bcash Gateway depends on the last version of %s to work!', 'woocommerce-bcash' ), '<a href="http://wordpress.org/extend/plugins/woocommerce/">WooCommerce</a>' ) . '</p></div>';
 }
 
 /**
@@ -32,7 +32,7 @@ function wcbcash_gateway_load() {
 	/**
 	 * Load textdomain.
 	 */
-	load_plugin_textdomain( 'wcbcash', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+	load_plugin_textdomain( 'woocommerce-bcash', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 
 	/**
 	 * Add the gateway to WooCommerce.
@@ -41,13 +41,13 @@ function wcbcash_gateway_load() {
 	 *
 	 * @return array          Payment methods with Bcash.
 	 */
-	add_filter( 'woocommerce_payment_gateways', 'wcbcash_add_gateway' );
-
 	function wcbcash_add_gateway( $methods ) {
 		$methods[] = 'WC_BCash_Gateway';
 
 		return $methods;
 	}
+
+	add_filter( 'woocommerce_payment_gateways', 'wcbcash_add_gateway' );
 
 	// Include the WC_BCash_Gateway class.
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-wc-bcash-gateway.php';
