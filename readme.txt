@@ -1,10 +1,10 @@
 === WooCommerce Bcash ===
 Contributors: claudiosanches
 Donate link: http://claudiosmweb.com/doacoes/
-Tags: ecommerce, e-commerce, commerce, woocommerce, checkout, payment, bcash
-Requires at least: 3.0
-Tested up to: 3.6
-Stable tag: 1.6.0
+Tags: woocommerce, checkout, payment, bcash
+Requires at least: 3.8
+Tested up to: 3.8
+Stable tag: 1.7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,6 +31,10 @@ Adicione o Bcash como método de pagamento em sua loja WooCommerce.
 O plugin WooCommerce Bcash foi desenvolvido sem nenhum incentivo do Bcash ou Buscapé Company. Nenhum dos desenvolvedores deste plugin possuem vínculos com estas duas empresas.
 
 Este plugin foi feito baseado na [documentação oficial do Bcash](https://www.bcash.com.br/integracao-bcash.html).
+
+= Compatibilidade =
+
+Compatível com as versão 2.0.x e 2.1.x do WooCommerce.
 
 = Instalação: =
 
@@ -93,7 +97,7 @@ Pronto, sua loja já pode receber pagamentos pelo Bcash.
 
 = What is needed to use this plugin? =
 
-* WooCommerce installed and active
+* WooCommerce version 2.0 or latter installed and active.
 * Have a account on [Bcash](http://www.bcash.com.br/).
 * Generates a **Access key** in Bcash.
 
@@ -105,7 +109,7 @@ Este plugin esta licenciado como GPL.
 
 = O que eu preciso para utilizar este plugin? =
 
-* Ter instalado o plugin WooCommerce.
+* Ter instalado o plugin WooCommerce 2.0 ou superior.
 * Possuir uma conta no [Bcash](http://www.bcash.com.br/).
 * Gerar uma **Chave acesso** no Bcash.
 
@@ -153,6 +157,12 @@ Entre em contato [clicando aqui](http://claudiosmweb.com/plugins/bcash-para-wooc
 2. Checkout page.
 
 == Changelog ==
+
+= 1.7.0 - 14/12/2013 =
+
+* Corrigido padrões de código.
+* Removida compatibilidade com versões 1.6.x ou inferiores do WooCommerce.
+* Adicionada compatibilidade com WooCommerce 2.1 ou superior.
 
 = 1.6.0 - 26/07/2013 =
 
@@ -206,10 +216,11 @@ Entre em contato [clicando aqui](http://claudiosmweb.com/plugins/bcash-para-wooc
 
 == Upgrade Notice ==
 
-= 1.6.0 =
+= 1.7.0 =
 
-* Melhoria nas mensagens de status do pedido.
-* Melhoria no código do plugin.
+* Corrigido padrões de código.
+* Removida compatibilidade com versões 1.6.x ou inferiores do WooCommerce.
+* Adicionada compatibilidade com WooCommerce 2.1 ou superior.
 
 == License ==
 

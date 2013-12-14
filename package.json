@@ -1,7 +1,7 @@
 {
   "name": "woocommerce-bcash",
-  "description": "Gateway de pagamento Bcash para WooCommerce",
-  "version": "1.6.0",
+  "description": "Bcash Payment Gateway for WooCommerce",
+  "version": "1.7.0",
   "main": "Gruntfile.js",
   "dependencies": {
     "grunt": "~0.4.1",
