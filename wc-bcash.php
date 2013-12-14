@@ -2,7 +2,7 @@
 /**
  * Plugin Name: WooCommerce Bcash
  * Plugin URI: https://github.com/claudiosmweb/woocommerce-bcash
- * Description: Gateway de pagamento Bcash para WooCommerce.
+ * Description: Bcash Payment Gateway for WooCommerce.
  * Author: claudiosanches
  * Author URI: http://claudiosmweb.com/
  * Version: 1.6.0
