@@ -56,23 +56,6 @@ function wcbcash_gateway_load() {
 add_action( 'plugins_loaded', 'wcbcash_gateway_load', 0 );
 
 /**
- * Adds support to legacy IPN.
- *
- * @return void
- */
-function wcbcash_legacy_ipn() {
-	if ( isset( $_POST['id_pedido'] ) && ! isset( $_GET['wc-api'] ) ) {
-		global $woocommerce;
-
-		$woocommerce->payment_gateways();
-
-		do_action( 'woocommerce_api_wc_bcash_gateway' );
-	}
-}
-
-add_action( 'init', 'wcbcash_legacy_ipn' );
-
-/**
  * Hides the Bcash with payment method with the customer lives outside Brazil
  *
  * @param  array $available_gateways Default Available Gateways.
