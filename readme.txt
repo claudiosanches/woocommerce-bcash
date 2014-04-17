@@ -2,7 +2,7 @@
 Contributors: claudiosanches
 Donate link: http://claudiosmweb.com/doacoes/
 Tags: woocommerce, checkout, payment, bcash
-Requires at least: 3.9
+Requires at least: 3.8
 Tested up to: 3.9
 Stable tag: 1.7.0
 License: GPLv2 or later
