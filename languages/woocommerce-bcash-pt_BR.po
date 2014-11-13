@@ -2,253 +2,317 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WooCommerce Bcash v1.7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: 2013-12-14 02:59:48+0000\n"
-"Last-Translator: Claudio Sanches <contato@claudiosmweb.com>\n"
+"POT-Creation-Date: 2014-11-13 11:06-0300\n"
+"PO-Revision-Date: 2014-11-13 11:37-0300\n"
+"Last-Translator: Victor Debone <victor@debone.com.br>\n"
 "Language-Team: \n"
+"Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: CSL v1.x\n"
-"X-Poedit-Language: Portuguese\n"
-"X-Poedit-Country: BRAZIL\n"
+"X-Generator: Poedit 1.6.7\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
+"_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
 "X-Poedit-Basepath: ../\n"
-"X-Poedit-Bookmarks: \n"
+"X-Textdomain-Support: yes\n"
 "X-Poedit-SearchPath-0: .\n"
-"X-Textdomain-Support: yes"
 
-#. translators: plugin header field 'Author'
-#: wc-bcash.php:0
-#@ woocommerce-bcash
-msgid "claudiosanches"
-msgstr "claudiosanches"
-
-#: includes/class-wc-bcash-gateway.php:142
-#@ woocommerce-bcash
-msgid "Enable/Disable"
-msgstr "Habilita/Desabilita"
-
-#: includes/class-wc-bcash-gateway.php:148
-#@ woocommerce-bcash
-msgid "Title"
-msgstr "Título"
-
-#: includes/class-wc-bcash-gateway.php:150
-#@ woocommerce-bcash
-msgid "This controls the title which the user sees during checkout."
-msgstr "Isto controla o título que o usuário vê durante o checkout."
-
-#: includes/class-wc-bcash-gateway.php:155
-#@ woocommerce-bcash
-msgid "Description"
-msgstr "Descrição"
-
-#: includes/class-wc-bcash-gateway.php:157
-#@ woocommerce-bcash
-msgid "This controls the description which the user sees during checkout."
-msgstr "Isso controla a descrição que o usuário vê durante o checkout."
-
-#: includes/class-wc-bcash-gateway.php:175
-#@ woocommerce-bcash
-msgid "Invoice Prefix"
-msgstr "Prefixo de pedido"
-
-#: includes/class-wc-bcash-gateway.php:365
-#@ woocommerce-bcash
-msgid "Cancel order &amp; restore cart"
-msgstr "Cancelar pedido e restaurar carrinho"
-
-#: includes/class-wc-bcash-gateway.php:509
-#@ woocommerce-bcash
-msgid "Payer email"
-msgstr "E-mail do comprador"
-
-#: includes/class-wc-bcash-gateway.php:516
-#@ woocommerce-bcash
-msgid "Payer name"
-msgstr "Nome do comprador"
-
-#: includes/class-wc-bcash-gateway.php:523
-#@ woocommerce-bcash
-msgid "Payment type"
-msgstr "Tipo de pagamento"
-
-#. translators: plugin header field 'Name'
-#: wc-bcash.php:0
-#@ woocommerce-bcash
-msgid "WooCommerce Bcash"
-msgstr "WooCommerce Bcash"
-
+# @ woocommerce-bcash
 #: includes/class-wc-bcash-gateway.php:20
-#: includes/class-wc-bcash-gateway.php:152
-#@ woocommerce-bcash
+#: includes/class-wc-bcash-gateway.php:153
 msgid "Bcash"
 msgstr "Bcash"
 
-#: includes/class-wc-bcash-gateway.php:125
-#@ woocommerce-bcash
+# @ woocommerce-bcash
+#: includes/class-wc-bcash-gateway.php:126
 msgid "Bcash standard"
 msgstr "Bcash padrão"
 
-#: includes/class-wc-bcash-gateway.php:126
-#@ woocommerce-bcash
-msgid "Bcash standard works by sending the user to Bcash to enter their payment information."
-msgstr "Bcash padrão funciona enviando o usuário para o site do Bcash, onde ele irá fazer o pagamento."
+# @ woocommerce-bcash
+#: includes/class-wc-bcash-gateway.php:127
+msgid ""
+"Bcash standard works by sending the user to Bcash to enter their payment "
+"information."
+msgstr ""
+"Bcash padrão funciona enviando o usuário para o site do Bcash, onde ele irá "
+"fazer o pagamento."
 
-#: includes/class-wc-bcash-gateway.php:144
-#@ woocommerce-bcash
+# @ woocommerce-bcash
+#: includes/class-wc-bcash-gateway.php:143
+msgid "Enable/Disable"
+msgstr "Habilita/Desabilita"
+
+# @ woocommerce-bcash
+#: includes/class-wc-bcash-gateway.php:145
 msgid "Enable Bcash standard"
 msgstr "Habilitar Bcash padrão"
 
+# @ woocommerce-bcash
+#: includes/class-wc-bcash-gateway.php:149
+msgid "Title"
+msgstr "Título"
+
+# @ woocommerce-bcash
+#: includes/class-wc-bcash-gateway.php:151
+msgid "This controls the title which the user sees during checkout."
+msgstr "Isto controla o título que o usuário vê durante o checkout."
+
+# @ woocommerce-bcash
+#: includes/class-wc-bcash-gateway.php:156
+msgid "Description"
+msgstr "Descrição"
+
+# @ woocommerce-bcash
 #: includes/class-wc-bcash-gateway.php:158
-#: includes/class-wc-bcash-gateway.php:365
-#@ woocommerce-bcash
+msgid "This controls the description which the user sees during checkout."
+msgstr "Isso controla a descrição que o usuário vê durante o checkout."
+
+# @ woocommerce-bcash
+#: includes/class-wc-bcash-gateway.php:159
+#: includes/class-wc-bcash-gateway.php:366
 msgid "Pay via Bcash"
 msgstr "Pagar com Bcash"
 
-#: includes/class-wc-bcash-gateway.php:161
-#@ woocommerce-bcash
+# @ woocommerce-bcash
+#: includes/class-wc-bcash-gateway.php:162
 msgid "Bcash Email"
 msgstr "Email cadastrado no Bcash"
 
-#: includes/class-wc-bcash-gateway.php:163
-#@ woocommerce-bcash
-msgid "Please enter your Bcash email address; this is needed in order to take payment."
-msgstr "Por favor digite o seu endereço de email do Bcash, que é necessário para receber o pagamento."
+# @ woocommerce-bcash
+#: includes/class-wc-bcash-gateway.php:164
+msgid ""
+"Please enter your Bcash email address; this is needed in order to take "
+"payment."
+msgstr ""
+"Por favor digite o seu endereço de email do Bcash, que é necessário para "
+"receber o pagamento."
 
-#: includes/class-wc-bcash-gateway.php:177
-#@ woocommerce-bcash
-msgid "Please enter a prefix for your invoice numbers. If you use your Bcash account for multiple stores ensure this prefix is unqiue as Bcash will not allow orders with the same invoice number."
-msgstr "Por favor informe um prefixo para utilizar com os números de pedidos. Caso você utilize sua conta do Bcash em mais de uma loja, procure utilizar um prefixo único para cada loja."
-
-#: includes/class-wc-bcash-gateway.php:321
-#: includes/class-wc-bcash-gateway.php:343
-#@ woocommerce-bcash
-msgid "Thank you for your order. We are now redirecting you to Bcash to make payment."
-msgstr "Obrigado por fazer seu pedido. Agora estamos redirecionando você para o Bcash para efetuar o pagamento."
-
-#: includes/class-wc-bcash-gateway.php:398
-#@ woocommerce-bcash
-msgid "Thank you for your order, please click the button below to pay with Bcash."
-msgstr "Obrigado por seu pedido, por favor clique no botão abaixo para pagar com Bcash."
-
-#: includes/class-wc-bcash-gateway.php:502
-#@ woocommerce-bcash
-msgid "Bcash Transaction ID"
-msgstr "Bcash: ID da transação"
-
-#: includes/class-wc-bcash-gateway.php:182
-#@ woocommerce-bcash
-msgid "Gateway Testing"
-msgstr "Teste de Gateway"
-
-#: includes/class-wc-bcash-gateway.php:187
-#@ woocommerce-bcash
-msgid "Debug Log"
-msgstr "Log de depuração"
-
-#: includes/class-wc-bcash-gateway.php:189
-#@ woocommerce-bcash
-msgid "Enable logging"
-msgstr "Habilitar log"
-
-#. translators: plugin header field 'AuthorURI'
-#: wc-bcash.php:0
-#@ woocommerce-bcash
-msgid "http://claudiosmweb.com/"
-msgstr "http://claudiosmweb.com/"
-
-#: includes/class-wc-bcash-gateway.php:465
-#@ woocommerce-bcash
-msgid "Bcash Request Failure"
-msgstr "Bcash falha no pedido"
-
-#: includes/class-wc-bcash-gateway.php:191
-#, php-format
-#@ woocommerce-bcash
-msgid "Log Bcash events, such as API requests, inside %s"
-msgstr "Registrar eventos do Bcash, tais como pedidos de API, dentro de %s"
-
-#. translators: plugin header field 'PluginURI'
-#: wc-bcash.php:0
-#@ woocommerce-bcash
-msgid "https://github.com/claudiosmweb/woocommerce-bcash"
-msgstr "https://github.com/claudiosmweb/woocommerce-bcash"
-
-#: wc-bcash.php:18
-#, php-format
-#@ woocommerce-bcash
-msgid "WooCommerce Bcash Gateway depends on the last version of %s to work!"
-msgstr "WooCommerce Bcash Gateway depende da última versão do %s para funcionar!"
-
-#: includes/class-wc-bcash-gateway.php:565
-#: includes/class-wc-bcash-gateway.php:574
-#: includes/class-wc-bcash-gateway.php:583
-#@ woocommerce-bcash
-msgid "Bcash Disabled"
-msgstr "Bcash Desabilitado"
-
-#: includes/class-wc-bcash-gateway.php:493
-#@ woocommerce-bcash
-msgid "Bcash: Payment under review."
-msgstr "Bcash: Pagamento em análise."
-
-#: includes/class-wc-bcash-gateway.php:529
-#@ woocommerce-bcash
-msgid "Bcash: Payment completed."
-msgstr "Bcash: Pagamento concluído."
-
-#: includes/class-wc-bcash-gateway.php:534
-#@ woocommerce-bcash
-msgid "Bcash: Payment canceled."
-msgstr "Bcash: Pagamento cancelado."
-
-#: includes/class-wc-bcash-gateway.php:565
-#, php-format
-#@ woocommerce-bcash
-msgid "You should inform your email address. %s"
-msgstr "Você deve informar o seu endereço de e-mail. %s"
-
-#: includes/class-wc-bcash-gateway.php:565
-#: includes/class-wc-bcash-gateway.php:574
-#@ woocommerce-bcash
-msgid "Click here to configure!"
-msgstr "Clique aqui para configurar!"
-
-#: includes/class-wc-bcash-gateway.php:168
-#@ woocommerce-bcash
+# @ woocommerce-bcash
+#: includes/class-wc-bcash-gateway.php:169
 msgid "Bcash Access Key"
 msgstr "Bcash Chave de Acesso"
 
-#: includes/class-wc-bcash-gateway.php:170
-#@ woocommerce-bcash
-msgid "Please enter your Bcash Access Key; is necessary to process the payment and notifications."
-msgstr "Por favor, digite a sua Chave de Acesso do Bcash; é necessário para processar o pagamento e as notificações de transações."
+# @ woocommerce-bcash
+#: includes/class-wc-bcash-gateway.php:171
+msgid ""
+"Please enter your Bcash Access Key; is necessary to process the payment and "
+"notifications."
+msgstr ""
+"Por favor, digite a sua Chave de Acesso do Bcash; é necessário para "
+"processar o pagamento e as notificações de transações."
 
-#: includes/class-wc-bcash-gateway.php:574
+# @ woocommerce-bcash
+#: includes/class-wc-bcash-gateway.php:176
+msgid "Invoice Prefix"
+msgstr "Prefixo de pedido"
+
+# @ woocommerce-bcash
+#: includes/class-wc-bcash-gateway.php:178
+msgid ""
+"Please enter a prefix for your invoice numbers. If you use your Bcash "
+"account for multiple stores ensure this prefix is unqiue as Bcash will not "
+"allow orders with the same invoice number."
+msgstr ""
+"Por favor informe um prefixo para utilizar com os números de pedidos. Caso "
+"você utilize sua conta do Bcash em mais de uma loja, procure utilizar um "
+"prefixo único para cada loja."
+
+# @ woocommerce-bcash
+#: includes/class-wc-bcash-gateway.php:183
+msgid "Gateway Testing"
+msgstr "Teste de Gateway"
+
+# @ woocommerce-bcash
+#: includes/class-wc-bcash-gateway.php:188
+msgid "Debug Log"
+msgstr "Log de depuração"
+
+# @ woocommerce-bcash
+#: includes/class-wc-bcash-gateway.php:190
+msgid "Enable logging"
+msgstr "Habilitar log"
+
+# @ woocommerce-bcash
+#: includes/class-wc-bcash-gateway.php:192
 #, php-format
-#@ woocommerce-bcash
+msgid "Log Bcash events, such as API requests, inside %s"
+msgstr "Registrar eventos do Bcash, tais como pedidos de API, dentro de %s"
+
+# @ woocommerce-bcash
+#: includes/class-wc-bcash-gateway.php:322
+#: includes/class-wc-bcash-gateway.php:344
+msgid ""
+"Thank you for your order. We are now redirecting you to Bcash to make "
+"payment."
+msgstr ""
+"Obrigado por fazer seu pedido. Agora estamos redirecionando você para o "
+"Bcash para efetuar o pagamento."
+
+# @ woocommerce-bcash
+#: includes/class-wc-bcash-gateway.php:366
+msgid "Cancel order &amp; restore cart"
+msgstr "Cancelar pedido e restaurar carrinho"
+
+# @ woocommerce-bcash
+#: includes/class-wc-bcash-gateway.php:399
+msgid ""
+"Thank you for your order, please click the button below to pay with Bcash."
+msgstr ""
+"Obrigado por seu pedido, por favor clique no botão abaixo para pagar com "
+"Bcash."
+
+# @ woocommerce-bcash
+#: includes/class-wc-bcash-gateway.php:476
+msgid "Bcash Request Failure"
+msgstr "Bcash falha no pedido"
+
+#: includes/class-wc-bcash-gateway.php:533
+msgid ""
+"BCash: The buyer initiated the transaction, but so far the BCash not "
+"received any payment information."
+msgstr ""
+"Bcash: O cliente iniciou a transação, mas até o momento o Bcash não recebeu "
+"nenhuma informação."
+
+# @ woocommerce-bcash
+#: includes/class-wc-bcash-gateway.php:536
+msgid "BCash: Payment under review."
+msgstr "Bcash: Pagamento em análise."
+
+# @ woocommerce-bcash
+#: includes/class-wc-bcash-gateway.php:539
+msgid "BCash: Payment approved."
+msgstr "Bcash: Pagamento aprovado."
+
+# @ woocommerce-bcash
+#: includes/class-wc-bcash-gateway.php:546
+msgid "BCash: Payment completed and credited to your account."
+msgstr "Bcash: Pagamento completo e creditado em sua conta."
+
+# @ woocommerce-bcash
+#: includes/class-wc-bcash-gateway.php:549
+msgid "BCash: Payment came into dispute."
+msgstr "Bcash: Pagamento em disputa."
+
+#: includes/class-wc-bcash-gateway.php:551
+#, php-format
+msgid "Payment for order %s came into dispute"
+msgstr "Pagamento para o pedido %s entrou em disputa"
+
+# @ woocommerce-bcash
+#: includes/class-wc-bcash-gateway.php:552
+msgid "Payment in dispute"
+msgstr "Pagamento em disputa"
+
+#: includes/class-wc-bcash-gateway.php:553
+#, php-format
+msgid ""
+"Order %s has been marked as on-hold, because the payment came into dispute "
+"in BCash."
+msgstr ""
+"O pedido %s foi marcado como Aguardando, pois o cliente entrou em disputa no "
+"Bcash."
+
+# @ woocommerce-bcash
+#: includes/class-wc-bcash-gateway.php:557
+msgid "BCash: Payment refunded."
+msgstr "Bcash: Pagamento retornado."
+
+#: includes/class-wc-bcash-gateway.php:559
+#, php-format
+msgid "Payment for order %s refunded"
+msgstr "Pagamento para o pedido %s foi retornado"
+
+# @ woocommerce-bcash
+#: includes/class-wc-bcash-gateway.php:560
+msgid "Payment refunded"
+msgstr "Pagamento retornado"
+
+#: includes/class-wc-bcash-gateway.php:561
+#, php-format
+msgid "Order %s has been marked as refunded by BCash."
+msgstr "O pedido %s foi marcado como Devolvido pelo Bcash."
+
+# @ woocommerce-bcash
+#: includes/class-wc-bcash-gateway.php:565
+msgid "BCash: Payment canceled."
+msgstr "Bcash: Pagamento cancelado."
+
+# @ woocommerce-bcash
+#: includes/class-wc-bcash-gateway.php:576
+msgid "Bcash: Payment under review."
+msgstr "Bcash: Pagamento em análise."
+
+# @ woocommerce-bcash
+#: includes/class-wc-bcash-gateway.php:585
+msgid "Bcash Transaction ID"
+msgstr "Bcash: ID da transação"
+
+# @ woocommerce-bcash
+#: includes/class-wc-bcash-gateway.php:592
+msgid "Payer email"
+msgstr "E-mail do comprador"
+
+# @ woocommerce-bcash
+#: includes/class-wc-bcash-gateway.php:599
+msgid "Payer name"
+msgstr "Nome do comprador"
+
+# @ woocommerce-bcash
+#: includes/class-wc-bcash-gateway.php:606
+msgid "Payment type"
+msgstr "Tipo de pagamento"
+
+# @ woocommerce-bcash
+#: includes/class-wc-bcash-gateway.php:612
+msgid "Bcash: Payment completed."
+msgstr "Bcash: Pagamento concluído."
+
+# @ woocommerce-bcash
+#: includes/class-wc-bcash-gateway.php:617
+msgid "Bcash: Payment canceled."
+msgstr "Bcash: Pagamento cancelado."
+
+# @ woocommerce-bcash
+#: includes/class-wc-bcash-gateway.php:649
+#: includes/class-wc-bcash-gateway.php:658
+#: includes/class-wc-bcash-gateway.php:667
+msgid "Bcash Disabled"
+msgstr "Bcash Desabilitado"
+
+# @ woocommerce-bcash
+#: includes/class-wc-bcash-gateway.php:649
+#, php-format
+msgid "You should inform your email address. %s"
+msgstr "Você deve informar o seu endereço de e-mail. %s"
+
+# @ woocommerce-bcash
+#: includes/class-wc-bcash-gateway.php:649
+#: includes/class-wc-bcash-gateway.php:658
+msgid "Click here to configure!"
+msgstr "Clique aqui para configurar!"
+
+# @ woocommerce-bcash
+#: includes/class-wc-bcash-gateway.php:658
+#, php-format
 msgid "You should inform your access key. %s"
-msgstr "Você deve informar a sua chave de acesso. &s"
+msgstr "Você deve informar a sua chave de acesso. %s"
 
-#: includes/class-wc-bcash-gateway.php:583
+# @ woocommerce-bcash
+#: includes/class-wc-bcash-gateway.php:667
 #, php-format
-#@ woocommerce-bcash
-msgid "Currency <code>%s</code> is not supported. Works only with <code>BRL</code> (Brazilian Real)."
-msgstr "A moeda <code>%s</code> não é suportada. Funciona apenas com <code>BRL</code> (Real)."
+msgid ""
+"Currency <code>%s</code> is not supported. Works only with <code>BRL</code> "
+"(Brazilian Real)."
+msgstr ""
+"A moeda <code>%s</code> não é suportada. Funciona apenas com <code>BRL</"
+"code> (Real)."
 
-#. translators: plugin header field 'Description'
-#: wc-bcash.php:0
-#@ woocommerce-bcash
-msgid "Bcash Payment Gateway for WooCommerce."
-msgstr "Método de pagamento Bcash para WooCommerce"
-
-#. translators: plugin header field 'Version'
-#: wc-bcash.php:0
-#@ woocommerce-bcash
-msgid "1.7.0"
-msgstr "1.7.0"
-
+# @ woocommerce-bcash
+#: wc-bcash.php:18
+#, php-format
+msgid "WooCommerce Bcash Gateway depends on the last version of %s to work!"
+msgstr ""
+"WooCommerce Bcash Gateway depende da última versão do %s para funcionar!"
