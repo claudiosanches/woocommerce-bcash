@@ -22,6 +22,7 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 		// API URLs.
 		$this->payment_url    = 'https://www.bcash.com.br/checkout/pay/';
 		$this->ipn_url        = 'https://www.bcash.com.br/checkout/verify/';
+		$this->consulta_url	  = 'https://www.pagamentodigital.com.br/transacao/consulta';
 
 		// Load the settings.
 		$this->init_form_fields();
@@ -412,38 +413,48 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 		// Get recieved values from post data.
 		$received_values = (array) stripslashes_deep( $_POST );
 
-		$postdata  = 'transacao=' . $received_values['id_transacao'];
-		$postdata .= '&status=' . $received_values['status'];
-		$postdata .= '&cod_status=' . $received_values['cod_status'];
-		$postdata .= '&valor_original=' . $received_values['valor_original'];
-		$postdata .= '&valor_loja=' . $_POST['valor_loja'];
-		$postdata .= '&token=' . $this->token;
+		/**
+		 * When transacao_id is set it's a "URL de Aviso" request, and it can't be checked
+		 * When id_transacao is set it's a "URL de Retorno" request, and it can be checked
+		 */
+		if(isset($received_values['transacao_id'])){
+			// We can't decide if it's valid
+			return true;
 
-		// Send back post vars.
-		$params = array(
-			'body'          => $postdata,
-			'sslverify'     => false,
-			'timeout'       => 60
-		);
+		}else if (isset($received_values['id_transacao'])){
+			$postdata  = 'transacao=' . $received_values['id_transacao'];
+			$postdata .= '&status=' . $received_values['status'];
+			$postdata .= '&cod_status=' . $received_values['cod_status'];
+			$postdata .= '&valor_original=' . $received_values['valor_original'];
+			$postdata .= '&valor_loja=' . $_POST['valor_loja'];
+			$postdata .= '&token=' . $this->token;
 
-		// Post back to get a response.
-		$response = wp_remote_post( $this->ipn_url, $params );
+			// Send back post vars.
+			$params = array(
+				'body'          => $postdata,
+				'sslverify'     => false,
+				'timeout'       => 60
+			);
 
-		if ( 'yes' == $this->debug ) {
-			$this->log->add( 'bcash', 'IPN Response: ' . print_r( $response, true ) );
-		}
-
-		// Check to see if the request was valid.
-		if ( ! is_wp_error( $response ) && $response['response']['code'] >= 200 && $response['response']['code'] < 300 && ( strcmp( $response['body'], 'VERIFICADO' ) == 0 ) ) {
+			// Post back to get a response.
+			$response = wp_remote_post( $this->ipn_url, $params );
 
 			if ( 'yes' == $this->debug ) {
-				$this->log->add( 'bcash', 'Received valid IPN response from Bcash' );
+				$this->log->add( 'bcash', 'IPN Response: ' . print_r( $response, true ) );
 			}
 
-			return true;
-		} else {
-			if ( 'yes' == $this->debug ) {
-				$this->log->add( 'bcash', 'Received invalid IPN response from Bcash' );
+			// Check to see if the request was valid.
+			if ( ! is_wp_error( $response ) && $response['response']['code'] >= 200 && $response['response']['code'] < 300 && ( strcmp( $response['body'], 'VERIFICADO' ) == 0 ) ) {
+
+				if ( 'yes' == $this->debug ) {
+					$this->log->add( 'bcash', 'Received valid IPN response from Bcash' );
+				}
+
+				return true;
+			} else {
+				if ( 'yes' == $this->debug ) {
+					$this->log->add( 'bcash', 'Received invalid IPN response from Bcash' );
+				}
 			}
 		}
 
@@ -474,6 +485,34 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 	 * @return void
 	 */
 	public function successful_request( $posted ) {
+		// When transacao_id is set we need to retrieve order information
+		// from a second secured source (Pagamento Digital url)
+		if(isset($posted['transacao_id'])){
+			// Post order id to retrieve order information
+			$postdata  = 'id_transacao=' . $posted['transacao_id'];
+			$postdata .= '&tipo_retorno=2'; //JSON
+
+			$params = array(
+				'body' => $postdata,
+				'headers' => array(
+					'Authorization' => 'Basic ' . base64_encode($this->email.':'.$this->token)
+				),
+				'sslverify'     => false,
+				'timeout'       => 60
+			);
+			$response = wp_remote_post( $this->consulta_url, $params );
+
+			if ( 'yes' == $this->debug ) {
+				$this->log->add( 'bcash', 'CONSULTA Response: ' . print_r( $response, true ) );
+			}
+
+			// Decoding order data to array
+			$posted = json_decode($response['body'], true);
+			$posted = $posted['transacao'];
+			// There are 7 states on "URL de aviso" returns
+			$posted['status_url_aviso'] = true;
+		}
+
 		if ( ! empty( $posted['id_pedido'] ) ) {
 			$order_key = $posted['id_pedido'];
 			$order_id = (int) str_replace( $this->invoice_prefix, '', $order_key );
@@ -488,56 +527,101 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 					$this->log->add( 'bcash', 'Payment status from order ' . $order->get_order_number() . ': ' . $posted['status'] );
 				}
 
-				switch ( $posted['cod_status'] ) {
-					case '0':
-						$order->update_status( 'on-hold', __( 'Bcash: Payment under review.', 'woocommerce-bcash' ) );
-
-						break;
-					case '1':
-
-						// Order details.
-						if ( ! empty( $posted['id_transacao'] ) ) {
-							update_post_meta(
-								$order_id,
-								__( 'Bcash Transaction ID', 'woocommerce-bcash' ),
-								$posted['id_transacao']
+				if( isset($posted['status_url_aviso']) && true == $posted['status_url_aviso'] ){
+					switch ( $posted['cod_status'] ) {
+						case 1 :
+							$order->update_status( 'on-hold', __( 'BCash: The buyer initiated the transaction, but so far the BCash not received any payment information.', 'woocommerce-bcash' ) );
+							break;
+						case 2 :
+							$order->update_status( 'on-hold', __( 'BCash: Payment under review.', 'woocommerce-bcash' ) );
+							break;
+						case 3 :
+							$order->add_order_note( __( 'BCash: Payment approved.', 'woocommerce-bcash' ) );
+							// For WooCommerce 2.2 or later.
+							add_post_meta( $order->id, '_transaction_id', (string) $posted['id_transacao'], true );
+							// Changing the order for processing and reduces the stock.
+							$order->payment_complete();
+							break;
+						case 4 :
+							$order->add_order_note( __( 'BCash: Payment completed and credited to your account.', 'woocommerce-bcash' ) );
+							break;
+						case 5 :
+							$order->update_status( 'on-hold', __( 'BCash: Payment came into dispute.', 'woocommerce-bcash' ) );
+							$this->send_email(
+								sprintf( __( 'Payment for order %s came into dispute', 'woocommerce-bcash' ), $order->get_order_number() ),
+								__( 'Payment in dispute', 'woocommerce-bcash' ),
+								sprintf( __( 'Order %s has been marked as on-hold, because the payment came into dispute in BCash.', 'woocommerce-bcash' ), $order->get_order_number() )
 							);
-						}
-						if ( ! empty( $posted['cliente_email'] ) ) {
-							update_post_meta(
-								$order_id,
-								__( 'Payer email', 'woocommerce-bcash' ),
-								$posted['cliente_email']
+							break;
+						case 6 :
+							$order->update_status( 'refunded', __( 'BCash: Payment refunded.', 'woocommerce-bcash' ) );
+							$this->send_email(
+								sprintf( __( 'Payment for order %s refunded', 'woocommerce-bcash' ), $order->get_order_number() ),
+								__( 'Payment refunded', 'woocommerce-bcash' ),
+								sprintf( __( 'Order %s has been marked as refunded by BCash.', 'woocommerce-bcash' ), $order->get_order_number() )
 							);
-						}
-						if ( ! empty( $posted['cliente_nome'] ) ) {
-							update_post_meta(
-								$order_id,
-								__( 'Payer name', 'woocommerce-bcash' ),
-								$posted['cliente_nome']
-							);
-						}
-						if ( ! empty( $posted['tipo_pagamento'] ) ) {
-							update_post_meta(
-								$order_id,
-								__( 'Payment type', 'woocommerce-bcash' ),
-								$posted['tipo_pagamento']
-							);
-						}
+							break;
+						case 7 :
+							$order->update_status( 'cancelled', __( 'BCash: Payment canceled.', 'woocommerce-bcash' ) );
+							break;
 
-						// Payment completed.
-						$order->add_order_note( __( 'Bcash: Payment completed.', 'woocommerce-bcash' ) );
-						$order->payment_complete();
+						default:
+							// No action xD.
+							break;
+					}
 
-						break;
-					case '2':
-						$order->update_status( 'cancelled', __( 'Bcash: Payment canceled.', 'woocommerce-bcash' ) );
+				}else{
+					switch ( $posted['cod_status'] ) {
+						case '0':
+							$order->update_status( 'on-hold', __( 'Bcash: Payment under review.', 'woocommerce-bcash' ) );
 
-						break;
+							break;
+						case '1':
 
-					default:
-						// No action xD.
-						break;
+							// Order details.
+							if ( ! empty( $posted['id_transacao'] ) ) {
+								update_post_meta(
+									$order_id,
+									__( 'Bcash Transaction ID', 'woocommerce-bcash' ),
+									$posted['id_transacao']
+								);
+							}
+							if ( ! empty( $posted['cliente_email'] ) ) {
+								update_post_meta(
+									$order_id,
+									__( 'Payer email', 'woocommerce-bcash' ),
+									$posted['cliente_email']
+								);
+							}
+							if ( ! empty( $posted['cliente_nome'] ) ) {
+								update_post_meta(
+									$order_id,
+									__( 'Payer name', 'woocommerce-bcash' ),
+									$posted['cliente_nome']
+								);
+							}
+							if ( ! empty( $posted['tipo_pagamento'] ) ) {
+								update_post_meta(
+									$order_id,
+									__( 'Payment type', 'woocommerce-bcash' ),
+									$posted['tipo_pagamento']
+								);
+							}
+
+							// Payment completed.
+							$order->add_order_note( __( 'Bcash: Payment completed.', 'woocommerce-bcash' ) );
+							$order->payment_complete();
+
+							break;
+						case '2':
+							$order->update_status( 'cancelled', __( 'Bcash: Payment canceled.', 'woocommerce-bcash' ) );
+
+							break;
+
+						default:
+							// No action xD.
+							break;
+					}
 				}
 			}
 		}
