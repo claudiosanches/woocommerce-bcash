@@ -310,7 +310,7 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 		$form_args = array();
 
 		if ( 'yes' == $this->debug ) {
-			$this->log->add( 'bcash', 'Payment arguments for order ' . $order->get_order_number() . ': ' . print_r( $args, true ) );
+			$this->log->add( $this->id, 'Payment arguments for order ' . $order->get_order_number() . ': ' . print_r( $args, true ) );
 		}
 
 		foreach ( $args as $key => $value ) {
@@ -408,7 +408,7 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 	 */
 	public function check_ipn_request_is_valid() {
 		if ( 'yes' == $this->debug ) {
-			$this->log->add( 'bcash', 'Checking IPN request...' );
+			$this->log->add( $this->id, 'Checking IPN request...' );
 		}
 
 		// Get recieved values from post data.
@@ -431,20 +431,20 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 		$response = wp_safe_remote_post( $this->ipn_url, $params );
 
 		if ( 'yes' == $this->debug ) {
-			$this->log->add( 'bcash', 'IPN Response: ' . print_r( $response, true ) );
+			$this->log->add( $this->id, 'IPN Response: ' . print_r( $response, true ) );
 		}
 
 		// Check to see if the request was valid.
 		if ( ! is_wp_error( $response ) && $response['response']['code'] >= 200 && $response['response']['code'] < 300 && ( strcmp( $response['body'], 'VERIFICADO' ) == 0 ) ) {
 
 			if ( 'yes' == $this->debug ) {
-				$this->log->add( 'bcash', 'Received valid IPN response from Bcash' );
+				$this->log->add( $this->id, 'Received valid IPN response from Bcash' );
 			}
 
 			return true;
 		} else {
 			if ( 'yes' == $this->debug ) {
-				$this->log->add( 'bcash', 'Received invalid IPN response from Bcash' );
+				$this->log->add( $this->id, 'Received invalid IPN response from Bcash' );
 			}
 		}
 
@@ -482,7 +482,7 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 			if ( $order->id === $order_id ) {
 
 				if ( 'yes' == $this->debug ) {
-					$this->log->add( 'bcash', 'Payment status from order ' . $order->get_order_number() . ': ' . $posted['status'] );
+					$this->log->add( $this->id, 'Payment status from order ' . $order->get_order_number() . ': ' . $posted['status'] );
 				}
 
 				switch ( $posted['cod_status'] ) {
