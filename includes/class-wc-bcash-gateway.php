@@ -8,20 +8,18 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 
 	/**
 	 * Constructor for the gateway.
-	 *
-	 * @return void
 	 */
 	public function __construct() {
-
-		// Standards
-		$this->id             = 'bcash';
-		$this->icon           = apply_filters( 'woocommerce_bcash_icon', plugins_url( 'assets/images/bcash.png', plugin_dir_path( __FILE__ ) ) );
-		$this->has_fields     = false;
-		$this->method_title   = __( 'Bcash', 'woocommerce-bcash' );
+		$this->id                 = 'bcash';
+		$this->icon               = apply_filters( 'woocommerce_bcash_icon', plugins_url( 'assets/images/bcash.png', plugin_dir_path( __FILE__ ) ) );
+		$this->has_fields         = false;
+		$this->method_title       = __( 'Bcash', 'woocommerce-bcash' );
+		$this->method_description = __( 'Accept payments by credit card, bank debit or banking ticket using the Bcash.', 'woocommerce-bcash' );
+		$this->order_button_text  = __( 'Proceed to payment', 'woocommerce-bcash' );
 
 		// API URLs.
-		$this->payment_url    = 'https://www.bcash.com.br/checkout/pay/';
-		$this->ipn_url        = 'https://www.bcash.com.br/checkout/verify/';
+		$this->payment_url = 'https://www.bcash.com.br/checkout/pay/';
+		$this->ipn_url     = 'https://www.bcash.com.br/checkout/verify/';
 
 		// Load the settings.
 		$this->init_form_fields();
@@ -46,7 +44,9 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 			if ( class_exists( 'WC_Logger' ) ) {
 				$this->log = new WC_Logger();
 			} else {
-				$this->log = $this->woocommerce_instance()->logger();
+				global $woocommerce;
+
+				$this->log = $woocommerce->logger();
 			}
 		}
 
@@ -55,26 +55,14 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 	}
 
 	/**
-	 * Backwards compatibility with version prior to 2.1.
-	 *
-	 * @return object Returns the main instance of WooCommerce class.
-	 */
-	protected function woocommerce_instance() {
-		if ( function_exists( 'WC' ) ) {
-			return WC();
-		} else {
-			global $woocommerce;
-			return $woocommerce;
-		}
-	}
-
-	/**
 	 * Displays notifications when the admin has something wrong with the configuration.
-	 *
-	 * @return void
 	 */
 	protected function admin_notices() {
 		if ( is_admin() ) {
+			if ( 'yes' != $this->get_option( 'enabled' ) ) {
+				return;
+			}
+
 			// Checks if email is not empty.
 			if ( empty( $this->email ) ) {
 				add_action( 'admin_notices', array( $this, 'mail_missing_message' ) );
@@ -86,7 +74,7 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 			}
 
 			// Checks that the currency is supported
-			if ( ! $this->using_supported_currency() ) {
+			if ( ! $this->using_supported_currency() && ! class_exists( 'woocommerce_wpml' ) ) {
 				add_action( 'admin_notices', array( $this, 'currency_not_supported_message' ) );
 			}
 		}
@@ -110,7 +98,7 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 	 */
 	public function is_available() {
 		// Test if is valid for use.
-		$available = ( 'yes' == $this->get_option( 'enabled' ) ) &&
+		$available = parent::is_available() &&
 					! empty( $this->email ) &&
 					! empty( $this->token ) &&
 					$this->using_supported_currency();
@@ -119,79 +107,91 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 	}
 
 	/**
-	 * Admin Panel Options.
+	 * Get log.
+	 *
+	 * @return string
 	 */
-	public function admin_options() {
-		echo '<h3>' . __( 'Bcash standard', 'woocommerce-bcash' ) . '</h3>';
-		echo '<p>' . __( 'Bcash standard works by sending the user to Bcash to enter their payment information.', 'woocommerce-bcash' ) . '</p>';
+	protected function get_log_view() {
+		if ( defined( 'WC_VERSION' ) && version_compare( WC_VERSION, '2.2', '>=' ) ) {
+			return '<a href="' . esc_url( admin_url( 'admin.php?page=wc-status&tab=logs&log_file=' . esc_attr( $this->id ) . '-' . sanitize_file_name( wp_hash( $this->id ) ) . '.log' ) ) . '">' . __( 'System Status &gt; Logs', 'woocommerce-bcash' ) . '</a>';
+		}
 
-		// Generate the HTML For the settings form.
-		echo '<table class="form-table">';
-		$this->generate_settings_html();
-		echo '</table>';
+		return '<code>woocommerce/logs/' . esc_attr( $this->id ) . '-' . sanitize_file_name( wp_hash( $this->id ) ) . '.txt</code>';
 	}
 
 	/**
 	 * Initialise Gateway Settings Form Fields.
-	 *
-	 * @return void
 	 */
 	public function init_form_fields() {
 		$this->form_fields = array(
 			'enabled' => array(
-				'title' => __( 'Enable/Disable', 'woocommerce-bcash' ),
-				'type' => 'checkbox',
-				'label' => __( 'Enable Bcash standard', 'woocommerce-bcash' ),
+				'title'   => __( 'Enable/Disable', 'woocommerce-bcash' ),
+				'type'    => 'checkbox',
+				'label'   => __( 'Enable Bcash standard', 'woocommerce-bcash' ),
 				'default' => 'yes'
 			),
 			'title' => array(
-				'title' => __( 'Title', 'woocommerce-bcash' ),
-				'type' => 'text',
+				'title'       => __( 'Title', 'woocommerce-bcash' ),
+				'type'        => 'text',
 				'description' => __( 'This controls the title which the user sees during checkout.', 'woocommerce-bcash' ),
-				'desc_tip' => true,
-				'default' => __( 'Bcash', 'woocommerce-bcash' )
+				'desc_tip'    => true,
+				'default'     => __( 'Bcash', 'woocommerce-bcash' )
 			),
 			'description' => array(
-				'title' => __( 'Description', 'woocommerce-bcash' ),
-				'type' => 'textarea',
+				'title'       => __( 'Description', 'woocommerce-bcash' ),
+				'type'        => 'textarea',
 				'description' => __( 'This controls the description which the user sees during checkout.', 'woocommerce-bcash' ),
-				'default' => __( 'Pay via Bcash', 'woocommerce-bcash' )
+				'default'     => __( 'Pay via Bcash', 'woocommerce-bcash' )
 			),
 			'email' => array(
-				'title' => __( 'Bcash Email', 'woocommerce-bcash' ),
-				'type' => 'text',
+				'title'       => __( 'Bcash Email', 'woocommerce-bcash' ),
+				'type'        => 'text',
 				'description' => __( 'Please enter your Bcash email address; this is needed in order to take payment.', 'woocommerce-bcash' ),
-				'desc_tip' => true,
-				'default' => ''
+				'desc_tip'    => true,
+				'default'     => ''
 			),
 			'token' => array(
-				'title' => __( 'Bcash Access Key', 'woocommerce-bcash' ),
-				'type' => 'text',
+				'title'       => __( 'Bcash Access Key', 'woocommerce-bcash' ),
+				'type'        => 'text',
 				'description' => __( 'Please enter your Bcash Access Key; is necessary to process the payment and notifications.', 'woocommerce-bcash' ),
-				'desc_tip' => true,
-				'default' => ''
+				'desc_tip'    => true,
+				'default'     => ''
 			),
 			'invoice_prefix' => array(
-				'title' => __( 'Invoice Prefix', 'woocommerce-bcash' ),
-				'type' => 'text',
+				'title'       => __( 'Invoice Prefix', 'woocommerce-bcash' ),
+				'type'        => 'text',
 				'description' => __( 'Please enter a prefix for your invoice numbers. If you use your Bcash account for multiple stores ensure this prefix is unqiue as Bcash will not allow orders with the same invoice number.', 'woocommerce-bcash' ),
-				'desc_tip' => true,
-				'default' => 'WC-'
+				'desc_tip'    => true,
+				'default'     => 'WC-'
 			),
 			'testing' => array(
-				'title' => __( 'Gateway Testing', 'woocommerce-bcash' ),
-				'type' => 'title',
+				'title'       => __( 'Gateway Testing', 'woocommerce-bcash' ),
+				'type'        => 'title',
 				'description' => ''
 			),
 			'debug' => array(
-				'title' => __( 'Debug Log', 'woocommerce-bcash' ),
-				'type' => 'checkbox',
-				'label' => __( 'Enable logging', 'woocommerce-bcash' ),
-				'default' => 'no',
-				'description' => sprintf( __( 'Log Bcash events, such as API requests, inside %s', 'woocommerce-bcash' ), '<code>woocommerce/logs/bcash-' . sanitize_file_name( wp_hash( 'bcash' ) ) . '.txt</code>' )
+				'title'       => __( 'Debug Log', 'woocommerce-bcash' ),
+				'type'        => 'checkbox',
+				'label'       => __( 'Enable logging', 'woocommerce-bcash' ),
+				'default'     => 'no',
+				'description' => sprintf( __( 'Log Bcash events, such as API requests, inside %s', 'woocommerce-bcash' ), $this->get_log_view() )
 			)
 		);
+	}
 
+	/**
+	 * Get WooCommerce return URL.
+	 *
+	 * @return string
+	 */
+	protected function get_wc_request_url() {
+		global $woocommerce;
+
+		if ( defined( 'WC_VERSION' ) && version_compare( WC_VERSION, '2.1', '>=' ) ) {
+			return WC()->api_request_url( 'WC_BCash_Gateway' );
+		} else {
+			return $woocommerce->api_request_url( 'WC_BCash_Gateway' );
+		}
 	}
 
 	/**
@@ -202,12 +202,11 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 	 * @return array         Form arguments.
 	 */
 	public function get_form_args( $order ) {
-		if ( version_compare( WOOCOMMERCE_VERSION, '2.1', '>=' ) ) {
+		if ( method_exists( $order, 'get_total_shipping' ) ) {
 			$shipping_total = $order->get_total_shipping();
 		} else {
 			$shipping_total = $order->get_shipping();
 		}
-
 
 		// Fixed phone number.
 		$order->billing_phone = str_replace( array( '(', '-', ' ', ')' ), '', $order->billing_phone );
@@ -220,16 +219,16 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 			'nome'            => $order->billing_first_name . ' ' . $order->billing_last_name,
 			'email'           => $order->billing_email,
 			'telefone'        => $order->billing_phone,
-			//'rg'
-			//'data_emissao_rg'
-			//'orgao_emissor_rg'
-			//'estado_emissor_rg'
-			//'cpf'
-			//'sexo'
-			//'data_nascimento'
-			//'celular'
-			//'cliente_razao_social'
-			//'cliente_cnpj'
+			// 'rg'
+			// 'data_emissao_rg'
+			// 'orgao_emissor_rg'
+			// 'estado_emissor_rg'
+			// 'cpf'
+			// 'sexo'
+			// 'data_nascimento'
+			// 'celular'
+			// 'cliente_razao_social'
+			// 'cliente_cnpj'
 
 			// Address info.
 			'endereco'        => $order->billing_address_1,
@@ -240,33 +239,37 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 			'cep'             => $order->billing_postcode,
 
 			// Tax.
-			'acrescimo'        => $order->get_total_tax(),
-
-			// Discount/Coupon.
-			'desconto'         => $order->get_order_discount(),
+			'acrescimo'       => $order->get_total_tax(),
 
 			// Payment Info.
-			'id_pedido'        => $this->invoice_prefix . $order->id,
+			'id_pedido'       => $this->invoice_prefix . $order->id,
 
 			// Shipping info.
-			'frete'            => number_format( $shipping_total, 2, '.', '' ),
-			'tipo_frete'       => $order->shipping_method_title,
+			'frete'           => number_format( $shipping_total, 2, '.', '' ),
+			'tipo_frete'      => $order->shipping_method_title,
 
 			// Return.
-			'url_retorno'      => $this->get_return_url( $order ),
-			'redirect'         => 'true',
-			'redirect_time'    => '0',
+			'url_retorno'     => $this->get_return_url( $order ),
+			'redirect'        => 'true',
+			'redirect_time'   => '0',
 
 			// Notification url.
-			'url_aviso'        => home_url( '/?wc-api=WC_BCash_Gateway' ),
+			'url_aviso'       => $this->get_wc_request_url(),
 
 			// Others fields.
-			//'parcela_maxima'
-			//'meio_pagamento'
-			//'meses_garantia'
-			//'free'
-			//'hash'
+			// 'parcela_maxima'
+			// 'meio_pagamento'
+			// 'meses_garantia'
+			// 'free'
+			// 'hash'
 		);
+
+		// Discount/Coupon for old versions of WooCommerce.
+		if ( defined( 'WC_VERSION' ) && version_compare( WC_VERSION, '2.3', '<' ) ) {
+			if ( 0 < $order->get_order_discount() ) {
+				$args['desconto'] = $order->get_order_discount();
+			}
+		}
 
 		// Cart Contents.
 		$item_loop = 0;
@@ -285,7 +288,6 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 					$args['produto_descricao_' . $item_loop ] = sanitize_text_field( $item_name );
 					$args['produto_qtde_' . $item_loop ]      = $item['qty'];
 					$args['produto_valor_' . $item_loop ]     = $order->get_item_total( $item, false );
-
 				}
 			}
 		}
@@ -303,9 +305,9 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 	 * @return string           Payment form.
 	 */
 	public function generate_form( $order_id ) {
-		$order      = new WC_Order( $order_id );
-		$args       = $this->get_form_args( $order );
-		$form_args  = array();
+		$order     = new WC_Order( $order_id );
+		$args      = $this->get_form_args( $order );
+		$form_args = array();
 
 		if ( 'yes' == $this->debug ) {
 			$this->log->add( 'bcash', 'Payment arguments for order ' . $order->get_order_number() . ': ' . print_r( $args, true ) );
@@ -315,7 +317,7 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 			$form_args[] = '<input type="hidden" name="' . esc_attr( $key ) . '" value="' . esc_attr( $value ) . '" />';
 		}
 
-		if ( version_compare( WOOCOMMERCE_VERSION, '2.1', '>=' ) ) {
+		if ( function_exists( 'wc_enqueue_js' ) ) {
 			wc_enqueue_js( '
 				jQuery.blockUI({
 					message: "' . esc_js( __( 'Thank you for your order. We are now redirecting you to Bcash to make payment.', 'woocommerce-bcash' ) ) . '",
@@ -325,21 +327,23 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 						opacity: 0.6
 					},
 					css: {
-						padding:        "20px",
-						zindex:         "9999999",
-						textAlign:      "center",
-						color:          "#555",
-						border:         "3px solid #aaa",
-						backgroundColor:"#fff",
-						cursor:         "wait",
-						lineHeight:		"24px",
+						padding:         "20px",
+						zindex:          "9999999",
+						textAlign:       "center",
+						color:           "#555",
+						border:          "3px solid #aaa",
+						backgroundColor: "#fff",
+						cursor:          "wait",
+						lineHeight:      "24px",
 					}
 				});
-				jQuery("#submit-payment-form").click();
+				jQuery( "#submit-payment-form" ).click();
 			' );
 		} else {
-			$this->woocommerce_instance()->add_inline_js( '
-				jQuery("body").block({
+			global $woocommerce;
+
+			$woocommerce->add_inline_js( '
+				jQuery( "body" ).block({
 					message: "' . esc_js( __( 'Thank you for your order. We are now redirecting you to Bcash to make payment.', 'woocommerce-bcash' ) ) . '",
 					overlayCSS: {
 						background: "#fff",
@@ -356,7 +360,7 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 						lineHeight:      "24px"
 					}
 				});
-				jQuery("#submit-payment-form").click();
+				jQuery( "#submit-payment-form" ).click();
 			' );
 		}
 
@@ -376,7 +380,7 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 	public function process_payment( $order_id ) {
 		$order = new WC_Order( $order_id );
 
-		if ( version_compare( WOOCOMMERCE_VERSION, '2.1', '>=' ) ) {
+		if ( defined( 'WC_VERSION' ) && version_compare( WC_VERSION, '2.1', '>=' ) ) {
 			return array(
 				'result'   => 'success',
 				'redirect' => $order->get_checkout_payment_url( true )
@@ -391,8 +395,6 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 
 	/**
 	 * Output for the order received page.
-	 *
-	 * @return void
 	 */
 	public function receipt_page( $order ) {
 		echo '<p>' . __( 'Thank you for your order, please click the button below to pay with Bcash.', 'woocommerce-bcash' ) . '</p>';
@@ -421,13 +423,12 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 
 		// Send back post vars.
 		$params = array(
-			'body'          => $postdata,
-			'sslverify'     => false,
-			'timeout'       => 60
+			'body'    => $postdata,
+			'timeout' => 60
 		);
 
 		// Post back to get a response.
-		$response = wp_remote_post( $this->ipn_url, $params );
+		$response = wp_safe_remote_post( $this->ipn_url, $params );
 
 		if ( 'yes' == $this->debug ) {
 			$this->log->add( 'bcash', 'IPN Response: ' . print_r( $response, true ) );
@@ -452,8 +453,6 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 
 	/**
 	 * Check API Response.
-	 *
-	 * @return void
 	 */
 	public function check_ipn_response() {
 		@ob_clean();
@@ -462,7 +461,8 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 			header( 'HTTP/1.1 200 OK' );
 			do_action( 'valid_bcash_ipn_request', stripslashes_deep( $_POST ) );
 		} else {
-			wp_die( __( 'Bcash Request Failure', 'woocommerce-bcash' ) );
+			$message = __( 'Bcash Request Unauthorized', 'woocommerce-bcash' );
+			wp_die( $message, $message, array( 'response' => 401 ) );
 		}
 	}
 
@@ -470,15 +470,12 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 	 * Successful Payment!
 	 *
 	 * @param array $posted Bcash post data.
-	 *
-	 * @return void
 	 */
 	public function successful_request( $posted ) {
 		if ( ! empty( $posted['id_pedido'] ) ) {
 			$order_key = $posted['id_pedido'];
-			$order_id = (int) str_replace( $this->invoice_prefix, '', $order_key );
-
-			$order = new WC_Order( $order_id );
+			$order_id  = (int) str_replace( $this->invoice_prefix, '', $order_key );
+			$order     = new WC_Order( $order_id );
 
 			// Checks whether the invoice number matches the order.
 			// If true processes the payment.
@@ -489,11 +486,11 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 				}
 
 				switch ( $posted['cod_status'] ) {
-					case '0':
+					case '0' :
 						$order->update_status( 'on-hold', __( 'Bcash: Payment under review.', 'woocommerce-bcash' ) );
 
 						break;
-					case '1':
+					case '1' :
 
 						// Order details.
 						if ( ! empty( $posted['id_transacao'] ) ) {
@@ -530,12 +527,12 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 						$order->payment_complete();
 
 						break;
-					case '2':
+					case '2' :
 						$order->update_status( 'cancelled', __( 'Bcash: Payment canceled.', 'woocommerce-bcash' ) );
 
 						break;
 
-					default:
+					default :
 						// No action xD.
 						break;
 				}
@@ -549,7 +546,7 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 	 * @return string
 	 */
 	protected function admin_url() {
-		if ( version_compare( WOOCOMMERCE_VERSION, '2.1', '>=' ) ) {
+		if ( defined( 'WC_VERSION' ) && version_compare( WC_VERSION, '2.1', '>=' ) ) {
 			return admin_url( 'admin.php?page=wc-settings&tab=checkout&section=wc_bcash_gateway' );
 		}
 
@@ -562,7 +559,7 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 	 * @return string Error Mensage.
 	 */
 	public function mail_missing_message() {
-		echo '<div class="error"><p><strong>' . __( 'Bcash Disabled', 'woocommerce-bcash' ) . '</strong>: ' . sprintf( __( 'You should inform your email address. %s', 'woocommerce-bcash' ), '<a href="' . $this->admin_url() . '">' . __( 'Click here to configure!', 'woocommerce-bcash' ) . '</a>' ) . '</p></div>';
+		echo '<div class="error"><p><strong>' . __( 'Bcash Disabled', 'woocommerce-bcash' ) . '</strong>: ' . sprintf( __( 'You should inform your email address. %s', 'woocommerce-bcash' ), '<a href="' . esc_url( $this->admin_url() ) . '">' . __( 'Click here to configure!', 'woocommerce-bcash' ) . '</a>' ) . '</p></div>';
 	}
 
 	/**
@@ -571,7 +568,7 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 	 * @return string Error Mensage.
 	 */
 	public function token_missing_message() {
-		echo '<div class="error"><p><strong>' . __( 'Bcash Disabled', 'woocommerce-bcash' ) . '</strong>: ' . sprintf( __( 'You should inform your access key. %s', 'woocommerce-bcash' ), '<a href="' . $this->admin_url() . '">' . __( 'Click here to configure!', 'woocommerce-bcash' ) . '</a>' ) . '</p></div>';
+		echo '<div class="error"><p><strong>' . __( 'Bcash Disabled', 'woocommerce-bcash' ) . '</strong>: ' . sprintf( __( 'You should inform your access key. %s', 'woocommerce-bcash' ), '<a href="' . esc_url( $this->admin_url() ) . '">' . __( 'Click here to configure!', 'woocommerce-bcash' ) . '</a>' ) . '</p></div>';
 	}
 
 	/**
@@ -582,5 +579,4 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 	public function currency_not_supported_message() {
 		echo '<div class="error"><p><strong>' . __( 'Bcash Disabled', 'woocommerce-bcash' ) . '</strong>: ' . sprintf( __( 'Currency <code>%s</code> is not supported. Works only with <code>BRL</code> (Brazilian Real).', 'woocommerce-bcash' ), get_woocommerce_currency() ) . '</p></div>';
 	}
-
 }

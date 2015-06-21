@@ -93,8 +93,8 @@ class WC_Bcash {
 	public function plugin_action_links( $links ) {
 		$plugin_links = array();
 
-		if ( defined( 'WOOCOMMERCE_VERSION' ) && version_compare( WOOCOMMERCE_VERSION, '2.1', '>=' ) ) {
-				$settings_url = admin_url( 'admin.php?page=wc-settings&tab=checkout&section=wc_bcash_gateway' );
+		if ( defined( 'WC_VERSION' ) && version_compare( WC_VERSION, '2.1', '>=' ) ) {
+			$settings_url = admin_url( 'admin.php?page=wc-settings&tab=checkout&section=wc_bcash_gateway' );
 		} else {
 			$settings_url = admin_url( 'admin.php?page=woocommerce_settings&tab=payment_gateways&section=WC_Bcash_Gateway' );
 		}
