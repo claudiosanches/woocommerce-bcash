@@ -15,7 +15,7 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 
 		// Standards
 		$this->id             = 'bcash';
-		$this->icon           = apply_filters( 'woocommerce_bcash_icon', plugins_url( 'images/bcash.png', plugin_dir_path( __FILE__ ) ) );
+		$this->icon           = apply_filters( 'woocommerce_bcash_icon', plugins_url( 'assets/images/bcash.png', plugin_dir_path( __FILE__ ) ) );
 		$this->has_fields     = false;
 		$this->method_title   = __( 'Bcash', 'woocommerce-bcash' );
 
