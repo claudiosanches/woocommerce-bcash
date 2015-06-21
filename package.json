@@ -3,9 +3,9 @@
   "description": "Bcash Payment Gateway for WooCommerce",
   "version": "1.7.0",
   "main": "Gruntfile.js",
-  "dependencies": {
-    "grunt": "~0.4.1",
-    "grunt-rsync": "~0.1.1",
-    "grunt-shell": "~0.2.2"
+  "devDependencies": {
+    "grunt": "~0.4.5",
+    "grunt-rsync": "~0.6.2",
+    "grunt-shell": "~1.1.2"
   }
 }

@@ -4,15 +4,16 @@ module.exports = function( grunt ) {
 
 	grunt.initConfig({
 
-		// gets the package vars
+		// Gets the package vars
 		pkg: grunt.file.readJSON( 'package.json' ),
 		svn_settings: {
 			path: '../../../../wp_plugins/<%= pkg.name %>',
 			tag: '<%= svn_settings.path %>/tags/<%= pkg.version %>',
 			trunk: '<%= svn_settings.path %>/trunk',
 			exclude: [
-				'.editorconfig',
 				'.git/',
+				'.tx/',
+				'.editorconfig',
 				'.gitignore',
 				'.jshintrc',
 				'node_modules/',
@@ -23,24 +24,42 @@ module.exports = function( grunt ) {
 			]
 		},
 
-		// rsync commands used to take the files to svn repository
+		// Rsync commands used to take the files to svn repository
 		rsync: {
+			options: {
+				args: ['--verbose'],
+				exclude: '<%= svn_settings.exclude %>',
+				syncDest: true,
+				recursive: true
+			},
 			tag: {
-				src: './',
-				dest: '<%= svn_settings.tag %>',
-				recursive: true,
-				exclude: '<%= svn_settings.exclude %>'
+				options: {
+					src: './',
+					dest: '<%= svn_settings.tag %>'
+				}
 			},
 			trunk: {
+				options: {
 				src: './',
-				dest: '<%= svn_settings.trunk %>',
-				recursive: true,
-				exclude: '<%= svn_settings.exclude %>'
+				dest: '<%= svn_settings.trunk %>'
+				}
 			}
 		},
 
-		// shell command to commit the new version of the plugin
+		// Shell command to commit the new version of the plugin
 		shell: {
+			// Remove delete files.
+			svn_remove: {
+				command: 'svn st | grep \'^!\' | awk \'{print $2}\' | xargs svn --force delete',
+				options: {
+					stdout: true,
+					stderr: true,
+					execOptions: {
+						cwd: '<%= svn_settings.path %>'
+					}
+				}
+			},
+			// Add new files.
 			svn_add: {
 				command: 'svn add --force * --auto-props --parents --depth infinity -q',
 				options: {
@@ -51,6 +70,7 @@ module.exports = function( grunt ) {
 					}
 				}
 			},
+			// Commit the changes.
 			svn_commit: {
 				command: 'svn commit -m "updated the plugin version to <%= pkg.version %>"',
 				options: {
@@ -62,17 +82,17 @@ module.exports = function( grunt ) {
 				}
 			}
 		}
-
 	});
 
-	// load tasks
+	// Load tasks
 	grunt.loadNpmTasks( 'grunt-rsync' );
 	grunt.loadNpmTasks( 'grunt-shell' );
 
-	// deploy task
-	grunt.registerTask( 'default', [
+	// Deploy task
+	grunt.registerTask( 'deploy', [
 		'rsync:tag',
 		'rsync:trunk',
+		'shell:svn_remove',
 		'shell:svn_add',
 		'shell:svn_commit'
 	] );
