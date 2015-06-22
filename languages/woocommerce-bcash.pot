@@ -1,124 +1,114 @@
+# Loco Gettext template
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: WooCommerce Bcash\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: Sun Jun 21 2015 21:24:35 GMT-0300 (BRT)\n"
-"PO-Revision-Date: Sun Jun 21 2015 21:34:29 GMT-0300 (BRT)\n"
-"Last-Translator: Claudio Sanches <contato@claudiosmweb.com>\n"
+"POT-Revision-Date: Sun Jun 21 2015 21:33:46 GMT-0300 (BRT)\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: \n"
 "Language-Team: \n"
-"Language: Portuguese (Brazil)\n"
-"Plural-Forms: nplurals=2; plural=n != 1\n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Loco - https://localise.biz/\n"
-"X-Poedit-Language: Portuguese\n"
-"X-Poedit-Country: BRAZIL\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: ..\n"
 "X-Poedit-KeywordsList: _:1;gettext:1;dgettext:2;ngettext:1,2;dngettext:2,3;"
 "__:1;_e:1;_c:1;_n:1,2;_n_noop:1,2;_nc:1,2;__ngettext:1,2;__ngettext_noop:1,2;"
 "_x:1,2c;_ex:1,2c;_nx:1,2,4c;_nx_noop:1,2,3c;_n_js:1,2;_nx_js:1,2,3c;"
 "esc_attr__:1;esc_html__:1;esc_attr_e:1;esc_html_e:1;esc_attr_x:1,2c;"
 "esc_html_x:1,2c;comments_number_link:2,3;t:1;st:1;trans:1;transChoice:1,2\n"
-"X-Poedit-Basepath: ../\n"
-"X-Poedit-Bookmarks: \n"
-"X-Poedit-SearchPath-0: .\n"
-"X-Textdomain-Support: yes\n"
-"X-Loco-Target-Locale: pt_BR"
+"X-Generator: Loco - https://localise.biz/"
 
 #: ../woocommerce-bcash.php:102
 msgid "Settings"
-msgstr "Configurações"
+msgstr ""
 
 #: ../woocommerce-bcash.php:126
 msgid "WooCommerce Bcash Gateway"
-msgstr "WooCommerce Bcash"
+msgstr ""
 
 #: ../woocommerce-bcash.php:126
 #, php-format
 msgid "depends on the last version of %s to work!"
-msgstr "depende da última versão do %s para funcionar!"
+msgstr ""
 
 #: ../woocommerce-bcash.php:126
 msgid "WooCommerce"
-msgstr "WooCommerce"
+msgstr ""
 
 #: ../includes/class-wc-bcash-gateway.php:16 ../includes/class-wc-bcash-gateway.
 #: php:138
 msgid "Bcash"
-msgstr "Bcash"
+msgstr ""
 
 #: ../includes/class-wc-bcash-gateway.php:17
 msgid "Accept payments by credit card, bank debit or banking ticket using the Bcash."
 msgstr ""
-"Aceite pagamentos por cartão de crédito, transferência bancária ou boleto "
-"bancário usando o Bcash."
 
 #: ../includes/class-wc-bcash-gateway.php:18
 msgid "Checkout on Bcash"
-msgstr "Finalizar compra no Bcash"
+msgstr ""
 
 #: ../includes/class-wc-bcash-gateway.php:116
 msgid "System Status &gt; Logs"
-msgstr "Status do Sistema &gt; Logs"
+msgstr ""
 
 #: ../includes/class-wc-bcash-gateway.php:128
 msgid "Enable/Disable"
-msgstr "Habilita/Desabilita"
+msgstr ""
 
 #: ../includes/class-wc-bcash-gateway.php:130
 msgid "Enable Bcash standard"
-msgstr "Habilitar Bcash padrão"
+msgstr ""
 
 #: ../includes/class-wc-bcash-gateway.php:134
 msgid "Title"
-msgstr "Título"
+msgstr ""
 
 #: ../includes/class-wc-bcash-gateway.php:136
 msgid "This controls the title which the user sees during checkout."
-msgstr "Isto controla o título que o usuário vê durante o checkout."
+msgstr ""
 
 #: ../includes/class-wc-bcash-gateway.php:141
 msgid "Description"
-msgstr "Descrição"
+msgstr ""
 
 #: ../includes/class-wc-bcash-gateway.php:143
 msgid "This controls the description which the user sees during checkout."
-msgstr "Isso controla a descrição que o usuário vê durante o checkout."
+msgstr ""
 
 #: ../includes/class-wc-bcash-gateway.php:144
 msgid "Pay with credit card, bank debit or banking ticket using the Bcash."
 msgstr ""
-"Pague com cartão de crédito, transferência bancária ou boleto bancário no "
-"Bcash."
 
 #: ../includes/class-wc-bcash-gateway.php:147
 msgid "Bcash Email"
-msgstr "Email cadastrado no Bcash"
+msgstr ""
 
 #: ../includes/class-wc-bcash-gateway.php:149
 msgid ""
 "Please enter your Bcash email address; this is needed in order to take "
 "payment."
 msgstr ""
-"Por favor digite o seu endereço de email do Bcash, que é necessário para "
-"receber o pagamento."
 
 #: ../includes/class-wc-bcash-gateway.php:154
 msgid "Bcash Access Key"
-msgstr "Bcash Chave de Acesso"
+msgstr ""
 
 #: ../includes/class-wc-bcash-gateway.php:156
 msgid ""
 "Please enter your Bcash Access Key; is necessary to process the payment and "
 "notifications."
 msgstr ""
-"Por favor, digite a sua Chave de Acesso do Bcash; é necessário para "
-"processar o pagamento e as notificações de transações."
 
 #: ../includes/class-wc-bcash-gateway.php:161
 msgid "Invoice Prefix"
-msgstr "Prefixo de pedido"
+msgstr ""
 
 #: ../includes/class-wc-bcash-gateway.php:163
 msgid ""
@@ -126,26 +116,23 @@ msgid ""
 "account for multiple stores ensure this prefix is unqiue as Bcash will not "
 "allow orders with the same invoice number."
 msgstr ""
-"Por favor informe um prefixo para utilizar com os números de pedidos. Caso "
-"você utilize sua conta do Bcash em mais de uma loja, procure utilizar um "
-"prefixo único para cada loja."
 
 #: ../includes/class-wc-bcash-gateway.php:168
 msgid "Gateway Testing"
-msgstr "Teste de Gateway"
+msgstr ""
 
 #: ../includes/class-wc-bcash-gateway.php:173
 msgid "Debug Log"
-msgstr "Log de depuração"
+msgstr ""
 
 #: ../includes/class-wc-bcash-gateway.php:175
 msgid "Enable logging"
-msgstr "Habilitar log"
+msgstr ""
 
 #: ../includes/class-wc-bcash-gateway.php:177
 #, php-format
 msgid "Log Bcash events, such as API requests, inside %s"
-msgstr "Registrar eventos do Bcash, tais como pedidos de API, dentro de %s"
+msgstr ""
 
 #: ../includes/class-wc-bcash-gateway.php:323 ../includes/class-wc-bcash-gateway.
 #: php:347
@@ -153,74 +140,70 @@ msgid ""
 "Thank you for your order. We are now redirecting you to Bcash to make "
 "payment."
 msgstr ""
-"Obrigado por fazer seu pedido. Agora estamos redirecionando você para o "
-"Bcash para efetuar o pagamento."
 
 #: ../includes/class-wc-bcash-gateway.php:369
 msgid "Pay via Bcash"
-msgstr "Pagar com Bcash"
+msgstr ""
 
 #: ../includes/class-wc-bcash-gateway.php:369
 msgid "Cancel order &amp; restore cart"
-msgstr "Cancelar pedido e restaurar carrinho"
+msgstr ""
 
 #: ../includes/class-wc-bcash-gateway.php:400
 msgid "Thank you for your order, please click the button below to pay with Bcash."
 msgstr ""
-"Obrigado por seu pedido, por favor clique no botão abaixo para pagar com "
-"Bcash."
 
 #: ../includes/class-wc-bcash-gateway.php:477
 msgid "Bcash Request Unauthorized"
-msgstr "Bcash - Solicitação não autorizada"
+msgstr ""
 
 #: ../includes/class-wc-bcash-gateway.php:503
 msgid "Bcash: Payment under review."
-msgstr "Bcash: Pagamento em análise."
+msgstr ""
 
 #: ../includes/class-wc-bcash-gateway.php:512
 msgid "Bcash Transaction ID"
-msgstr "Bcash: ID da transação"
+msgstr ""
 
 #: ../includes/class-wc-bcash-gateway.php:519
 msgid "Payer email"
-msgstr "E-mail do comprador"
+msgstr ""
 
 #: ../includes/class-wc-bcash-gateway.php:526
 msgid "Payer name"
-msgstr "Nome do comprador"
+msgstr ""
 
 #: ../includes/class-wc-bcash-gateway.php:533
 msgid "Payment type"
-msgstr "Tipo de pagamento"
+msgstr ""
 
 #: ../includes/class-wc-bcash-gateway.php:539
 msgid "Bcash: Payment completed."
-msgstr "Bcash: Pagamento concluído."
+msgstr ""
 
 #: ../includes/class-wc-bcash-gateway.php:544
 msgid "Bcash: Payment canceled."
-msgstr "Bcash: Pagamento cancelado."
+msgstr ""
 
 #: ../includes/class-wc-bcash-gateway.php:575 ../includes/class-wc-bcash-gateway.
 #: php:584 ../includes/class-wc-bcash-gateway.php:593
 msgid "Bcash Disabled"
-msgstr "Bcash Desabilitado"
+msgstr ""
 
 #: ../includes/class-wc-bcash-gateway.php:575
 #, php-format
 msgid "You should inform your email address. %s"
-msgstr "Você deve informar o seu endereço de e-mail. %s"
+msgstr ""
 
 #: ../includes/class-wc-bcash-gateway.php:575 ../includes/class-wc-bcash-gateway.
 #: php:584
 msgid "Click here to configure!"
-msgstr "Clique aqui para configurar!"
+msgstr ""
 
 #: ../includes/class-wc-bcash-gateway.php:584
 #, php-format
 msgid "You should inform your access key. %s"
-msgstr "Você deve informar a sua chave de acesso. &s"
+msgstr ""
 
 #: ../includes/class-wc-bcash-gateway.php:593
 #, php-format
@@ -228,5 +211,3 @@ msgid ""
 "Currency <code>%s</code> is not supported. Works only with <code>BRL</code> "
 "(Brazilian Real)."
 msgstr ""
-"A moeda <code>%s</code> não é suportada. Funciona apenas com "
-"<code>BRL</code> (Real)."

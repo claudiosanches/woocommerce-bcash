@@ -2,9 +2,9 @@
 **Contributors:** claudiosanches  
 **Donate link:** http://claudiosmweb.com/doacoes/  
 **Tags:** woocommerce, checkout, payment, bcash  
-**Requires at least:** 3.8  
-**Tested up to:** 4.0  
-**Stable tag:** 1.7.0  
+**Requires at least:** 4.0  
+**Tested up to:** 4.2  
+**Stable tag:** 1.8.0  
 **License:** GPLv2 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -34,7 +34,7 @@ Este plugin foi feito baseado na [documentação oficial do Bcash](https://www.b
 
 ### Compatibilidade ###
 
-Compatível com as versões 2.0.x e 2.1.x do WooCommerce.
+Compatível com as versões 2.0.x, 2.1.x, 2.2.x e 2.3.x do WooCommerce.
 
 ### Instalação: ###
 
@@ -170,41 +170,47 @@ Entre em contato [clicando aqui](http://claudiosmweb.com/plugins/bcash-para-wooc
 
 ## Changelog ##
 
-### 1.7.0 - 14/12/2013 ###
+### 1.8.0 - 21/06/2015 ###
+
+* Melhorado o suporte para todas as versões recentes do WooCommerce.
+* Atualizado para 15 segundos o tempo de redirecionamento do Bcash para a loja.
+* Melhorada a verificação de notificação de pagamento e adicionado mais detalhes para os logs.
+
+### 1.7.0 - 2013/12/14 ###
 
 * Corrigido padrões de código.
 * Removida compatibilidade com versões 1.6.x ou inferiores do WooCommerce.
 * Adicionada compatibilidade com WooCommerce 2.1 ou superior.
 
-### 1.6.0 - 26/07/2013 ###
+### 1.6.0 - 2013/07/26 ###
 
 * Melhoria nas mensagens de status do pedido.
 * Melhoria no código do plugin.
 
-### 1.5.0 - 24/07/2013 ###
+### 1.5.0 - 2013/07/24 ###
 
 * Adicionado link de `Configurações` na página de plugins.
 * Melhorias no código.
 * Adicionado suporte para WooCommerce 2.1.
 * Adicionado objeto do pedido no filtro `woocommerce_bcash_args`.
 
-### 1.4 - 08/04/2013 ###
+### 1.4 - 2013/04/08 ###
 
 * Correção do retorno automático de dados na versão 2.0.0 ou superior do WooCommerce.
 
-### 1.3.3 - 06/03/2013 ###
+### 1.3.3 - 2013/03/06 ###
 
 * Corrigida a compatibilidade com WooCommerce 2.0.0 ou mais recente.
 
-### 1.3.2 - 08/02/2013 ###
+### 1.3.2 - 2013/02/08 ###
 
 * Corrigido o hook responsavel por salvar as opções para a versão 2.0 RC do WooCommerce.
 
-### 1.3.1 - 08/02/2013 ###
+### 1.3.1 - 2013/02/08 ###
 
 * Plugin corrigido para a versão 2.0 do WooCommerce.
 
-### 1.3 - 30/11/2012 ###
+### 1.3 - 2012/11/30 ###
 
 * Adicionada opção para logs de erro.
 
@@ -228,11 +234,11 @@ Entre em contato [clicando aqui](http://claudiosmweb.com/plugins/bcash-para-wooc
 
 ## Upgrade Notice ##
 
-### 1.7.0 ###
+### 1.8.0 ###
 
-* Corrigido padrões de código.
-* Removida compatibilidade com versões 1.6.x ou inferiores do WooCommerce.
-* Adicionada compatibilidade com WooCommerce 2.1 ou superior.
+* Melhorado o suporte para todas as versões recentes do WooCommerce.
+* Atualizado para 15 segundos o tempo de redirecionamento do Bcash para a loja.
+* Melhorada a verificação de notificação de pagamento e adicionado mais detalhes para os logs.
 
 ## License ##
 

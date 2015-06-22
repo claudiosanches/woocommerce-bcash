@@ -15,7 +15,7 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 		$this->has_fields         = false;
 		$this->method_title       = __( 'Bcash', 'woocommerce-bcash' );
 		$this->method_description = __( 'Accept payments by credit card, bank debit or banking ticket using the Bcash.', 'woocommerce-bcash' );
-		$this->order_button_text  = __( 'Proceed to payment', 'woocommerce-bcash' );
+		$this->order_button_text  = __( 'Checkout on Bcash', 'woocommerce-bcash' );
 
 		// API URLs.
 		$this->payment_url = 'https://www.bcash.com.br/checkout/pay/';
@@ -141,7 +141,8 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 				'title'       => __( 'Description', 'woocommerce-bcash' ),
 				'type'        => 'textarea',
 				'description' => __( 'This controls the description which the user sees during checkout.', 'woocommerce-bcash' ),
-				'default'     => __( 'Pay via Bcash', 'woocommerce-bcash' )
+				'desc_tip'    => true,
+				'default'     => __( 'Pay with credit card, bank debit or banking ticket using the Bcash.', 'woocommerce-bcash' )
 			),
 			'email' => array(
 				'title'       => __( 'Bcash Email', 'woocommerce-bcash' ),
