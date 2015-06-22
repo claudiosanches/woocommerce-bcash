@@ -166,7 +166,7 @@ Entre em contato [clicando aqui](http://claudiosmweb.com/plugins/bcash-para-wooc
 
 == Changelog ==
 
-= 1.8.0 - 21/06/2015 =
+= 1.8.0 - 2015/06/21 =
 
 * Melhorado o suporte para todas as versões recentes do WooCommerce.
 * Atualizado para 15 segundos o tempo de redirecionamento do Bcash para a loja.
