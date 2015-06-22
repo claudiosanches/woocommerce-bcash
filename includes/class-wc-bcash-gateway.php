@@ -251,7 +251,7 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 			// Return.
 			'url_retorno'     => $this->get_return_url( $order ),
 			'redirect'        => 'true',
-			'redirect_time'   => '0',
+			'redirect_time'   => '15',
 
 			// Notification url.
 			'url_aviso'       => $this->get_wc_request_url(),
