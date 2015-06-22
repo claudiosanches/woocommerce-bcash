@@ -407,23 +407,36 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 	 * @return bool
 	 */
 	public function check_ipn_request_is_valid() {
-		if ( 'yes' == $this->debug ) {
-			$this->log->add( $this->id, 'Checking IPN request...' );
+		// Get recieved values from post data.
+		$received = (array) stripslashes_deep( $_POST );
+
+		// Test if is a valid IPN request.
+		if (
+			! isset( $received['id_transacao'] )
+			|| ! isset( $received['status'] )
+			|| ! isset( $received['cod_status'] )
+			|| ! isset( $received['valor_original'] )
+			|| ! isset( $received['valor_loja'] )
+		) {
+			return false;
 		}
 
-		// Get recieved values from post data.
-		$received_values = (array) stripslashes_deep( $_POST );
+		if ( 'yes' == $this->debug ) {
+			$this->log->add( $this->id, 'Checking IPN request with the following data:' . print_r( $received, true ) );
+		}
 
-		$postdata  = 'transacao=' . $received_values['id_transacao'];
-		$postdata .= '&status=' . $received_values['status'];
-		$postdata .= '&cod_status=' . $received_values['cod_status'];
-		$postdata .= '&valor_original=' . $received_values['valor_original'];
-		$postdata .= '&valor_loja=' . $_POST['valor_loja'];
-		$postdata .= '&token=' . $this->token;
+		$data = build_query( array(
+			'transacao'      => $received['id_transacao'],
+			'status'         => $received['status'],
+			'cod_status'     => $received['cod_status'],
+			'valor_original' => $received['valor_original'],
+			'valor_loja'     => $received['valor_loja'],
+			'token'          => $this->token,
+		) );
 
 		// Send back post vars.
 		$params = array(
-			'body'    => $postdata,
+			'body'    => $data,
 			'timeout' => 60
 		);
 
