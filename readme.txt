@@ -4,7 +4,7 @@ Donate link: http://claudiosmweb.com/doacoes/
 Tags: woocommerce, checkout, payment, bcash
 Requires at least: 4.0
 Tested up to: 4.2
-Stable tag: 1.8.0
+Stable tag: 1.9.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -166,6 +166,10 @@ Entre em contato [clicando aqui](http://claudiosmweb.com/plugins/bcash-para-wooc
 
 == Changelog ==
 
+= 1.9.0 - 2015/06/22 =
+
+* Adicionada nova API para trabalhar com as notificações de mudança de status do pedido.
+
 = 1.8.0 - 2015/06/21 =
 
 * Melhorado o suporte para todas as versões recentes do WooCommerce.
@@ -230,11 +234,9 @@ Entre em contato [clicando aqui](http://claudiosmweb.com/plugins/bcash-para-wooc
 
 == Upgrade Notice ==
 
-= 1.8.0 =
+= 1.9.0 =
 
-* Melhorado o suporte para todas as versões recentes do WooCommerce.
-* Atualizado para 15 segundos o tempo de redirecionamento do Bcash para a loja.
-* Melhorada a verificação de notificação de pagamento e adicionado mais detalhes para os logs.
+* Adicionada nova API para trabalhar com as notificações de mudança de status do pedido.
 
 == License ==
 
