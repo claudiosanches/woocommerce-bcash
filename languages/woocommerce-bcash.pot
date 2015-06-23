@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: WooCommerce Bcash\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: Sun Jun 21 2015 21:24:35 GMT-0300 (BRT)\n"
-"POT-Revision-Date: Sun Jun 21 2015 21:33:46 GMT-0300 (BRT)\n"
+"POT-Revision-Date: Mon Jun 22 2015 21:41:51 GMT-0300 (BRT)\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -42,7 +42,7 @@ msgid "WooCommerce"
 msgstr ""
 
 #: ../includes/class-wc-bcash-gateway.php:16 ../includes/class-wc-bcash-gateway.
-#: php:138
+#: php:137
 msgid "Bcash"
 msgstr ""
 
@@ -54,31 +54,31 @@ msgstr ""
 msgid "Checkout on Bcash"
 msgstr ""
 
-#: ../includes/class-wc-bcash-gateway.php:116
+#: ../includes/class-wc-bcash-gateway.php:115
 msgid "System Status &gt; Logs"
 msgstr ""
 
-#: ../includes/class-wc-bcash-gateway.php:128
+#: ../includes/class-wc-bcash-gateway.php:127
 msgid "Enable/Disable"
 msgstr ""
 
-#: ../includes/class-wc-bcash-gateway.php:130
+#: ../includes/class-wc-bcash-gateway.php:129
 msgid "Enable Bcash standard"
 msgstr ""
 
-#: ../includes/class-wc-bcash-gateway.php:134
+#: ../includes/class-wc-bcash-gateway.php:133
 msgid "Title"
 msgstr ""
 
-#: ../includes/class-wc-bcash-gateway.php:136
+#: ../includes/class-wc-bcash-gateway.php:135
 msgid "This controls the title which the user sees during checkout."
 msgstr ""
 
-#: ../includes/class-wc-bcash-gateway.php:141
+#: ../includes/class-wc-bcash-gateway.php:140
 msgid "Description"
 msgstr ""
 
-#: ../includes/class-wc-bcash-gateway.php:143
+#: ../includes/class-wc-bcash-gateway.php:142
 msgid "This controls the description which the user sees during checkout."
 msgstr ""
 
@@ -153,59 +153,79 @@ msgstr ""
 msgid "Thank you for your order, please click the button below to pay with Bcash."
 msgstr ""
 
-#: ../includes/class-wc-bcash-gateway.php:477
+#: ../includes/class-wc-bcash-gateway.php:473
 msgid "Bcash Request Unauthorized"
 msgstr ""
 
-#: ../includes/class-wc-bcash-gateway.php:503
-msgid "Bcash: Payment under review."
-msgstr ""
-
-#: ../includes/class-wc-bcash-gateway.php:512
+#: ../includes/class-wc-bcash-gateway.php:501
 msgid "Bcash Transaction ID"
 msgstr ""
 
-#: ../includes/class-wc-bcash-gateway.php:519
+#: ../includes/class-wc-bcash-gateway.php:504
 msgid "Payer email"
 msgstr ""
 
-#: ../includes/class-wc-bcash-gateway.php:526
+#: ../includes/class-wc-bcash-gateway.php:505
 msgid "Payer name"
 msgstr ""
 
-#: ../includes/class-wc-bcash-gateway.php:533
+#: ../includes/class-wc-bcash-gateway.php:506
 msgid "Payment type"
 msgstr ""
 
-#: ../includes/class-wc-bcash-gateway.php:539
+#: ../includes/class-wc-bcash-gateway.php:512
+msgid "Bcash: One bank ticket was printed, awaiting the payment approval."
+msgstr ""
+
+#: ../includes/class-wc-bcash-gateway.php:514
+msgid "Bcash: Payment under review."
+msgstr ""
+
+#: ../includes/class-wc-bcash-gateway.php:520
+msgid "Bcash: Payment approved."
+msgstr ""
+
+#: ../includes/class-wc-bcash-gateway.php:525
 msgid "Bcash: Payment completed."
 msgstr ""
 
-#: ../includes/class-wc-bcash-gateway.php:544
+#: ../includes/class-wc-bcash-gateway.php:528
+msgid "Bcash: Payment came into dispute."
+msgstr ""
+
+#: ../includes/class-wc-bcash-gateway.php:531
+msgid "Bcash: Payment refunded."
+msgstr ""
+
+#: ../includes/class-wc-bcash-gateway.php:534
 msgid "Bcash: Payment canceled."
 msgstr ""
 
-#: ../includes/class-wc-bcash-gateway.php:575 ../includes/class-wc-bcash-gateway.
-#: php:584 ../includes/class-wc-bcash-gateway.php:593
+#: ../includes/class-wc-bcash-gateway.php:538
+msgid "Bcash: Payment refused because of a chargeback."
+msgstr ""
+
+#: ../includes/class-wc-bcash-gateway.php:568 ../includes/class-wc-bcash-gateway.
+#: php:577 ../includes/class-wc-bcash-gateway.php:586
 msgid "Bcash Disabled"
 msgstr ""
 
-#: ../includes/class-wc-bcash-gateway.php:575
+#: ../includes/class-wc-bcash-gateway.php:568
 #, php-format
 msgid "You should inform your email address. %s"
 msgstr ""
 
-#: ../includes/class-wc-bcash-gateway.php:575 ../includes/class-wc-bcash-gateway.
-#: php:584
+#: ../includes/class-wc-bcash-gateway.php:568 ../includes/class-wc-bcash-gateway.
+#: php:577
 msgid "Click here to configure!"
 msgstr ""
 
-#: ../includes/class-wc-bcash-gateway.php:584
+#: ../includes/class-wc-bcash-gateway.php:577
 #, php-format
 msgid "You should inform your access key. %s"
 msgstr ""
 
-#: ../includes/class-wc-bcash-gateway.php:593
+#: ../includes/class-wc-bcash-gateway.php:586
 #, php-format
 msgid ""
 "Currency <code>%s</code> is not supported. Works only with <code>BRL</code> "
