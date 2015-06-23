@@ -4,7 +4,7 @@ Donate link: http://claudiosmweb.com/doacoes/
 Tags: woocommerce, checkout, payment, bcash
 Requires at least: 4.0
 Tested up to: 4.2
-Stable tag: 1.9.0
+Stable tag: 1.10.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -79,14 +79,6 @@ Com o plugin instalado acesse o admin do WordPress e entre em "WooCommerce" > "C
 
 Habilite o Bcash, adicione o seu e-mail e a Chave acesso (utilizado para validar o retorno automático de dados).
 
-= Configurações no WooCommerce =
-
-No WooCommerce 2.0 ou superior existe uma opção para cancelar a compra e liberar o estoque depois de alguns minutos.
-
-Esta opção não funciona muito bem com o Bcash, pois pagamentos por boleto bancário pode demorar até 48 horas para serem validados.
-
-Para corrigir isso é necessário ir em "WooCommerce" > "Configurações" > "Inventário" e limpar (deixe em branco) o valor da opção **Manter Estoque (minutos)**.
-
 Pronto, sua loja já pode receber pagamentos pelo Bcash.
 
 == Frequently Asked Questions ==
@@ -143,9 +135,15 @@ Fazemos a integração baseada na documentação oficial do Bcash que pode ser e
 Você esqueceu de selecionar o Brasil durante o cadastro no checkout.
 A opção de pagamento pelo Bcash funciona apenas com o Brasil.
 
-= A compra é cancelada após alguns minutos, mesmo com o pedido sendo pago, como resolvo isso? =
+= O status do pedido não é alterado automaticamente? =
 
-Para resolver este problema vá até "WooCommerce" > "Configurações" > "Inventário" e limpe (deixe em branco) o valor da opção **Manter Estoque (minutos)**.
+Sim, o status é alterado automaticamente usando a API de notificações de mudança de status do Bcash.
+
+Caso o status dos seus pedidos não estiverem sendo alterados pode ser por causa de um dos motivos a baixo:
+
+* Site com CloudFlare, pois por padrão sera bloqueada qualquer comunicação de outros servidores com o seu.
+* Plugin de segurança como o "iThemes Security" com a opção para adicionar a lista do HackRepair.com no .htaccess do site. Acontece que o user-agent do Bcash pode estar no meio da lista e vai bloquear qualquer comunicação).
+* `mod_security` habilitado, neste caso vai acontecer igual com o CloudFlare bloqueando qualquer comunicação de outros servidores com o seu.
 
 = O pedido foi pago e ficou com o status de "processando" e não como "concluído", isto esta certo ? =
 
@@ -157,7 +155,7 @@ Para produtos baixáveis a configuração padrão do WooCommerce é permitir o a
 
 = Mais dúvidas relacionadas ao funcionamento do plugin? =
 
-Entre em contato [clicando aqui](http://claudiosmweb.com/plugins/bcash-para-woocommerce/).
+Por favor, caso você tenha algum problema com o funcionamento do plugin, [abra um tópico no fórum do plugin](https://wordpress.org/support/plugin/woocommerce-bcash#postform) com o link arquivo de log (ative ele nas opções do plugin e tente fazer uma compra, depois vá até WooCommerce > Status do Sistema, selecione o log do *bcash* e copie os dados, depois crie um link usando o [pastebin.com](http://pastebin.com) ou o [gist.github.com](http://gist.github.com)).
 
 == Screenshots ==
 
@@ -165,6 +163,10 @@ Entre em contato [clicando aqui](http://claudiosmweb.com/plugins/bcash-para-wooc
 2. Checkout page.
 
 == Changelog ==
+
+= 1.10.0 - 2015/06/23 =
+
+* Adicionado método para ignorar a opção "Manter Estoque (minutos)" do WooCommerce.
 
 = 1.9.0 - 2015/06/22 =
 
@@ -234,9 +236,9 @@ Entre em contato [clicando aqui](http://claudiosmweb.com/plugins/bcash-para-wooc
 
 == Upgrade Notice ==
 
-= 1.9.0 =
+= 1.10.0 =
 
-* Adicionada nova API para trabalhar com as notificações de mudança de status do pedido.
+* Adicionado método para ignorar a opção "Manter Estoque (minutos)" do WooCommerce.
 
 == License ==
 

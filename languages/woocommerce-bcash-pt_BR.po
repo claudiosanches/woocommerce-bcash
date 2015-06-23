@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: WooCommerce Bcash\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: Sun Jun 21 2015 21:24:35 GMT-0300 (BRT)\n"
-"PO-Revision-Date: Mon Jun 22 2015 21:41:56 GMT-0300 (BRT)\n"
+"PO-Revision-Date: Tue Jun 23 2015 00:44:18 GMT-0300 (BRT)\n"
 "Last-Translator: Claudio Sanches <contato@claudiosmweb.com>\n"
 "Language-Team: \n"
 "Language: Portuguese (Brazil)\n"
@@ -26,20 +26,20 @@ msgstr ""
 "X-Textdomain-Support: yes\n"
 "X-Loco-Target-Locale: pt_BR"
 
-#: ../woocommerce-bcash.php:102
+#: ../woocommerce-bcash.php:103
 msgid "Settings"
 msgstr "Configurações"
 
-#: ../woocommerce-bcash.php:126
+#: ../woocommerce-bcash.php:160
 msgid "WooCommerce Bcash Gateway"
 msgstr "WooCommerce Bcash"
 
-#: ../woocommerce-bcash.php:126
+#: ../woocommerce-bcash.php:160
 #, php-format
 msgid "depends on the last version of %s to work!"
 msgstr "depende da última versão do %s para funcionar!"
 
-#: ../woocommerce-bcash.php:126
+#: ../woocommerce-bcash.php:160
 msgid "WooCommerce"
 msgstr "WooCommerce"
 
@@ -147,8 +147,8 @@ msgstr "Habilitar log"
 msgid "Log Bcash events, such as API requests, inside %s"
 msgstr "Registrar eventos do Bcash, tais como pedidos de API, dentro de %s"
 
-#: ../includes/class-wc-bcash-gateway.php:323 ../includes/class-wc-bcash-gateway.
-#: php:347
+#: ../includes/class-wc-bcash-gateway.php:330 ../includes/class-wc-bcash-gateway.
+#: php:354
 msgid ""
 "Thank you for your order. We are now redirecting you to Bcash to make "
 "payment."
@@ -156,93 +156,93 @@ msgstr ""
 "Obrigado por fazer seu pedido. Agora estamos redirecionando você para o "
 "Bcash para efetuar o pagamento."
 
-#: ../includes/class-wc-bcash-gateway.php:369
+#: ../includes/class-wc-bcash-gateway.php:376
 msgid "Pay via Bcash"
 msgstr "Pagar com Bcash"
 
-#: ../includes/class-wc-bcash-gateway.php:369
+#: ../includes/class-wc-bcash-gateway.php:376
 msgid "Cancel order &amp; restore cart"
 msgstr "Cancelar pedido e restaurar carrinho"
 
-#: ../includes/class-wc-bcash-gateway.php:400
+#: ../includes/class-wc-bcash-gateway.php:407
 msgid "Thank you for your order, please click the button below to pay with Bcash."
 msgstr ""
 "Obrigado por seu pedido, por favor clique no botão abaixo para pagar com "
 "Bcash."
 
-#: ../includes/class-wc-bcash-gateway.php:473
+#: ../includes/class-wc-bcash-gateway.php:480
 msgid "Bcash Request Unauthorized"
 msgstr "Bcash - Solicitação não autorizada"
 
-#: ../includes/class-wc-bcash-gateway.php:501
+#: ../includes/class-wc-bcash-gateway.php:508
 msgid "Bcash Transaction ID"
 msgstr "Bcash: ID da transação"
 
-#: ../includes/class-wc-bcash-gateway.php:504
+#: ../includes/class-wc-bcash-gateway.php:511
 msgid "Payer email"
 msgstr "E-mail do comprador"
 
-#: ../includes/class-wc-bcash-gateway.php:505
+#: ../includes/class-wc-bcash-gateway.php:512
 msgid "Payer name"
 msgstr "Nome do comprador"
 
-#: ../includes/class-wc-bcash-gateway.php:506
+#: ../includes/class-wc-bcash-gateway.php:513
 msgid "Payment type"
 msgstr "Tipo de pagamento"
 
-#: ../includes/class-wc-bcash-gateway.php:512
+#: ../includes/class-wc-bcash-gateway.php:519
 msgid "Bcash: One bank ticket was printed, awaiting the payment approval."
 msgstr "Bcash: Um boleto bancária foi impresso, aguardando aprovação do pagamento."
 
-#: ../includes/class-wc-bcash-gateway.php:514
+#: ../includes/class-wc-bcash-gateway.php:521
 msgid "Bcash: Payment under review."
 msgstr "Bcash: Pagamento em análise."
 
-#: ../includes/class-wc-bcash-gateway.php:520
+#: ../includes/class-wc-bcash-gateway.php:527
 msgid "Bcash: Payment approved."
 msgstr "Bcash: Pagamento aprovado."
 
-#: ../includes/class-wc-bcash-gateway.php:525
+#: ../includes/class-wc-bcash-gateway.php:532
 msgid "Bcash: Payment completed."
 msgstr "Bcash: Pagamento concluído."
 
-#: ../includes/class-wc-bcash-gateway.php:528
+#: ../includes/class-wc-bcash-gateway.php:535
 msgid "Bcash: Payment came into dispute."
 msgstr "Bcash: Pagamento entrou em disputa."
 
-#: ../includes/class-wc-bcash-gateway.php:531
+#: ../includes/class-wc-bcash-gateway.php:538
 msgid "Bcash: Payment refunded."
 msgstr "Bcash: Pagamento reembolsado."
 
-#: ../includes/class-wc-bcash-gateway.php:534
+#: ../includes/class-wc-bcash-gateway.php:541
 msgid "Bcash: Payment canceled."
 msgstr "Bcash: Pagamento cancelado."
 
-#: ../includes/class-wc-bcash-gateway.php:538
+#: ../includes/class-wc-bcash-gateway.php:545
 msgid "Bcash: Payment refused because of a chargeback."
 msgstr "Bcash: Pagamento foi recusado por causa de um chargeback."
 
-#: ../includes/class-wc-bcash-gateway.php:568 ../includes/class-wc-bcash-gateway.
-#: php:577 ../includes/class-wc-bcash-gateway.php:586
+#: ../includes/class-wc-bcash-gateway.php:575 ../includes/class-wc-bcash-gateway.
+#: php:584 ../includes/class-wc-bcash-gateway.php:593
 msgid "Bcash Disabled"
 msgstr "Bcash Desabilitado"
 
-#: ../includes/class-wc-bcash-gateway.php:568
+#: ../includes/class-wc-bcash-gateway.php:575
 #, php-format
 msgid "You should inform your email address. %s"
 msgstr "Você deve informar o seu endereço de e-mail. %s"
 
-#: ../includes/class-wc-bcash-gateway.php:568 ../includes/class-wc-bcash-gateway.
-#: php:577
+#: ../includes/class-wc-bcash-gateway.php:575 ../includes/class-wc-bcash-gateway.
+#: php:584
 msgid "Click here to configure!"
 msgstr "Clique aqui para configurar!"
 
-#: ../includes/class-wc-bcash-gateway.php:577
+#: ../includes/class-wc-bcash-gateway.php:584
 #, php-format
 msgid "You should inform your access key. %s"
-msgstr "Você deve informar a sua chave de acesso. &s"
+msgstr "Você deve informar a sua chave de acesso. %s"
 
-#: ../includes/class-wc-bcash-gateway.php:586
+#: ../includes/class-wc-bcash-gateway.php:593
 #, php-format
 msgid ""
 "Currency <code>%s</code> is not supported. Works only with <code>BRL</code> "
@@ -250,3 +250,24 @@ msgid ""
 msgstr ""
 "A moeda <code>%s</code> não é suportada. Funciona apenas com "
 "<code>BRL</code> (Real)."
+
+#: ../includes/views/html-admin-page.php:19
+#, php-format
+msgid ""
+"Help us keep the %s plugin free making a %s or rate %s on %s. Thank you in "
+"advance!"
+msgstr ""
+"Ajude-nos a manter o %s gratuito, para isso faça uma %s ou vote %s no %s. "
+"Muito obrigado!"
+
+#: ../includes/views/html-admin-page.php:19
+msgid "WooCommerce Bcash"
+msgstr "WooCommerce Bcash"
+
+#: ../includes/views/html-admin-page.php:19
+msgid "donation"
+msgstr "doação"
+
+#: ../includes/views/html-admin-page.php:19
+msgid "WordPress.org"
+msgstr "WordPress.org"
