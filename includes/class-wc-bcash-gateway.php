@@ -180,6 +180,13 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 	}
 
 	/**
+	 * Admin page.
+	 */
+	public function admin_options() {
+		include 'views/html-admin-page.php';
+	}
+
+	/**
 	 * Get WooCommerce return URL.
 	 *
 	 * @return string
