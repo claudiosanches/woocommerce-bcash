@@ -50,6 +50,7 @@ class WC_Bcash {
 			add_filter( 'woocommerce_payment_gateways', array( $this, 'add_gateway' ) );
 			add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'plugin_action_links' ) );
 			add_filter( 'woocommerce_available_payment_gateways', array( $this, 'hides_when_is_outside_brazil' ) );
+			add_filter( 'woocommerce_cancel_unpaid_order', array( $this, 'stop_cancel_unpaid_orders' ), 10, 2 );
 		} else {
 			add_action( 'admin_notices', array( $this, 'woocommerce_missing_notice' ) );
 		}
@@ -118,15 +119,6 @@ class WC_Bcash {
 	}
 
 	/**
-	 * WooCommerce fallback notice.
-	 *
-	 * @return  string
-	 */
-	public function woocommerce_missing_notice() {
-		echo '<div class="error"><p><strong>' . __( 'WooCommerce Bcash Gateway', 'woocommerce-bacsh' ) . '</strong> ' . sprintf( __( 'depends on the last version of %s to work!', 'woocommerce-bcash' ), '<a href="http://wordpress.org/plugins/woocommerce/">' . __( 'WooCommerce', 'woocommerce-bcash' ) . '</a>' ) . '</p></div>';
-	}
-
-	/**
 	 * Hides the Bcash with payment method with the customer lives outside Brazil.
 	 *
 	 * @param   array $available_gateways Default Available Gateways.
@@ -141,6 +133,31 @@ class WC_Bcash {
 		}
 
 		return $available_gateways;
+	}
+
+	/**
+	 * Stop cancel unpaid Bcash orders.
+	 *
+	 * @param  bool     $cancel
+	 * @param  WC_Order $order
+	 *
+	 * @return bool
+	 */
+	public function stop_cancel_unpaid_orders( $cancel, $order ) {
+		if ( 'bcash' === $order->payment_method ) {
+			return false;
+		}
+
+		return $cancel;
+	}
+
+	/**
+	 * WooCommerce fallback notice.
+	 *
+	 * @return  string
+	 */
+	public function woocommerce_missing_notice() {
+		echo '<div class="error"><p><strong>' . __( 'WooCommerce Bcash Gateway', 'woocommerce-bacsh' ) . '</strong> ' . sprintf( __( 'depends on the last version of %s to work!', 'woocommerce-bcash' ), '<a href="http://wordpress.org/plugins/woocommerce/">' . __( 'WooCommerce', 'woocommerce-bcash' ) . '</a>' ) . '</p></div>';
 	}
 }
 
