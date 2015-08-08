@@ -263,8 +263,13 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 			foreach ( $order->get_items() as $item ) {
 				if ( $item['qty'] ) {
 					$item_loop++;
-					$item_name  = $item['name'];
-					$item_meta = new WC_Order_Item_Meta( $item['item_meta'] );
+					$item_name = $item['name'];
+
+					if ( defined( 'WC_VERSION' ) && version_compare( WC_VERSION, '2.4.0', '<' ) ) {
+						$item_meta = new WC_Order_Item_Meta( $item['item_meta'] );
+					} else {
+						$item_meta = new WC_Order_Item_Meta( $item );
+					}
 
 					if ( $meta = $item_meta->display( true, true ) ) {
 						$item_name .= ' (' . $meta . ')';
