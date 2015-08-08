@@ -16,7 +16,7 @@ $reviews_url = 'https://wordpress.org/support/view/plugin-reviews/woocommerce-bc
 
 <?php if ( apply_filters( 'woocommerce_bcash_help_message', true ) ) : ?>
 	<div class="updated woocommerce-message">
-		<p><?php printf( __( 'Help us keep the %s plugin free making a %s or rate %s on %s. Thank you in advance!', 'woocommerce-bcash' ), '<strong>' . __( 'WooCommerce Bcash', 'woocommerce-bcash' ) . '</strong>', '<a href="http://claudiosmweb.com/doacoes/">' . __( 'donation', 'woocommerce-bcash' ) . '</a>', '<a href="' . $reviews_url . '" target="_blank">&#9733;&#9733;&#9733;&#9733;&#9733;</a>', '<a href="' . $reviews_url . '" target="_blank">' . __( 'WordPress.org', 'woocommerce-bcash' ) . '</a>' ); ?></p>
+		<p><?php printf( __( 'Help us keep the %s plugin free making a %s or rate %s on %s. Thank you in advance!', 'woocommerce-bcash' ), '<strong>' . __( 'WooCommerce Bcash', 'woocommerce-bcash' ) . '</strong>', '<a href="http://claudiosmweb.com/doacoes/">' . __( 'donation', 'woocommerce-bcash' ) . '</a>', '<a href="' . esc_url( $reviews_url ) . '" target="_blank">&#9733;&#9733;&#9733;&#9733;&#9733;</a>', '<a href="' . esc_url( $reviews_url ) . '" target="_blank">' . __( 'WordPress.org', 'woocommerce-bcash' ) . '</a>' ); ?></p>
 	</div>
 <?php endif; ?>
 

@@ -94,13 +94,7 @@ class WC_Bcash {
 	public function plugin_action_links( $links ) {
 		$plugin_links = array();
 
-		if ( defined( 'WC_VERSION' ) && version_compare( WC_VERSION, '2.1', '>=' ) ) {
-			$settings_url = admin_url( 'admin.php?page=wc-settings&tab=checkout&section=wc_bcash_gateway' );
-		} else {
-			$settings_url = admin_url( 'admin.php?page=woocommerce_settings&tab=payment_gateways&section=WC_Bcash_Gateway' );
-		}
-
-		$plugin_links[] = '<a href="' . esc_url( $settings_url ) . '">' . __( 'Settings', 'woocommerce-bcash' ) . '</a>';
+		$plugin_links[] = '<a href="' . esc_url( admin_url( 'admin.php?page=wc-settings&tab=checkout&section=wc_bcash_gateway' ) ) . '">' . __( 'Settings', 'woocommerce-bcash' ) . '</a>';
 
 		return array_merge( $plugin_links, $links );
 	}
@@ -154,7 +148,7 @@ class WC_Bcash {
 	/**
 	 * WooCommerce fallback notice.
 	 *
-	 * @return  string
+	 * @return string
 	 */
 	public function woocommerce_missing_notice() {
 		echo '<div class="error"><p><strong>' . __( 'WooCommerce Bcash Gateway', 'woocommerce-bacsh' ) . '</strong> ' . sprintf( __( 'depends on the last version of %s to work!', 'woocommerce-bcash' ), '<a href="http://wordpress.org/plugins/woocommerce/">' . __( 'WooCommerce', 'woocommerce-bcash' ) . '</a>' ) . '</p></div>';
