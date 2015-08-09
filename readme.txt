@@ -3,8 +3,8 @@ Contributors: claudiosanches
 Donate link: http://claudiosmweb.com/doacoes/
 Tags: woocommerce, checkout, payment, bcash
 Requires at least: 4.0
-Tested up to: 4.2
-Stable tag: 1.10.0
+Tested up to: 4.3
+Stable tag: 1.11.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -34,7 +34,7 @@ Este plugin foi feito baseado na [documentação oficial do Bcash](https://www.b
 
 = Compatibilidade =
 
-Compatível com as versões 2.0.x, 2.1.x, 2.2.x e 2.3.x do WooCommerce.
+Compatível com as versões 2.1.x, 2.2.x, 2.3.x e 2.4.x do WooCommerce.
 
 = Instalação: =
 
@@ -89,7 +89,7 @@ Pronto, sua loja já pode receber pagamentos pelo Bcash.
 
 = What is needed to use this plugin? =
 
-* WooCommerce version 2.0 or latter installed and active.
+* WooCommerce version 2.1 or latter installed and active.
 * Have a account on [Bcash](http://www.bcash.com.br/).
 * Generates a **Access key** in Bcash.
 
@@ -101,7 +101,7 @@ Este plugin esta licenciado como GPL.
 
 = O que eu preciso para utilizar este plugin? =
 
-* Ter instalado o plugin WooCommerce 2.0 ou superior.
+* Ter instalado o plugin WooCommerce 2.1 ou superior.
 * Possuir uma conta no [Bcash](http://www.bcash.com.br/).
 * Gerar uma **Chave acesso** no Bcash.
 
@@ -163,6 +163,11 @@ Por favor, caso você tenha algum problema com o funcionamento do plugin, [abra 
 2. Checkout page.
 
 == Changelog ==
+
+= 1.11.0 - 2015/08/08 =
+
+* Adicionado suporte para WooCommerce 2.4.x.
+* Removido suporte para WooCommerce 2.0.x.
 
 = 1.10.0 - 2015/06/23 =
 
@@ -236,9 +241,10 @@ Por favor, caso você tenha algum problema com o funcionamento do plugin, [abra 
 
 == Upgrade Notice ==
 
-= 1.10.0 =
+= 1.11.0 =
 
-* Adicionado método para ignorar a opção "Manter Estoque (minutos)" do WooCommerce.
+* Adicionado suporte para WooCommerce 2.4.x.
+* Removido suporte para WooCommerce 2.0.x.
 
 == License ==
 
