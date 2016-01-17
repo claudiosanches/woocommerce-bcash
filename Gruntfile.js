@@ -1,4 +1,6 @@
 /* jshint node:true */
+var expandHomeDir = require( 'expand-home-dir' );
+
 module.exports = function( grunt ) {
 'use strict';
 
@@ -7,7 +9,7 @@ module.exports = function( grunt ) {
 		// Gets the package vars
 		pkg: grunt.file.readJSON( 'package.json' ),
 		svn_settings: {
-			path: '../../../../wp_plugins/<%= pkg.name %>',
+			path: expandHomeDir( '~/Projects/wordpress-plugins-svn/' ) + '<%= pkg.name %>',
 			tag: '<%= svn_settings.path %>/tags/<%= pkg.version %>',
 			trunk: '<%= svn_settings.path %>/trunk',
 			exclude: [
