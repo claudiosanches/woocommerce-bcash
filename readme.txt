@@ -3,7 +3,7 @@ Contributors: claudiosanches
 Donate link: http://claudiosmweb.com/doacoes/
 Tags: woocommerce, checkout, payment, bcash
 Requires at least: 4.0
-Tested up to: 4.3
+Tested up to: 4.4
 Stable tag: 1.11.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -34,7 +34,7 @@ Este plugin foi feito baseado na [documentação oficial do Bcash](https://www.b
 
 = Compatibilidade =
 
-Compatível com as versões 2.1.x, 2.2.x, 2.3.x e 2.4.x do WooCommerce.
+Compatível com as versões 2.1.x, 2.2.x, 2.3.x, 2.4.x e 2.5.x do WooCommerce.
 
 = Instalação: =
 
