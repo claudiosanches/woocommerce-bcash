@@ -291,14 +291,17 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 	/**
 	 * Generate the form.
 	 *
-	 * @param int     $order_id Order ID.
+	 * @param int $order_id Order ID.
 	 *
-	 * @return string           Payment form.
+	 * @return string Payment form.
 	 */
 	public function generate_form( $order_id ) {
 		$order     = new WC_Order( $order_id );
 		$args      = $this->get_form_args( $order );
 		$form_args = array();
+
+		// Sort args.
+		ksort( $args );
 
 		if ( 'yes' == $this->debug ) {
 			$this->log->add( $this->id, 'Payment arguments for order ' . $order->get_order_number() . ': ' . print_r( $args, true ) );
@@ -307,6 +310,9 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 		foreach ( $args as $key => $value ) {
 			$form_args[] = '<input type="hidden" name="' . esc_attr( $key ) . '" value="' . esc_attr( $value ) . '" />';
 		}
+
+		// Bcash hash.
+		$form_args[] = '<input type="hidden" name="hash" value="' . md5( http_build_query( $args ) . $this->token ) . '" />';
 
 		wc_enqueue_js( '
 			jQuery.blockUI({
@@ -507,7 +513,6 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 					break;
 
 				default :
-					// No action xD.
 					break;
 			}
 		}
