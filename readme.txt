@@ -3,26 +3,14 @@ Contributors: claudiosanches
 Donate link: http://claudiosmweb.com/doacoes/
 Tags: woocommerce, checkout, payment, bcash
 Requires at least: 4.0
-Tested up to: 4.4
-Stable tag: 1.11.0
+Tested up to: 4.5
+Stable tag: 1.12.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Adds Bcash gateway to the WooCommerce plugin
 
 == Description ==
-
-### Add Bcash gateway to WooCommerce ###
-
-This plugin adds Bcash gateway to WooCommerce.
-
-Please notice that WooCommerce must be installed and active.
-
-= Contribute =
-
-You can contribute to the source code in our [GitHub](https://github.com/claudiosmweb/woocommerce-bcash) page.
-
-### Descrição em Português: ###
 
 Adicione o Bcash como método de pagamento em sua loja WooCommerce.
 
@@ -34,7 +22,7 @@ Este plugin foi feito baseado na [documentação oficial do Bcash](https://www.b
 
 = Compatibilidade =
 
-Compatível com as versões 2.1.x, 2.2.x, 2.3.x, 2.4.x e 2.5.x do WooCommerce.
+Compatível desde a versão 2.2.x até 2.6.x do WooCommerce.
 
 = Instalação: =
 
@@ -48,17 +36,11 @@ Você pode esclarecer suas dúvidas usando:
 * Criando um tópico no [fórum de ajuda do WordPress](http://wordpress.org/support/plugin/woocommerce-bcash) (apenas em inglês).
 * Ou entre em contato com os desenvolvedores do plugin em nossa [página](http://claudiosmweb.com/plugins/bcash-para-woocommerce/).
 
-= Coloborar =
+= Colaborar =
 
 Você pode contribuir com código-fonte em nossa página no [GitHub](https://github.com/claudiosmweb/woocommerce-bcash).
 
 == Installation ==
-
-* Upload plugin files to your plugins folder, or install using WordPress built-in Add New Plugin installer;
-* Activate the plugin;
-* Navigate to WooCommerce -> Settings -> Payment Gateways, choose Bcash and fill in your Bcash Email and Token.
-
-### Instalação e configuração em Português: ###
 
 = Instalação do plugin: =
 
@@ -82,18 +64,6 @@ Habilite o Bcash, adicione o seu e-mail e a Chave acesso (utilizado para validar
 Pronto, sua loja já pode receber pagamentos pelo Bcash.
 
 == Frequently Asked Questions ==
-
-= What is the plugin license? =
-
-* This plugin is released under a GPL license.
-
-= What is needed to use this plugin? =
-
-* WooCommerce version 2.1 or latter installed and active.
-* Have a account on [Bcash](http://www.bcash.com.br/).
-* Generates a **Access key** in Bcash.
-
-### FAQ em Português: ###
 
 = Qual é a licença do plugin? =
 
@@ -164,94 +134,12 @@ Por favor, caso você tenha algum problema com o funcionamento do plugin, [abra 
 
 == Changelog ==
 
-= 1.11.0 - 2015/08/08 =
+= 1.12.0 - 2016/06/30 =
 
-* Adicionado suporte para WooCommerce 2.4.x.
-* Removido suporte para WooCommerce 2.0.x.
-
-= 1.10.0 - 2015/06/23 =
-
-* Adicionado método para ignorar a opção "Manter Estoque (minutos)" do WooCommerce.
-
-= 1.9.0 - 2015/06/22 =
-
-* Adicionada nova API para trabalhar com as notificações de mudança de status do pedido.
-
-= 1.8.0 - 2015/06/21 =
-
-* Melhorado o suporte para todas as versões recentes do WooCommerce.
-* Atualizado para 15 segundos o tempo de redirecionamento do Bcash para a loja.
-* Melhorada a verificação de notificação de pagamento e adicionado mais detalhes para os logs.
-
-= 1.7.0 - 2013/12/14 =
-
-* Corrigido padrões de código.
-* Removida compatibilidade com versões 1.6.x ou inferiores do WooCommerce.
-* Adicionada compatibilidade com WooCommerce 2.1 ou superior.
-
-= 1.6.0 - 2013/07/26 =
-
-* Melhoria nas mensagens de status do pedido.
-* Melhoria no código do plugin.
-
-= 1.5.0 - 2013/07/24 =
-
-* Adicionado link de `Configurações` na página de plugins.
-* Melhorias no código.
-* Adicionado suporte para WooCommerce 2.1.
-* Adicionado objeto do pedido no filtro `woocommerce_bcash_args`.
-
-= 1.4 - 2013/04/08 =
-
-* Correção do retorno automático de dados na versão 2.0.0 ou superior do WooCommerce.
-
-= 1.3.3 - 2013/03/06 =
-
-* Corrigida a compatibilidade com WooCommerce 2.0.0 ou mais recente.
-
-= 1.3.2 - 2013/02/08 =
-
-* Corrigido o hook responsavel por salvar as opções para a versão 2.0 RC do WooCommerce.
-
-= 1.3.1 - 2013/02/08 =
-
-* Plugin corrigido para a versão 2.0 do WooCommerce.
-
-= 1.3 - 2012/11/30 =
-
-* Adicionada opção para logs de erro.
-
-= 1.2.1 =
-
-* Corrigido standards de código.
-* Corrigida a URL de retorno automático de dados.
-
-= 1.2 =
-
-* Correção da tradução.
-* Construção do readme.txt.
-
-= 1.1 =
-
-* Removida a classe do retorno automático que usava cURL em favor da função wp_remote_post().
-
-= 1.0 =
-
-* Versão incial do plugin.
+- Adicionado suporte para hash de validação.
 
 == Upgrade Notice ==
 
-= 1.11.0 =
+= 1.12.0 =
 
-* Adicionado suporte para WooCommerce 2.4.x.
-* Removido suporte para WooCommerce 2.0.x.
-
-== License ==
-
-WooCommerce Bcash is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published
-by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-
-WooCommerce Bcash is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with WooCommerce Bcash. If not, see <http://www.gnu.org/licenses/>.
+- Adicionado suporte para hash de validação.
