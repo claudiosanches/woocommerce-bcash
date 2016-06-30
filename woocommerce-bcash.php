@@ -81,7 +81,7 @@ class WC_Bcash {
 	 * Includes.
 	 */
 	private function includes() {
-		include_once 'includes/class-wc-bcash-gateway.php';
+		include_once dirname( __FILE__ ) . '/includes/class-wc-bcash-gateway.php';
 	}
 
 	/**
@@ -94,7 +94,11 @@ class WC_Bcash {
 	public function plugin_action_links( $links ) {
 		$plugin_links = array();
 
-		$plugin_links[] = '<a href="' . esc_url( admin_url( 'admin.php?page=wc-settings&tab=checkout&section=wc_bcash_gateway' ) ) . '">' . __( 'Settings', 'woocommerce-bcash' ) . '</a>';
+		if ( defined( 'WC_VERSION' ) && version_compare( WC_VERSION, '2.1', '>=' ) ) {
+			$plugin_links[] = '<a href="' . esc_url( admin_url( 'admin.php?page=wc-settings&tab=checkout&section=bcash' ) ) . '">' . __( 'Settings', 'woocommerce-bcash' ) . '</a>';
+		} else {
+			$plugin_links[] = '<a href="' . esc_url( admin_url( 'admin.php?page=wc-settings&tab=checkout&section=wc_bcash_gateway' ) ) . '">' . __( 'Settings', 'woocommerce-bcash' ) . '</a>';
+		}
 
 		return array_merge( $plugin_links, $links );
 	}
@@ -151,7 +155,7 @@ class WC_Bcash {
 	 * @return string
 	 */
 	public function woocommerce_missing_notice() {
-		echo '<div class="error"><p><strong>' . __( 'WooCommerce Bcash Gateway', 'woocommerce-bacsh' ) . '</strong> ' . sprintf( __( 'depends on the last version of %s to work!', 'woocommerce-bcash' ), '<a href="http://wordpress.org/plugins/woocommerce/">' . __( 'WooCommerce', 'woocommerce-bcash' ) . '</a>' ) . '</p></div>';
+		include dirname( __FILE__ ) . '/includes/admin/views/html-notice-missing-woocommerce.php';
 	}
 }
 

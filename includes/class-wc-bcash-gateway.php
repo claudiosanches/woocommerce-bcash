@@ -42,35 +42,6 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 		if ( 'yes' == $this->debug ) {
 			$this->log = new WC_Logger();
 		}
-
-		// Display admin notices.
-		$this->admin_notices();
-	}
-
-	/**
-	 * Displays notifications when the admin has something wrong with the configuration.
-	 */
-	protected function admin_notices() {
-		if ( is_admin() ) {
-			if ( 'yes' != $this->get_option( 'enabled' ) ) {
-				return;
-			}
-
-			// Checks if email is not empty.
-			if ( empty( $this->email ) ) {
-				add_action( 'admin_notices', array( $this, 'mail_missing_message' ) );
-			}
-
-			// Checks if token is not empty.
-			if ( empty( $this->token ) ) {
-				add_action( 'admin_notices', array( $this, 'token_missing_message' ) );
-			}
-
-			// Checks that the currency is supported
-			if ( ! $this->using_supported_currency() && ! class_exists( 'woocommerce_wpml' ) ) {
-				add_action( 'admin_notices', array( $this, 'currency_not_supported_message' ) );
-			}
-		}
 	}
 
 	/**
@@ -516,32 +487,5 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 					break;
 			}
 		}
-	}
-
-	/**
-	 * Adds error message when not configured the email.
-	 *
-	 * @return string Error Mensage.
-	 */
-	public function mail_missing_message() {
-		echo '<div class="error"><p><strong>' . __( 'Bcash Disabled', 'woocommerce-bcash' ) . '</strong>: ' . sprintf( __( 'You should inform your email address. %s', 'woocommerce-bcash' ), '<a href="' . esc_url( admin_url( 'admin.php?page=wc-settings&tab=checkout&section=wc_bcash_gateway' ) ) . '">' . __( 'Click here to configure!', 'woocommerce-bcash' ) . '</a>' ) . '</p></div>';
-	}
-
-	/**
-	 * Adds error message when not configured the token.
-	 *
-	 * @return string Error Mensage.
-	 */
-	public function token_missing_message() {
-		echo '<div class="error"><p><strong>' . __( 'Bcash Disabled', 'woocommerce-bcash' ) . '</strong>: ' . sprintf( __( 'You should inform your access key. %s', 'woocommerce-bcash' ), '<a href="' . esc_url( admin_url( 'admin.php?page=wc-settings&tab=checkout&section=wc_bcash_gateway' ) ) . '">' . __( 'Click here to configure!', 'woocommerce-bcash' ) . '</a>' ) . '</p></div>';
-	}
-
-	/**
-	 * Adds error message when an unsupported currency is used.
-	 *
-	 * @return string
-	 */
-	public function currency_not_supported_message() {
-		echo '<div class="error"><p><strong>' . __( 'Bcash Disabled', 'woocommerce-bcash' ) . '</strong>: ' . sprintf( __( 'Currency <code>%s</code> is not supported. Works only with <code>BRL</code> (Brazilian Real).', 'woocommerce-bcash' ), get_woocommerce_currency() ) . '</p></div>';
 	}
 }
