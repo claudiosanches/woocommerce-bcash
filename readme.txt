@@ -4,7 +4,7 @@ Donate link: http://claudiosmweb.com/doacoes/
 Tags: woocommerce, checkout, payment, bcash
 Requires at least: 4.0
 Tested up to: 4.7
-Stable tag: 1.13.0
+Stable tag: 1.13.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -134,7 +134,11 @@ Por favor, caso você tenha algum problema com o funcionamento do plugin, [abra 
 
 == Changelog ==
 
-= 1.13.0 - 2016/06/30 =
+= 1.13.1 - 2017/02/15 =
+
+- Corrigido suporte a PHP 5.2 e 5.3
+
+= 1.13.0 - 2017/02/14 =
 
 - Adicionado suporte ao WooCommerce 2.7.0.
 - Adicionado suporte ao Sandbox do Bcash (contribuição de [Alex Koti](http://alexkoti.com/)).

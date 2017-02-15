@@ -115,7 +115,7 @@ class WC_BCash_Legacy_Gateway extends WC_Payment_Gateway {
 	 * @return bool
 	 */
 	public function is_available() {
-		return parent::is_available() && ! empty( $this->get_email() ) && ! empty( $this->get_token() ) && $this->using_supported_currency();
+		return parent::is_available() && '' !== $this->get_email() && '' !== $this->get_token() && $this->using_supported_currency();
 	}
 
 	/**
