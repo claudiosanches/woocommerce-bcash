@@ -1,6 +1,6 @@
 <?php
 /**
- * Bcash gateway
+ * Bcash legacy gateway
  *
  * @deprecated 1.13.0
  * @package    WooCommerce_Bcash/Gateways
@@ -11,9 +11,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * WC_BCash_Gateway class.
+ * WC_BCash_Legacy_Gateway class.
  */
-class WC_BCash_Gateway extends WC_Payment_Gateway {
+class WC_BCash_Legacy_Gateway extends WC_Payment_Gateway {
 
 	/**
 	 * Constructor for the gateway.
@@ -47,8 +47,8 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
 
 		// Active logs.
-		if ( 'yes' === $this->debug ) {
-			$this->log = wc_get_logger();
+		if ( 'yes' == $this->debug ) {
+			$this->log = new WC_Logger();
 		}
 	}
 
@@ -58,7 +58,7 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 	 * @return bool
 	 */
 	protected function using_supported_currency() {
-		return 'BRL' == get_woocommerce_currency();
+		return ( 'BRL' == get_woocommerce_currency() );
 	}
 
 	/**
@@ -116,6 +116,19 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 	 */
 	public function is_available() {
 		return parent::is_available() && ! empty( $this->get_email() ) && ! empty( $this->get_token() ) && $this->using_supported_currency();
+	}
+
+	/**
+	 * Get log.
+	 *
+	 * @return string
+	 */
+	protected function get_log_view() {
+		if ( defined( 'WC_VERSION' ) && version_compare( WC_VERSION, '2.2', '>=' ) ) {
+			return '<a href="' . esc_url( admin_url( 'admin.php?page=wc-status&tab=logs&log_file=' . esc_attr( $this->id ) . '-' . sanitize_file_name( wp_hash( $this->id ) ) . '.log' ) ) . '">' . __( 'System Status &gt; Logs', 'woocommerce-bcash' ) . '</a>';
+		}
+
+		return '<code>woocommerce/logs/' . esc_attr( $this->id ) . '-' . sanitize_file_name( wp_hash( $this->id ) ) . '.txt</code>';
 	}
 
 	/**
@@ -195,7 +208,7 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 				'type'        => 'checkbox',
 				'label'       => __( 'Enable logging', 'woocommerce-bcash' ),
 				'default'     => 'no',
-				'description' => sprintf( __( 'Log Bcash events, such as API requests, inside %s', 'woocommerce-bcash' ), '<a href="' . esc_url( admin_url( 'admin.php?page=wc-status&tab=logs&log_file=' . esc_attr( $this->id ) . '-' . sanitize_file_name( wp_hash( $this->id ) ) . '.log' ) ) . '">' . __( 'System Status &gt; Logs', 'woocommerce-bcash' ) . '</a>' )
+				'description' => sprintf( __( 'Log Bcash events, such as API requests, inside %s', 'woocommerce-bcash' ), $this->get_log_view() )
 			)
 		);
 	}
@@ -219,14 +232,23 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 	 * @return array         Form arguments.
 	 */
 	public function get_form_args( $order ) {
+		if ( method_exists( $order, 'get_total_shipping' ) ) {
+			$shipping_total = $order->get_total_shipping();
+		} else {
+			$shipping_total = $order->get_shipping();
+		}
+
+		// Fixed phone number.
+		$order->billing_phone = str_replace( array( '(', '-', ' ', ')' ), '', $order->billing_phone );
+
 		$args = array(
 			'email_loja'      => $this->get_email(),
 			'tipo_integracao' => 'PAD',
 
 			// Sender info.
-			'nome'            => $order->get_billing_first_name() . ' ' . $order->get_billing_last_name(),
-			'email'           => $order->get_billing_email(),
-			'telefone'        => str_replace( array( '(', '-', ' ', ')' ), '', $order->get_billing_phone() ),
+			'nome'            => $order->billing_first_name . ' ' . $order->billing_last_name,
+			'email'           => $order->billing_email,
+			'telefone'        => $order->billing_phone,
 			// 'rg'
 			// 'data_emissao_rg'
 			// 'orgao_emissor_rg'
@@ -239,22 +261,22 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 			// 'cliente_cnpj'
 
 			// Address info.
-			'endereco'        => $order->get_billing_address_1(),
-			'complemento'     => $order->get_billing_address_2(),
+			'endereco'        => $order->billing_address_1,
+			'complemento'     => $order->billing_address_2,
 			//'bairro'
-			'cidade'          => $order->get_billing_city(),
-			'estado'          => $order->get_billing_state(),
-			'cep'             => $order->get_billing_postcode(),
+			'cidade'          => $order->billing_city,
+			'estado'          => $order->billing_state,
+			'cep'             => $order->billing_postcode,
 
 			// Tax.
 			'acrescimo'       => $order->get_total_tax(),
 
 			// Payment Info.
-			'id_pedido'       => $this->invoice_prefix . $order->get_id(),
+			'id_pedido'       => $this->invoice_prefix . $order->id,
 
 			// Shipping info.
-			'frete'           => number_format( $order->get_shipping_total(), 2, '.', '' ),
-			'tipo_frete'      => $order->get_shipping_method(),
+			'frete'           => number_format( $shipping_total, 2, '.', '' ),
+			'tipo_frete'      => $order->shipping_method_title,
 
 			// Return.
 			'url_retorno'     => $this->get_return_url( $order ),
@@ -272,6 +294,13 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 			// 'hash'
 		);
 
+		// Discount/Coupon for old versions of WooCommerce.
+		if ( defined( 'WC_VERSION' ) && version_compare( WC_VERSION, '2.3', '<' ) ) {
+			if ( 0 < $order->get_order_discount() ) {
+				$args['desconto'] = $order->get_order_discount();
+			}
+		}
+
 		// Cart Contents.
 		$item_loop = 0;
 		if ( sizeof( $order->get_items() ) > 0 ) {
@@ -279,7 +308,12 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 				if ( $item['qty'] ) {
 					$item_loop++;
 					$item_name = $item['name'];
-					$item_meta = new WC_Order_Item_Meta( $item );
+
+					if ( defined( 'WC_VERSION' ) && version_compare( WC_VERSION, '2.4.0', '<' ) ) {
+						$item_meta = new WC_Order_Item_Meta( $item['item_meta'] );
+					} else {
+						$item_meta = new WC_Order_Item_Meta( $item );
+					}
 
 					if ( $meta = $item_meta->display( true, true ) ) {
 						$item_name .= ' (' . $meta . ')';
@@ -299,35 +333,21 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 	}
 
 	/**
-	 * Process the payment and return the result.
-	 *
-	 * @param int    $order_id Order ID.
-	 *
-	 * @return array           Redirect.
-	 */
-	public function process_payment( $order_id ) {
-		$order = wc_get_order( $order_id );
-
-		return array(
-			'result'   => 'success',
-			'redirect' => $order->get_checkout_payment_url( true ),
-		);
-	}
-
-	/**
-	 * Output for the order received page.
+	 * Generate the form.
 	 *
 	 * @param int $order_id Order ID.
+	 *
+	 * @return string Payment form.
 	 */
-	public function receipt_page( $order_id ) {
-		$order     = wc_get_order( $order_id );
+	public function generate_form( $order_id ) {
+		$order     = new WC_Order( $order_id );
 		$args      = $this->get_form_args( $order );
 		$form_args = array();
 
 		// Sort args.
 		ksort( $args );
 
-		if ( 'yes' === $this->debug ) {
+		if ( 'yes' == $this->debug ) {
 			$this->log->add( $this->id, 'Payment arguments for order ' . $order->get_order_number() . ': ' . print_r( $args, true ) );
 		}
 
@@ -360,12 +380,34 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 			jQuery( "#submit-payment-form" ).click();
 		' );
 
-		echo '<p>' . __( 'Thank you for your order, please click the button below to pay with Bcash.', 'woocommerce-bcash' ) . '</p>';
+		return '<form action="' . esc_url( $this->get_payment_url() ) . '" method="post" id="payment-form" target="_top">
+				' . implode( '', $form_args ) . '
+				<input type="submit" class="button alt" id="submit-payment-form" value="' . __( 'Pay via Bcash', 'woocommerce-bcash' ) . '" /> <a class="button cancel" href="' . esc_url( $order->get_cancel_order_url() ) . '">' . __( 'Cancel order &amp; restore cart', 'woocommerce-bcash' ) . '</a>
+			</form>';
+	}
 
-		echo '<form action="' . esc_url( $this->get_payment_url() ) . '" method="post" id="payment-form" target="_top">';
-		echo implode( '', $form_args );
-		echo '<input type="submit" class="button alt" id="submit-payment-form" value="' . __( 'Pay via Bcash', 'woocommerce-bcash' ) . '" /> <a class="button cancel" href="' . esc_url( $order->get_cancel_order_url() ) . '">' . __( 'Cancel order &amp; restore cart', 'woocommerce-bcash' ) . '</a>';
-		echo '</form>';
+	/**
+	 * Process the payment and return the result.
+	 *
+	 * @param int    $order_id Order ID.
+	 *
+	 * @return array           Redirect.
+	 */
+	public function process_payment( $order_id ) {
+		$order = new WC_Order( $order_id );
+
+		return array(
+			'result'   => 'success',
+			'redirect' => $order->get_checkout_payment_url( true )
+		);
+	}
+
+	/**
+	 * Output for the order received page.
+	 */
+	public function receipt_page( $order ) {
+		echo '<p>' . __( 'Thank you for your order, please click the button below to pay with Bcash.', 'woocommerce-bcash' ) . '</p>';
+		echo $this->generate_form( $order );
 	}
 
 	/**
@@ -376,7 +418,7 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 	 * @return array
 	 */
 	protected function get_bcash_order_data( $args ) {
-		$args           = wp_unslash( $args );
+		$args           = stripslashes_deep( $args );
 		$transaction_id = '';
 		$order_id       = '';
 
@@ -389,14 +431,14 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 		}
 
 		if ( ! $transaction_id && ! $order_id ) {
-			if ( 'yes' === $this->debug ) {
+			if ( 'yes' == $this->debug ) {
 				$this->log->add( $this->id, 'Unable to check the Bcash transaction because is missing the IPN data...' );
 			}
 
 			return array();
 		}
 
-		if ( 'yes' === $this->debug ) {
+		if ( 'yes' == $this->debug ) {
 			$this->log->add( $this->id, sprintf( 'Checking Bcash transaction #%s data for order %s...', $transaction_id, $order_id ) );
 		}
 
@@ -417,13 +459,13 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 
 		$response = wp_safe_remote_post( $this->get_ipn_url(), $params );
 
-		if ( 'yes' === $this->debug ) {
+		if ( 'yes' == $this->debug ) {
 			$this->log->add( $this->id, 'Bcash order data response: ' . print_r( $response, true ) );
 		}
 
 		// Check to see if the response is valid.
 		if ( ! is_wp_error( $response ) && 200 == $response['response']['code'] ) {
-			if ( 'yes' === $this->debug ) {
+			if ( 'yes' == $this->debug ) {
 				$this->log->add( $this->id, 'Bcash order data is valid!' );
 			}
 
@@ -458,20 +500,27 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 	protected function update_order_status( $transaction_data ) {
 		$data     = $transaction_data['transacao'];
 		$order_id = intval( str_replace( $this->invoice_prefix, '', sanitize_text_field( $data['id_pedido'] ) ) );
-		$order    = wc_get_order( $order_id );
+		$order    = new WC_Order( $order_id );
 
 		// Checks whether the invoice number matches the order.
 		// If true processes the payment.
-		if ( $order->get_id() === $order_id ) {
-			if ( 'yes' === $this->debug ) {
+		if ( $order->id === $order_id ) {
+
+			if ( 'yes' == $this->debug ) {
 				$this->log->add( $this->id, 'Payment status from order ' . $order->get_order_number() . ': ' . sanitize_text_field( $data['status'] ) );
 			}
 
 			// Save order details.
-			$order->set_transaction_id( sanitize_text_field( $data['id_transacao'] ) );
-			$order->update_meta_data( __( 'Payer email', 'woocommerce-bcash' ), sanitize_text_field( $data['cliente_email'] ) );
-			$order->update_meta_data( __( 'Payer name', 'woocommerce-bcash' ), sanitize_text_field( $data['cliente_nome'] ) );
-			$order->update_meta_data( __( 'Payment type', 'woocommerce-bcash' ), sanitize_text_field( $data['meio_pagamento'] ) );
+			$transaction_id = sanitize_text_field( $data['id_transacao'] );
+			if ( defined( 'WC_VERSION' ) && version_compare( WC_VERSION, '2.2', '>=' ) ) {
+				add_post_meta( $order->id, '_transaction_id', $transaction_id, true );
+			} else {
+				add_post_meta( $order->id, __( 'Bcash Transaction ID', 'woocommerce-bcash' ), $transaction_id, true );
+			}
+
+			add_post_meta( $order->id, __( 'Payer email', 'woocommerce-bcash' ), sanitize_text_field( $data['cliente_email'] ), true );
+			add_post_meta( $order->id, __( 'Payer name', 'woocommerce-bcash' ), sanitize_text_field( $data['cliente_nome'] ), true );
+			add_post_meta( $order->id, __( 'Payment type', 'woocommerce-bcash' ), sanitize_text_field( $data['meio_pagamento'] ), true );
 
 			// Update order status.
 			switch ( intval( $data['cod_status'] ) ) {
@@ -481,11 +530,13 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 					} else {
 						$order->update_status( 'on-hold', __( 'Bcash: Payment under review.', 'woocommerce-bcash' ) );
 					}
+
 					break;
 				case 3 :
 					// Payment completed.
 					$order->add_order_note( __( 'Bcash: Payment approved.', 'woocommerce-bcash' ) );
 					$order->payment_complete();
+
 					break;
 				case 4 :
 					$order->add_order_note( __( 'Bcash: Payment completed.', 'woocommerce-bcash' ) );
@@ -498,16 +549,16 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 					break;
 				case 7 :
 					$order->update_status( 'cancelled', __( 'Bcash: Payment canceled.', 'woocommerce-bcash' ) );
+
 					break;
 				case 8 :
 					$order->update_status( 'failed', __( 'Bcash: Payment refused because of a chargeback.', 'woocommerce-bcash' ) );
+
 					break;
 
 				default :
 					break;
 			}
-
-			$order->save();
 		}
 	}
 }

@@ -81,7 +81,12 @@ class WC_Bcash {
 	 * Includes.
 	 */
 	private function includes() {
-		include_once dirname( __FILE__ ) . '/includes/class-wc-bcash-gateway.php';
+		// Handle WooCommerce 2.7 compatibility.
+		if ( defined( 'WC_VERSION' ) && version_compare( WC_VERSION, '2.7.0', '<' ) ) {
+			include_once dirname( __FILE__ ) . '/includes/class-wc-bcash-legacy-gateway.php';
+		} else {
+			include_once dirname( __FILE__ ) . '/includes/class-wc-bcash-gateway.php';
+		}
 	}
 
 	/**
@@ -94,11 +99,7 @@ class WC_Bcash {
 	public function plugin_action_links( $links ) {
 		$plugin_links = array();
 
-		if ( defined( 'WC_VERSION' ) && version_compare( WC_VERSION, '2.1', '>=' ) ) {
-			$plugin_links[] = '<a href="' . esc_url( admin_url( 'admin.php?page=wc-settings&tab=checkout&section=bcash' ) ) . '">' . __( 'Settings', 'woocommerce-bcash' ) . '</a>';
-		} else {
-			$plugin_links[] = '<a href="' . esc_url( admin_url( 'admin.php?page=wc-settings&tab=checkout&section=wc_bcash_gateway' ) ) . '">' . __( 'Settings', 'woocommerce-bcash' ) . '</a>';
-		}
+		$plugin_links[] = '<a href="' . esc_url( admin_url( 'admin.php?page=wc-settings&tab=checkout&section=bcash' ) ) . '">' . __( 'Settings', 'woocommerce-bcash' ) . '</a>';
 
 		return array_merge( $plugin_links, $links );
 	}
@@ -111,7 +112,11 @@ class WC_Bcash {
 	 * @return  array          Payment methods with Bcash.
 	 */
 	public function add_gateway( $methods ) {
-		$methods[] = 'WC_Bcash_Gateway';
+		if ( defined( 'WC_VERSION' ) && version_compare( WC_VERSION, '2.7.0', '<' ) ) {
+			$methods[] = 'WC_Bcash_Legacy_Gateway';
+		} else {
+			$methods[] = 'WC_Bcash_Gateway';
+		}
 
 		return $methods;
 	}
@@ -124,7 +129,6 @@ class WC_Bcash {
 	 * @return  array                     New Available Gateways.
 	 */
 	public function hides_when_is_outside_brazil( $available_gateways ) {
-
 		// Remove Bcash gateway.
 		if ( isset( $_REQUEST['country'] ) && 'BR' != $_REQUEST['country'] ) {
 			unset( $available_gateways['bcash'] );
@@ -142,7 +146,13 @@ class WC_Bcash {
 	 * @return bool
 	 */
 	public function stop_cancel_unpaid_orders( $cancel, $order ) {
-		if ( 'bcash' === $order->payment_method ) {
+		if ( defined( 'WC_VERSION' ) && version_compare( WC_VERSION, '2.7.0', '<' ) ) {
+			$payment_method = $order->payment_method;
+		} else {
+			$payment_method = $order->get_payment_method();
+		}
+
+		if ( 'bcash' === $payment_method ) {
 			return false;
 		}
 
