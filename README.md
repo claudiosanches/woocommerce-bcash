@@ -3,8 +3,8 @@
 **Donate link:** http://claudiosmweb.com/doacoes/  
 **Tags:** woocommerce, checkout, payment, bcash  
 **Requires at least:** 4.0  
-**Tested up to:** 4.5  
-**Stable tag:** 1.12.0  
+**Tested up to:** 4.7  
+**Stable tag:** 1.13.0  
 **License:** GPLv2 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -14,15 +14,15 @@ Adds Bcash gateway to the WooCommerce plugin
 
 Adicione o Bcash como método de pagamento em sua loja WooCommerce.
 
-[Bcash](https://www.bcash.com.br/) é um método de pagamento brasileiro desenvolvido pela Buscapé Company.
+[Bcash](https://www.bcash.com.br/) é um método de pagamento brasileiro desenvolvido pelo PayU.
 
-O plugin WooCommerce Bcash foi desenvolvido sem nenhum incentivo do Bcash ou Buscapé Company. Nenhum dos desenvolvedores deste plugin possuem vínculos com estas duas empresas.
+O plugin WooCommerce Bcash foi desenvolvido sem nenhum incentivo do Bcash ou PayU. Nenhum dos desenvolvedores deste plugin possuem vínculos com estas duas empresas.
 
 Este plugin foi feito baseado na [documentação oficial do Bcash](https://www.bcash.com.br/integracao-bcash.html).
 
 ### Compatibilidade ###
 
-Compatível desde a versão 2.2.x até 2.6.x do WooCommerce.
+Compatível desde a versão 2.2.x até 2.7.x do WooCommerce.
 
 ### Instalação: ###
 
@@ -33,12 +33,12 @@ Confira o nosso guia de instalação e configuração do WooCommerce Bcash na ab
 Você pode esclarecer suas dúvidas usando:
 
 * A nossa sessão de [FAQ](http://wordpress.org/extend/plugins/woocommerce-bcash/faq/).
-* Criando um tópico no [fórum de ajuda do WordPress](http://wordpress.org/support/plugin/woocommerce-bcash) (apenas em inglês).
-* Ou entre em contato com os desenvolvedores do plugin em nossa [página](http://claudiosmweb.com/plugins/bcash-para-woocommerce/).
+* Criando um tópico no [fórum de ajuda do WordPress](http://wordpress.org/support/plugin/woocommerce-bcash).
+* Utilizando o nosso [fórum no Github](https://github.com/claudiosanches/woocommerce-bcash).
 
 ### Colaborar ###
 
-Você pode contribuir com código-fonte em nossa página no [GitHub](https://github.com/claudiosmweb/woocommerce-bcash).
+Você pode contribuir com código-fonte em nossa página no [GitHub](https://github.com/claudiosanches/woocommerce-bcash).
 
 ## Installation ##
 
@@ -138,12 +138,18 @@ Por favor, caso você tenha algum problema com o funcionamento do plugin, [abra 
 
 ## Changelog ##
 
+### 1.13.0 - 2016/06/30 ###
+
+- Adicionado suporte ao WooCommerce 2.7.0.
+- Adicionado suporte ao Sandbox do Bcash (contribuição de [Alex Koti](http://alexkoti.com/)).
+
 ### 1.12.0 - 2016/06/30 ###
 
 - Adicionado suporte para hash de validação.
 
 ## Upgrade Notice ##
 
-### 1.12.0 ###
+### 1.13.0 ###
 
-- Adicionado suporte para hash de validação.
+- Adicionado suporte ao WooCommerce 2.7.0.
+- Adicionado suporte ao Sandbox do Bcash (contribuição de Alex Koti).
