@@ -17,10 +17,6 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 		$this->method_description = __( 'Accept payments by credit card, bank debit or banking ticket using the Bcash.', 'woocommerce-bcash' );
 		$this->order_button_text  = __( 'Checkout on Bcash', 'woocommerce-bcash' );
 
-		// API URLs.
-		$this->payment_url = 'https://www.bcash.com.br/checkout/pay/';
-		$this->ipn_url     = 'https://www.bcash.com.br/transacao/consulta/';
-
 		// Load the settings.
 		$this->init_form_fields();
 		$this->init_settings();
@@ -30,8 +26,16 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 		$this->description    = $this->get_option( 'description' );
 		$this->email          = $this->get_option( 'email' );
 		$this->token          = $this->get_option( 'token' );
+		$this->sandbox_email  = $this->get_option( 'sandbox_email' );
+		$this->sandbox_token  = $this->get_option( 'sandbox_token' );
 		$this->invoice_prefix = $this->get_option( 'invoice_prefix', 'WC-' );
+		$this->sandbox        = $this->get_option( 'sandbox', 'no' );
 		$this->debug          = $this->get_option( 'debug' );
+
+		// API URLs.
+		$enviroment_prefix = ($this->sandbox == 'no') ? 'www' : 'sandbox';
+		$this->payment_url = "https://{$enviroment_prefix}.bcash.com.br/checkout/pay/";
+		$this->ipn_url     = "https://{$enviroment_prefix}.bcash.com.br/transacao/consulta/";
 
 		// Actions.
 		add_action( 'woocommerce_api_wc_bcash_gateway', array( $this, 'ipn_handler' ) );
@@ -54,6 +58,24 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 	}
 
 	/**
+	 * Get email.
+	 *
+	 * @return string
+	 */
+	public function get_email() {
+		return 'yes' === $this->sandbox ? $this->sandbox_email : $this->email;
+	}
+
+	/**
+	 * Get token.
+	 *
+	 * @return string
+	 */
+	public function get_token() {
+		return 'yes' === $this->sandbox ? $this->sandbox_token : $this->token;
+	}
+
+	/**
 	 * Returns a value indicating the the Gateway is available or not. It's called
 	 * automatically by WooCommerce before allowing customers to use the gateway
 	 * for payment.
@@ -63,8 +85,9 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 	public function is_available() {
 		// Test if is valid for use.
 		$available = parent::is_available() &&
-					! empty( $this->email ) &&
-					! empty( $this->token ) &&
+					'yes' === $this->get_option( 'enabled' ) &&
+					! empty( $this->get_email() ) &&
+					! empty( $this->get_token() ) &&
 					$this->using_supported_currency();
 
 		return $available;
@@ -108,6 +131,13 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 				'desc_tip'    => true,
 				'default'     => __( 'Pay with credit card, bank debit or banking ticket using the Bcash.', 'woocommerce-bcash' )
 			),
+			'sandbox' => array(
+				'title'       => __( 'Bcash Sandbox', 'woocommerce-bcash' ),
+				'type'        => 'checkbox',
+				'label'       => __( 'Enable Sandbox', 'woocommerce-bcash' ),
+				'default'     => 'no',
+				'description' => sprintf( __( 'Bcash Sandbox can be used to test the payments. You can create your sandbox account %s.', 'woocommerce-bcash' ), '<a href="https://sandbox.bcash.com.br">' . __( 'here', 'woocommerce-bcash' ) . '</a>' ),
+			),
 			'email' => array(
 				'title'       => __( 'Bcash Email', 'woocommerce-bcash' ),
 				'type'        => 'text',
@@ -117,6 +147,20 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 			),
 			'token' => array(
 				'title'       => __( 'Bcash Access Key', 'woocommerce-bcash' ),
+				'type'        => 'text',
+				'description' => __( 'Please enter your Bcash Access Key; is necessary to process the payment and notifications.', 'woocommerce-bcash' ),
+				'desc_tip'    => true,
+				'default'     => ''
+			),
+			'sandbox_email' => array(
+				'title'       => __( 'Bcash Sandbox Email', 'woocommerce-bcash' ),
+				'type'        => 'text',
+				'description' => __( 'Please enter your Bcash email address; this is needed in order to take payment.', 'woocommerce-bcash' ),
+				'desc_tip'    => true,
+				'default'     => ''
+			),
+			'sandbox_token' => array(
+				'title'       => __( 'Bcash Sandbox Access Key', 'woocommerce-bcash' ),
 				'type'        => 'text',
 				'description' => __( 'Please enter your Bcash Access Key; is necessary to process the payment and notifications.', 'woocommerce-bcash' ),
 				'desc_tip'    => true,
@@ -148,6 +192,10 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 	 * Admin page.
 	 */
 	public function admin_options() {
+		$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+
+		wp_enqueue_script( 'pagseguro-admin', plugins_url( 'assets/js/admin' . $suffix . '.js', plugin_dir_path( __FILE__ ) ), array( 'jquery' ), WC_Bcash::VERSION, true );
+
 		include 'views/html-admin-page.php';
 	}
 
@@ -169,7 +217,7 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 		$order->billing_phone = str_replace( array( '(', '-', ' ', ')' ), '', $order->billing_phone );
 
 		$args = array(
-			'email_loja'      => $this->email,
+			'email_loja'      => $this->get_email(),
 			'tipo_integracao' => 'PAD',
 
 			// Sender info.
@@ -283,7 +331,7 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 		}
 
 		// Bcash hash.
-		$form_args[] = '<input type="hidden" name="hash" value="' . md5( http_build_query( $args ) . $this->token ) . '" />';
+		$form_args[] = '<input type="hidden" name="hash" value="' . md5( http_build_query( $args ) . $this->get_token() ) . '" />';
 
 		wc_enqueue_js( '
 			jQuery.blockUI({
@@ -380,7 +428,7 @@ class WC_BCash_Gateway extends WC_Payment_Gateway {
 			'body'    => $data,
 			'timeout' => 60,
 			'headers' => array(
-				'Authorization' => 'Basic ' . base64_encode( $this->email . ':' . $this->token )
+				'Authorization' => 'Basic ' . base64_encode( $this->get_email() . ':' . $this->get_token() )
 			)
 		);
 
