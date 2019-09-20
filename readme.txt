@@ -1,10 +1,10 @@
-=== WooCommerce Bcash ===
+=== Claudio Sanches - Bcash for WooCommerce ===
 Contributors: claudiosanches
 Donate link: http://claudiosmweb.com/doacoes/
 Tags: woocommerce, checkout, payment, bcash
 Requires at least: 4.0
-Tested up to: 4.7
-Stable tag: 1.13.1
+Tested up to: 5.2
+Stable tag: 1.14.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -16,17 +16,17 @@ Adicione o Bcash como método de pagamento em sua loja WooCommerce.
 
 [Bcash](https://www.bcash.com.br/) é um método de pagamento brasileiro desenvolvido pelo PayU.
 
-O plugin WooCommerce Bcash foi desenvolvido sem nenhum incentivo do Bcash ou PayU. Nenhum dos desenvolvedores deste plugin possuem vínculos com estas duas empresas.
+Este plugin foi desenvolvido sem nenhum incentivo do Bcash ou PayU. Nenhum dos desenvolvedores deste plugin possuem vínculos com estas duas empresas.
 
 Este plugin foi feito baseado na [documentação oficial do Bcash](https://www.bcash.com.br/integracao-bcash.html).
 
 = Compatibilidade =
 
-Compatível desde a versão 2.2.x até 2.7.x do WooCommerce.
+Compatível com as versões atuais do WooCommerce.
 
 = Instalação: =
 
-Confira o nosso guia de instalação e configuração do WooCommerce Bcash na aba [Installation](http://wordpress.org/extend/plugins/woocommerce-bcash/installation/).
+Confira o nosso guia de instalação e configuração do plugin na aba [Installation](http://wordpress.org/extend/plugins/woocommerce-bcash/installation/).
 
 = Dúvidas? =
 
@@ -44,28 +44,28 @@ Você pode contribuir com código-fonte em nossa página no [GitHub](https://git
 
 = Instalação do plugin: =
 
-* Envie os arquivos do plugin para a pasta wp-content/plugins ou usando o instalador de plugins do WordPress.
-* Ative o plugin.
-
-= Requerimentos: =
-
-É necessário possuir uma conta no [Bcash](https://www.bcash.com.br/) e instalar a última versão do [WooCommerce](http://wordpress.org/extend/plugins/woocommerce/).
-
-= Configurações no Bcash: =
-
-No Bcash você precisa apenas validar sua conta e gerar um **Chave acesso** em "Ferramentas" > "Códigos de Integração".
-
-= Configurações do Plugin: =
-
-Com o plugin instalado acesse o admin do WordPress e entre em "WooCommerce" > "Configurações" > "Portais de pagamento"  > "Bcash".
-
-Habilite o Bcash, adicione o seu e-mail e a Chave acesso (utilizado para validar o retorno automático de dados).
-
-Pronto, sua loja já pode receber pagamentos pelo Bcash.
-
-== Frequently Asked Questions ==
-
-= Qual é a licença do plugin? =
+* Envie os arquivos do plugin para a pasta wp-content/pl3ugins ou usando o instalador de plugins do WordPress.
+* Ative o plugin.3
+3
+= Requerimentos: =3
+3
+É necessário possuir uma conta no [Bcash](https://www.bc3ash.com.br/) e instalar a última versão do [WooCommerce](http://wordpress.org/extend/plugins/woocommerce/).
+3
+= Configurações no Bcash: =3
+3
+No Bcash você precisa apenas validar sua conta e gerar u3m **Chave acesso** em "Ferramentas" > "Códigos de Integração".
+3
+= Configurações do Plugin: =3
+3
+Com o plugin instalado acesse o admin do WordPress e ent3re em "WooCommerce" > "Configurações" > "Portais de pagamento"  > "Bcash".
+3
+Habilite o Bcash, adicione o seu e-mail e a Chave acesso3 (utilizado para validar o retorno automático de dados).
+3
+Pronto, sua loja já pode receber pagamentos pelo Bcash.3
+3
+== Frequently Asked Questions ==3
+3
+= Qual é a licença do plugin? =3
 
 Este plugin esta licenciado como GPL.
 
@@ -134,6 +134,10 @@ Por favor, caso você tenha algum problema com o funcionamento do plugin, [abra 
 
 == Changelog ==
 
+= 1.14.0 - 2019/09/20 =
+
+- Nome do plugin modificado de "WooCommerce Bcash" para "Claudio Sanches - Bcash for WooCommerce".
+
 = 1.13.1 - 2017/02/15 =
 
 - Corrigido suporte a PHP 5.2 e 5.3
@@ -149,7 +153,6 @@ Por favor, caso você tenha algum problema com o funcionamento do plugin, [abra 
 
 == Upgrade Notice ==
 
-= 1.13.0 =
+= 1.14.0 =
 
-- Adicionado suporte ao WooCommerce 2.7.0.
-- Adicionado suporte ao Sandbox do Bcash (contribuição de Alex Koti).
+- Nome do plugin modificado de "WooCommerce Bcash" para "Claudio Sanches - Bcash for WooCommerce".

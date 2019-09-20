@@ -1,10 +1,10 @@
-# WooCommerce Bcash #
+# Claudio Sanches - Bcash for WooCommerce #
 **Contributors:** claudiosanches  
 **Donate link:** http://claudiosmweb.com/doacoes/  
 **Tags:** woocommerce, checkout, payment, bcash  
 **Requires at least:** 4.0  
-**Tested up to:** 4.7  
-**Stable tag:** 1.13.1  
+**Tested up to:** 5.2  
+**Stable tag:** 1.14.0  
 **License:** GPLv2 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -16,17 +16,17 @@ Adicione o Bcash como método de pagamento em sua loja WooCommerce.
 
 [Bcash](https://www.bcash.com.br/) é um método de pagamento brasileiro desenvolvido pelo PayU.
 
-O plugin WooCommerce Bcash foi desenvolvido sem nenhum incentivo do Bcash ou PayU. Nenhum dos desenvolvedores deste plugin possuem vínculos com estas duas empresas.
+Este plugin foi desenvolvido sem nenhum incentivo do Bcash ou PayU. Nenhum dos desenvolvedores deste plugin possuem vínculos com estas duas empresas.
 
 Este plugin foi feito baseado na [documentação oficial do Bcash](https://www.bcash.com.br/integracao-bcash.html).
 
 ### Compatibilidade ###
 
-Compatível desde a versão 2.2.x até 2.7.x do WooCommerce.
+Compatível com as versões atuais do WooCommerce.
 
 ### Instalação: ###
 
-Confira o nosso guia de instalação e configuração do WooCommerce Bcash na aba [Installation](http://wordpress.org/extend/plugins/woocommerce-bcash/installation/).
+Confira o nosso guia de instalação e configuração do plugin na aba [Installation](http://wordpress.org/extend/plugins/woocommerce-bcash/installation/).
 
 ### Dúvidas? ###
 
